@@ -4,25 +4,45 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.viewnext.kotlinmvvm.ui.facturasPrueba
+import com.viewnext.kotlinmvvm.ui.screens.PantallaFacturas
+import com.viewnext.kotlinmvvm.ui.screens.PantallaFiltros
+import com.viewnext.kotlinmvvm.ui.screens.PantallaInicio
+import com.viewnext.kotlinmvvm.ui.screens.PantallaSmartSolar
 import com.viewnext.kotlinmvvm.ui.theme.KotlinMVVMTheme
+import com.viewnext.kotlinmvvm.ui.viewmodels.FacturasViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            KotlinMVVMTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+            val navController = rememberNavController()
+
+
+            NavHost(navController = navController, startDestination = "Inicio") {
+                composable("Inicio") {
+                    PantallaInicio(navController = navController)
+                }
+                composable("Facturas") {
+                    PantallaFacturas(
+                        viewModel = FacturasViewModel(),
+                        navController = navController
+                    )
+                }
+                composable("Filtros") {
+                    PantallaFiltros(
+                        navController = navController
+                    )
+                }
+                composable("Smart_Solar") {
+                    PantallaSmartSolar(
+                        navController = navController
                     )
                 }
             }
@@ -30,18 +50,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     KotlinMVVMTheme {
-        Greeting("Android")
+        PantallaInicio(navController = rememberNavController())
     }
 }
