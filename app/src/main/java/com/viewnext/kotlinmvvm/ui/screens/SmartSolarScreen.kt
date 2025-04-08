@@ -1,9 +1,10 @@
 package com.viewnext.kotlinmvvm.ui.screens
 
-import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -11,13 +12,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PantallaSmartSolar(
     navController: NavController
@@ -25,11 +27,17 @@ fun PantallaSmartSolar(
     Scaffold(
         topBar = {
             SmartSolarTopBar(
-                onClick = {  }
+                onClick = { navController.navigate("Inicio") }
             )
         }
-    ) {
-        Titulo(stringResource(R.string.smart_solar))
+    ) { innerPadding ->
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .padding(innerPadding)
+        ) {
+            Titulo(stringResource(R.string.smart_solar))
+        }
     }
 }
 
@@ -50,7 +58,7 @@ fun SmartSolarTopBar(
         navigationIcon = {
             IconButton(onClick = onClick) {
                 Icon(
-                    Icons.Default.KeyboardArrowLeft,
+                    Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     contentDescription = null,
                     tint = colorResource(R.color.verde)
                 )
@@ -59,10 +67,17 @@ fun SmartSolarTopBar(
     )
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewTopBar() {
     SmartSolarTopBar(
         onClick = {}
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewPantallaSS() {
+    PantallaSmartSolar(navController = rememberNavController())
 }

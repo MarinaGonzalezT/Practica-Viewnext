@@ -9,7 +9,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.viewnext.kotlinmvvm.ui.facturasPrueba
 import com.viewnext.kotlinmvvm.ui.screens.PantallaFacturas
 import com.viewnext.kotlinmvvm.ui.screens.PantallaFiltros
 import com.viewnext.kotlinmvvm.ui.screens.PantallaInicio
@@ -37,7 +36,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("Filtros") {
                     PantallaFiltros(
-                        navController = navController
+                        navController = navController,
+                        minImporte = 1f,
+                        maxImporte = 300f
                     )
                 }
                 composable("Smart_Solar") {

@@ -5,4 +5,9 @@
     <string name="welcome">Bienvenido</string>
     <string name="consumo">Consumo</string>
     <string name="atras">Atrás</string>
+    <string name="filtra_facturas">Filtrar facturas</string>
+    <string name="por_fecha">Con fecha de emisión</string>
+    <string name="por_importe">Por un importe</string>
+    <string name="por_estado">Por estado</string>
+    <string name="aplicar">Aplicar</string>
 </resources>

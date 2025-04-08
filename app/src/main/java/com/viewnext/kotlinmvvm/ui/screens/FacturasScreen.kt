@@ -1,14 +1,14 @@
 package com.viewnext.kotlinmvvm.ui.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -32,10 +31,8 @@ import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.ui.Factura
 import com.viewnext.kotlinmvvm.ui.facturaPrueba1
 import com.viewnext.kotlinmvvm.ui.facturaPrueba2
-import com.viewnext.kotlinmvvm.ui.facturasPrueba
 import com.viewnext.kotlinmvvm.ui.viewmodels.FacturasViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PantallaFacturas(
     viewModel: FacturasViewModel,
@@ -48,8 +45,17 @@ fun PantallaFacturas(
                 onFilter = { navController.navigate("Filtros")}
             )
         }
-    ) {
-        Titulo(stringResource(R.string.facturas))
+    ) { innerPadding ->
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .padding(innerPadding)
+        ) {
+            Titulo(stringResource(R.string.facturas))
+            ItemFactura(facturaPrueba1) { }
+
+            ItemFactura(facturaPrueba2) { }
+        }
     }
 }
 
@@ -71,7 +77,7 @@ fun FacturasTopBar(
         navigationIcon = {
             IconButton(onClick = onClick) {
                 Icon(
-                    Icons.Default.KeyboardArrowLeft,
+                    Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     contentDescription = null,
                     tint = colorResource(R.color.verde)
                 )
@@ -122,11 +128,12 @@ fun ItemFactura(
         )
 
         Icon(
-            imageVector = Icons.Default.KeyboardArrowRight,
+            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = null,
             tint = colorResource(R.color.gris)
         )
     }
+    HorizontalDivider(modifier = Modifier.padding(horizontal = 12.dp))
 }
 
 @Preview(showBackground = true)
