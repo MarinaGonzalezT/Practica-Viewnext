@@ -1,5 +1,6 @@
 package com.viewnext.kotlinmvvm.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,7 +46,8 @@ fun PantallaFacturas(
                 onClick = { navController.navigate("Inicio") },
                 onFilter = { navController.navigate("Filtros")}
             )
-        }
+        },
+        containerColor = colorResource(R.color.white)
     ) { innerPadding ->
         Column(
             verticalArrangement = Arrangement.Center,
@@ -90,7 +93,10 @@ fun FacturasTopBar(
                     contentDescription = null
                 )
             }
-        }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = colorResource(R.color.white)
+        )
     )
 }
 

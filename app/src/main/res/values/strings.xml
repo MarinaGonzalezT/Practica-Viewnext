@@ -10,4 +10,13 @@
     <string name="por_importe">Por un importe</string>
     <string name="por_estado">Por estado</string>
     <string name="aplicar">Aplicar</string>
+    <string name="elimina_filtros">Eliminar filtros</string>
+    <string name="dia_mes_año">día/mes/año</string>
+    <string name="mi_instalacion">Mi instalación</string>
+    <string name="energia">Energía</string>
+    <string name="detalles">Detalles</string>
+    <string name="texto_miInstalacion">Aquí tienes los datos de tu instalación fotovoltaica en tiempo real.</string>
+    <string name="autoconsumo">Autoconsumo: </string>
+    <string name="porcentaje_autoconsumo">92%</string>
+    <string name="texto_energia">Estamos trabajando en mejorar la App. Tus paneles solares siguen produciendo, en breve podrás seguir viendo tu producción solar. Sentimos las molestias.</string>
 </resources>

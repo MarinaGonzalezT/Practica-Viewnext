@@ -23,28 +23,29 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-
-            NavHost(navController = navController, startDestination = "Inicio") {
-                composable("Inicio") {
-                    PantallaInicio(navController = navController)
-                }
-                composable("Facturas") {
-                    PantallaFacturas(
-                        viewModel = FacturasViewModel(),
-                        navController = navController
-                    )
-                }
-                composable("Filtros") {
-                    PantallaFiltros(
-                        navController = navController,
-                        minImporte = 1f,
-                        maxImporte = 300f
-                    )
-                }
-                composable("Smart_Solar") {
-                    PantallaSmartSolar(
-                        navController = navController
-                    )
+            KotlinMVVMTheme {
+                NavHost(navController = navController, startDestination = "Inicio") {
+                    composable("Inicio") {
+                        PantallaInicio(navController = navController)
+                    }
+                    composable("Facturas") {
+                        PantallaFacturas(
+                            viewModel = FacturasViewModel(),
+                            navController = navController
+                        )
+                    }
+                    composable("Filtros") {
+                        PantallaFiltros(
+                            navController = navController,
+                            minImporte = 1f,
+                            maxImporte = 300f
+                        )
+                    }
+                    composable("Smart_Solar") {
+                        PantallaSmartSolar(
+                            navController = navController
+                        )
+                    }
                 }
             }
         }
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun PreviewPantalla() {
     KotlinMVVMTheme {
         PantallaInicio(navController = rememberNavController())
     }

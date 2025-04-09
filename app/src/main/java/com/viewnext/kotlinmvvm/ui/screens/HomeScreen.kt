@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,14 +39,15 @@ fun PantallaInicio(navController: NavController) {
     Scaffold(
         topBar = {
             InicioTopBar()
-        }
+        },
+        containerColor = colorResource(R.color.white)
     ) { innerPadding ->
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 24.dp)
+                .padding(innerPadding)
         ) {
             OpcionesInicio(
                 titulo = stringResource(R.string.facturas),
@@ -80,7 +82,10 @@ fun InicioTopBar() {
                         .padding(dimensionResource(R.dimen.padding_small)),
                 )
             }
-        }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = colorResource(R.color.white)
+        )
     )
 }
 
