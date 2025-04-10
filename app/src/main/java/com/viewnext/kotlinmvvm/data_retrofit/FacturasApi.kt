@@ -1,6 +1,6 @@
 package com.viewnext.kotlinmvvm.data_retrofit
 
-import com.viewnext.kotlinmvvm.ui.Factura
+import com.viewnext.kotlinmvvm.domain.Factura
 import retrofit2.http.GET
 
 interface FacturasApi {

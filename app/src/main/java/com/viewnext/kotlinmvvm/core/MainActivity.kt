@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm
+package com.viewnext.kotlinmvvm.core
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,12 +9,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.viewnext.kotlinmvvm.ui.screens.PantallaFacturas
-import com.viewnext.kotlinmvvm.ui.screens.PantallaFiltros
-import com.viewnext.kotlinmvvm.ui.screens.PantallaInicio
-import com.viewnext.kotlinmvvm.ui.screens.PantallaSmartSolar
-import com.viewnext.kotlinmvvm.ui.theme.KotlinMVVMTheme
-import com.viewnext.kotlinmvvm.ui.viewmodels.FacturasViewModel
+import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFacturas
+import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFiltros
+import com.viewnext.kotlinmvvm.core.ui.screens.PantallaInicio
+import com.viewnext.kotlinmvvm.core.ui.screens.PantallaSmartSolar
+import com.viewnext.kotlinmvvm.core.ui.theme.KotlinMVVMTheme
+import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

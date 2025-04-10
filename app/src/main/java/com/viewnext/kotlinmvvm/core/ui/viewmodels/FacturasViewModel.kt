@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.ui.viewmodels
+package com.viewnext.kotlinmvvm.core.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 

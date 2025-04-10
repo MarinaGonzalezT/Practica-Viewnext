@@ -19,4 +19,15 @@
     <string name="autoconsumo">Autoconsumo: </string>
     <string name="porcentaje_autoconsumo">92%</string>
     <string name="texto_energia">Estamos trabajando en mejorar la App. Tus paneles solares siguen produciendo, en breve podrás seguir viendo tu producción solar. Sentimos las molestias.</string>
+    <string name="CAU">CAU (Código Autoconsumo)</string>
+    <string name="estado_solicitud">Estado solicitud alta autoconsumidor</string>
+    <string name="tipo_autoconsumo">Tipo autoconsumo</string>
+    <string name="compensacion_excedente">Compensación de excedentes</string>
+    <string name="potencia_instalacion">Potencia de instalación</string>
+    <string name="estado_solicitud_autoconsumo">Estado solicitud autoconsumo</string>
+    <string name="texto_popup_autoconsumo">El tiempo estimado de activación de tu autoconsumo es de 1 a 2 meses, éste variará en función de tu comunidad autónoma y distribuidora</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="informacion">Información</string>
+    <string name="texto_popup_facturas">Esta funcionalidad aún no está disponible</string>
+    <string name="cerrar">Cerrar</string>
 </resources>

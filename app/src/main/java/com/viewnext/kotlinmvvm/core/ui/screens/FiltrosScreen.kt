@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.ui.screens
+package com.viewnext.kotlinmvvm.core.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -141,7 +141,7 @@ fun SeccionFechas() {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .clip(shape = MaterialTheme.shapes.medium)
+                        .clip(shape = MaterialTheme.shapes.large)
                         .background(color = colorResource(R.color.gris))
                         .clickable { mostrandoPickerPara = "desde" }
                         .padding(horizontal = 12.dp, vertical = 12.dp)
@@ -164,7 +164,7 @@ fun SeccionFechas() {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .clip(shape = MaterialTheme.shapes.medium)
+                        .clip(shape = MaterialTheme.shapes.large)
                         .background(color = colorResource(R.color.gris))
                         .clickable { mostrandoPickerPara = "hasta" }
                         .padding(horizontal = 12.dp, vertical = 12.dp)

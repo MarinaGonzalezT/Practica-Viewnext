@@ -1,6 +1,5 @@
-package com.viewnext.kotlinmvvm.ui.screens
+package com.viewnext.kotlinmvvm.core.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height

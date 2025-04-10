@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.ui.screens
+package com.viewnext.kotlinmvvm.core.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,17 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,19 +32,30 @@ import com.viewnext.kotlinmvvm.R
 
 @Composable
 fun PantallaInicio(navController: NavController) {
-    Scaffold(
-        topBar = {
-            InicioTopBar()
-        },
-        containerColor = colorResource(R.color.white)
-    ) { innerPadding ->
+    Surface(
+        color = colorResource(R.color.verde)
+    ) {
         Column(
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.logo_iberdrola),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(30.dp)
+            )
+
+            Text(
+                text = "¡Estás de vuelta!",
+                fontSize = 30.sp,
+                color = colorResource(R.color.white),
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+            )
+
             OpcionesInicio(
                 titulo = stringResource(R.string.facturas),
                 onClick = { navController.navigate("Facturas") }
@@ -64,38 +71,13 @@ fun PantallaInicio(navController: NavController) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun InicioTopBar() {
-    TopAppBar(
-        title = {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.viewnext_logo),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(dimensionResource(R.dimen.image_size))
-                        .padding(dimensionResource(R.dimen.padding_small)),
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colorResource(R.color.white)
-        )
-    )
-}
-
 @Composable
 private fun OpcionesInicio(
     titulo: String,
     onClick: () -> Unit
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.blanco_roto)),
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.verde_iberdrola)),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         modifier = Modifier
             .fillMaxWidth(0.8f)
@@ -106,14 +88,14 @@ private fun OpcionesInicio(
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .background(colorResource(R.color.blanco_roto))
+                .background(colorResource(R.color.verde_iberdrola))
                 .padding(vertical = 20.dp, horizontal = 16.dp)
         ) {
             Text(
                 text = titulo,
                 style = MaterialTheme.typography.displayMedium,
                 fontSize = 36.sp,
-                color = colorResource(R.color.verde)
+                color = colorResource(R.color.white)
             )
         }
     }

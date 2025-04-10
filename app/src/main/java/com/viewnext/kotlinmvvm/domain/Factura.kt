@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.ui
+package com.viewnext.kotlinmvvm.domain
 
 data class Factura(
     val fecha: String,

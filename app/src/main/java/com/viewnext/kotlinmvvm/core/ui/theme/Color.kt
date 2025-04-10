@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.ui.theme
+package com.viewnext.kotlinmvvm.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
