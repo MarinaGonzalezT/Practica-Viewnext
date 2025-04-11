@@ -1,9 +1,6 @@
 package com.viewnext.kotlinmvvm.core.ui.screens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,8 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,7 +39,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -132,51 +126,21 @@ fun SeccionFechas() {
                 .fillMaxWidth()
                 .padding(start = 12.dp, end = 40.dp)
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Desde:",
-                    color = colorResource(R.color.gris),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .clip(shape = MaterialTheme.shapes.large)
-                        .background(color = colorResource(R.color.gris))
-                        .clickable { mostrandoPickerPara = "desde" }
-                        .padding(horizontal = 12.dp, vertical = 12.dp)
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = fechaDesde?.let { dateFormatter.format(Date(it)) } ?: stringResource(R.string.dia_mes_año),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.DarkGray
-                    )
-                }
-            }
+            CuadroFechas(
+                etiqueta = "Desde:",
+                fecha = fechaDesde,
+                onClick = { mostrandoPickerPara = "desde" },
+                dateFormatter = dateFormatter,
+                modifier = Modifier.weight(1f)
+            )
 
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Hasta:",
-                    color = colorResource(R.color.gris),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .clip(shape = MaterialTheme.shapes.large)
-                        .background(color = colorResource(R.color.gris))
-                        .clickable { mostrandoPickerPara = "hasta" }
-                        .padding(horizontal = 12.dp, vertical = 12.dp)
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = fechaHasta?.let { dateFormatter.format(Date(it)) } ?: stringResource(R.string.dia_mes_año),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.DarkGray
-                    )
-                }
-            }
+            CuadroFechas(
+                etiqueta = "Hasta:",
+                fecha = fechaHasta,
+                onClick = { mostrandoPickerPara = "hasta" },
+                dateFormatter = dateFormatter,
+                modifier = Modifier.weight(1f)
+            )
         }
     }
     HorizontalDivider(modifier = Modifier.padding(horizontal = 12.dp))
