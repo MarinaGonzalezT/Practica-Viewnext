@@ -33,7 +33,7 @@ import com.viewnext.kotlinmvvm.R
 @Composable
 fun PantallaInicio(navController: NavController) {
     Surface(
-        color = colorResource(R.color.verde)
+        color = colorResource(R.color.white)
     ) {
         Column(
             verticalArrangement = Arrangement.Top,
@@ -45,15 +45,15 @@ fun PantallaInicio(navController: NavController) {
                 painter = painterResource(id = R.drawable.logo_iberdrola),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(30.dp)
+                    .padding(top = 100.dp, bottom = 100.dp, end = 30.dp, start = 30.dp)
             )
 
             Text(
                 text = "¡Estás de vuelta!",
                 fontSize = 30.sp,
-                color = colorResource(R.color.white),
+                color = colorResource(R.color.verde_iberdrola),
                 modifier = Modifier
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = 50.dp)
             )
 
             OpcionesInicio(
@@ -77,7 +77,7 @@ private fun OpcionesInicio(
     onClick: () -> Unit
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.verde_iberdrola)),
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.verde)),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         modifier = Modifier
             .fillMaxWidth(0.8f)
@@ -88,7 +88,7 @@ private fun OpcionesInicio(
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .background(colorResource(R.color.verde_iberdrola))
+                .background(colorResource(R.color.verde))
                 .padding(vertical = 20.dp, horizontal = 16.dp)
         ) {
             Text(
