@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,6 +24,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
+            val viewModel: FacturasViewModel = viewModel(
+                factory = ViewModelProvider.AndroidViewModelFactory(application)
+            )
 
             KotlinMVVMTheme {
                 NavHost(navController = navController, startDestination = "Inicio") {
@@ -30,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("Facturas") {
                         PantallaFacturas(
-                            viewModel = FacturasViewModel(),
+                            viewModel = FacturasViewModel(application),
                             navController = navController
                         )
                     }

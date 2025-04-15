@@ -1,8 +1,14 @@
 package com.viewnext.kotlinmvvm.domain
 
+import com.google.gson.annotations.SerializedName
+
 data class Factura(
     val fecha: String,
+
+    @SerializedName("descEstado")
     val estado: String,
+
+    @SerializedName("importeOrdenacion")
     val importe: Double
 )
 

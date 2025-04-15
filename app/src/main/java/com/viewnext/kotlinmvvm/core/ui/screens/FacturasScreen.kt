@@ -4,7 +4,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
@@ -25,6 +27,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -37,8 +40,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
 import com.viewnext.kotlinmvvm.domain.Factura
@@ -50,6 +53,8 @@ fun PantallaFacturas(
     viewModel: FacturasViewModel,
     navController: NavController
 ) {
+    val facturas by viewModel.facturas.observeAsState(emptyList())
+
     Scaffold(
         topBar = {
             FacturasTopBar(
@@ -65,8 +70,10 @@ fun PantallaFacturas(
                 .padding(innerPadding)
         ) {
             Titulo(stringResource(R.string.facturas))
-            ItemFactura(facturaPrueba1)
-            ItemFactura(facturaPrueba2)
+            Spacer(modifier = Modifier.height(10.dp))
+            facturas.forEach { factura ->
+                ItemFactura(factura)
+            }
         }
     }
 }
@@ -125,12 +132,12 @@ fun ItemFactura(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = factura.fecha,
-                style = MaterialTheme.typography.bodyLarge
+                fontSize = 22.sp
             )
             if(factura.estado == "Pendiente de pago") {
                 Text(
                     text = factura.estado,
-                    style = MaterialTheme.typography.bodySmall,
+                    fontSize = 20.sp,
                     color = colorResource(R.color.rojo)
                 )
             }
@@ -138,9 +145,9 @@ fun ItemFactura(
 
         Text(
             text = "${String.format("%.2f", factura.importe)} €",
-            style = MaterialTheme.typography.bodyLarge,
+            fontSize = 22.sp,
             modifier = Modifier
-                .padding(end = 8.dp)
+                .padding(end = 8.dp, top = 16.dp, bottom = 16.dp)
         )
 
         Icon(
@@ -206,10 +213,10 @@ fun PopUpFacturas(
 @Preview(showBackground = true)
 @Composable
 fun PreviewFacturas() {
-    PantallaFacturas(
-        viewModel = FacturasViewModel(),
-        navController = rememberNavController()
-    )
+//    PantallaFacturas(
+//        viewModel = FacturasViewModel(),
+//        navController = rememberNavController()
+//    )
 }
 
 @Preview(showBackground = true)
