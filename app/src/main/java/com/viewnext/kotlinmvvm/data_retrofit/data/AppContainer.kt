@@ -1,0 +1,28 @@
+package com.viewnext.kotlinmvvm.data_retrofit.data
+
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.viewnext.kotlinmvvm.data_retrofit.FacturasApiService
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.Retrofit
+
+interface AppContainer {
+    val facturasRepository : FacturasRepository
+}
+
+class DefaultAppContainer: AppContainer {
+    private val baseUrl = "https://e7cd6b3c-bd3f-482e-b78a-1b5920cef8b0.mock.pstmn.io/"
+
+    private val retrofit = Retrofit.Builder()
+        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+        .baseUrl(baseUrl)
+        .build()
+
+    private val retrofitService: FacturasApiService by lazy {
+        retrofit.create(FacturasApiService::class.java)
+    }
+
+    override val facturasRepository: FacturasRepository by lazy {
+        NetworkFacturasRepository(retrofitService)
+    }
+}

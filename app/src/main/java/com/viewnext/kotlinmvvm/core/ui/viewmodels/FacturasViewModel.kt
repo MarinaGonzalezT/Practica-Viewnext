@@ -1,46 +1,57 @@
 package com.viewnext.kotlinmvvm.core.ui.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.viewnext.kotlinmvvm.core.utils.JsonUtils
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.viewnext.kotlinmvvm.core.FacturasApplication
+import com.viewnext.kotlinmvvm.data_retrofit.data.FacturasRepository
 import com.viewnext.kotlinmvvm.domain.Factura
+import kotlinx.coroutines.launch
+import okio.IOException
+import retrofit2.HttpException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class FacturasViewModel(application: Application) : AndroidViewModel(application) {
-    private val _facturas = MutableLiveData<List<Factura>>()
-    val facturas: LiveData<List<Factura>> = _facturas
+sealed interface FacturasUiState {
+    data class Succes(val facturas: List<Factura>) : FacturasUiState
+    object Error : FacturasUiState
+    object Loading : FacturasUiState
+}
+
+class FacturasViewModel(private val facturasRepository: FacturasRepository) : ViewModel() {
+    var facturasUiState: FacturasUiState by mutableStateOf(FacturasUiState.Loading)
+        private set
 
     init {
         cargarFacturas()
     }
 
-    private fun cargarFacturas() {
-        val context = getApplication<Application>()
-        val originales = JsonUtils.cargarFacturasDesdeJson(context)
-
-        _facturas.value = originales.map {
-            it.copy(fecha = formatearFecha(it.fecha))
+    fun cargarFacturas() {
+        viewModelScope.launch {
+            facturasUiState = FacturasUiState.Loading
+            facturasUiState = try {
+                FacturasUiState.Succes(facturasRepository.getFacturas().facturas)
+            } catch(e: IOException) {
+                FacturasUiState.Error
+            } catch (e: HttpException) {
+                FacturasUiState.Error
+            }
         }
     }
 
-    private fun formatearFecha(fechaOriginal: String): String {
-        return try {
-            val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale("es", "ES"))
-            val fecha = inputFormat.parse(fechaOriginal)
-            val fechaFormateada = outputFormat.format(fecha!!)
-
-            val partes = fechaFormateada.split(" ")
-            val dia = partes[0]
-            val mes = partes[1].replaceFirstChar { it.uppercaseChar() }
-            val anio = partes[2]
-
-            "$dia $mes $anio"
-        } catch (e: Exception) {
-            fechaOriginal
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as FacturasApplication)
+                val facturasRepository = application.container.facturasRepository
+                FacturasViewModel(facturasRepository = facturasRepository)
+            }
         }
     }
 }

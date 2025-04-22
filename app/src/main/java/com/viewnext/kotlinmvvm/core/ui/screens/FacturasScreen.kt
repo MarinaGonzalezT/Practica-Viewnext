@@ -1,13 +1,16 @@
 package com.viewnext.kotlinmvvm.core.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -27,7 +30,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,19 +43,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
+import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasUiState
 import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
 import com.viewnext.kotlinmvvm.domain.Factura
 import com.viewnext.kotlinmvvm.domain.facturaPrueba1
 import com.viewnext.kotlinmvvm.domain.facturaPrueba2
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun PantallaFacturas(
-    viewModel: FacturasViewModel,
     navController: NavController
 ) {
-    val facturas by viewModel.facturas.observeAsState(emptyList())
+    val facturasViewModel : FacturasViewModel = viewModel(factory = FacturasViewModel.Factory)
 
     Scaffold(
         topBar = {
@@ -71,10 +77,30 @@ fun PantallaFacturas(
         ) {
             Titulo(stringResource(R.string.facturas))
             Spacer(modifier = Modifier.height(10.dp))
-            facturas.forEach { factura ->
+            FacturasDeciderScreen(
+                facturasUiState = facturasViewModel.facturasUiState,
+                retryAction = facturasViewModel::cargarFacturas
+            )
+        }
+    }
+}
+
+@Composable
+fun FacturasDeciderScreen(
+    facturasUiState: FacturasUiState,
+    retryAction: () -> Unit
+) {
+    when(facturasUiState) {
+        is FacturasUiState.Loading -> LoadingScreen(modifier = Modifier.fillMaxSize())
+        is FacturasUiState.Succes -> {
+            facturasUiState.facturas.forEach { factura ->
                 ItemFactura(factura)
             }
         }
+        is FacturasUiState.Error -> ErrorScreen(
+            retryAction = retryAction,
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
 
@@ -131,7 +157,7 @@ fun ItemFactura(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = factura.fecha,
+                text = formatearFecha(factura.fecha),
                 fontSize = 22.sp
             )
             if(factura.estado == "Pendiente de pago") {
@@ -210,13 +236,56 @@ fun PopUpFacturas(
     )
 }
 
+@Composable
+fun LoadingScreen(modifier: Modifier = Modifier) {
+    Image(
+        modifier = modifier.size(200.dp),
+        painter = painterResource(R.drawable.loading_img),
+        contentDescription = stringResource(R.string.loading)
+    )
+}
+
+@Composable
+fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_connection_error), contentDescription = ""
+        )
+        Text(text = stringResource(R.string.loading_failed), modifier = Modifier.padding(16.dp))
+        Button(onClick = retryAction) {
+            Text(stringResource(R.string.retry))
+        }
+    }
+}
+
+private fun formatearFecha(fechaOriginal: String): String {
+    return try {
+        val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale("es", "ES"))
+        val fecha = inputFormat.parse(fechaOriginal)
+        val fechaFormateada = outputFormat.format(fecha!!)
+
+        val partes = fechaFormateada.split(" ")
+        val dia = partes[0]
+        val mes = partes[1].replaceFirstChar { it.uppercaseChar() }
+        val anio = partes[2]
+
+        "$dia $mes $anio"
+    } catch (e: Exception) {
+        fechaOriginal
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewFacturas() {
-//    PantallaFacturas(
-//        viewModel = FacturasViewModel(),
-//        navController = rememberNavController()
-//    )
+    PantallaFacturas(
+        navController = rememberNavController()
+    )
 }
 
 @Preview(showBackground = true)
