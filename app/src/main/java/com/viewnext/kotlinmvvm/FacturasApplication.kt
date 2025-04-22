@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.core
+package com.viewnext.kotlinmvvm
 
 import android.app.Application
 import com.viewnext.kotlinmvvm.data_retrofit.data.AppContainer

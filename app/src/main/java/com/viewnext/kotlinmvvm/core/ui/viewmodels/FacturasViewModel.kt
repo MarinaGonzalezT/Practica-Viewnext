@@ -9,14 +9,12 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.viewnext.kotlinmvvm.core.FacturasApplication
+import com.viewnext.kotlinmvvm.FacturasApplication
 import com.viewnext.kotlinmvvm.data_retrofit.data.FacturasRepository
 import com.viewnext.kotlinmvvm.domain.Factura
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 sealed interface FacturasUiState {
     data class Succes(val facturas: List<Factura>) : FacturasUiState
