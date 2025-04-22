@@ -95,6 +95,7 @@ fun FacturasDeciderScreen(
         is FacturasUiState.Succes -> {
             facturasUiState.facturas.forEach { factura ->
                 ItemFactura(factura)
+
             }
         }
         is FacturasUiState.Error -> ErrorScreen(
