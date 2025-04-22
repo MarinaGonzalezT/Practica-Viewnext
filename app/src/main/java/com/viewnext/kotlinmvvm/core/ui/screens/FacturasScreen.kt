@@ -47,8 +47,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
-import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasUiState
-import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
+import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
+import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
 import com.viewnext.kotlinmvvm.domain.Factura
 import com.viewnext.kotlinmvvm.domain.facturaPrueba1
 import com.viewnext.kotlinmvvm.domain.facturaPrueba2

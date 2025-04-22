@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.core.ui.viewmodels
+package com.viewnext.kotlinmvvm.core.ui
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
