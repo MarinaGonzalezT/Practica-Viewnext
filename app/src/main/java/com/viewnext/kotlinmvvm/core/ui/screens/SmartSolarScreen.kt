@@ -39,7 +39,7 @@ fun PantallaSmartSolar(
     Scaffold(
         topBar = {
             SmartSolarTopBar(
-                onClick = { navController.navigate("Inicio") }
+                onBack = { navController.popBackStack("Inicio", inclusive = false) }
             )
         },
         containerColor = colorResource(R.color.white)
@@ -58,7 +58,7 @@ fun PantallaSmartSolar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmartSolarTopBar(
-    onClick: () -> Unit
+    onBack: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -70,7 +70,7 @@ fun SmartSolarTopBar(
             }
         },
         navigationIcon = {
-            IconButton(onClick = onClick) {
+            IconButton(onClick = onBack) {
                 Icon(
                     Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     contentDescription = null,
@@ -135,7 +135,7 @@ fun SeleccionItems() {
 @Composable
 fun PreviewTopBar() {
     SmartSolarTopBar(
-        onClick = {}
+        onBack = {}
     )
 }
 

@@ -11,20 +11,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -38,14 +33,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
 import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
@@ -64,7 +56,7 @@ fun PantallaFacturas(
     Scaffold(
         topBar = {
             FacturasTopBar(
-                onClick = { navController.navigate("Inicio") },
+                onBack = { navController.popBackStack("Inicio", inclusive = false) },
                 onFilter = { navController.navigate("Filtros")}
             )
         },
@@ -95,7 +87,6 @@ fun FacturasDeciderScreen(
         is FacturasUiState.Succes -> {
             facturasUiState.facturas.forEach { factura ->
                 ItemFactura(factura)
-
             }
         }
         is FacturasUiState.Error -> ErrorScreen(
@@ -108,7 +99,7 @@ fun FacturasDeciderScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FacturasTopBar(
-    onClick: () -> Unit,
+    onBack: () -> Unit,
     onFilter: () -> Unit
 ) {
     TopAppBar(
@@ -121,7 +112,7 @@ fun FacturasTopBar(
             }
         },
         navigationIcon = {
-            IconButton(onClick = onClick) {
+            IconButton(onClick = onBack) {
                 Icon(
                     Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     contentDescription = null,
@@ -186,55 +177,14 @@ fun ItemFactura(
     HorizontalDivider(modifier = Modifier.padding(horizontal = 12.dp))
 
     if(facturaSeleccionada) {
-        PopUpFacturas( onClick = { facturaSeleccionada = false } )
+        PopUps(
+            onClick = { facturaSeleccionada = false },
+            titulo = stringResource(R.string.informacion),
+            mensaje = stringResource(R.string.texto_popup_facturas),
+            textoBoton = stringResource(R.string.cerrar),
+            colorBoton = colorResource(R.color.rojo_claro)
+        )
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PopUpFacturas(
-    onClick: () -> Unit
-) {
-    BasicAlertDialog(
-        onDismissRequest = onClick,
-        content = {
-            Surface(
-                color = colorResource(R.color.white),
-                modifier = Modifier
-                    .padding(16.dp)
-                    .wrapContentHeight()
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .padding(30.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.informacion),
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier
-                            .padding(bottom = 20.dp)
-                    )
-                    Text(
-                        text = stringResource(R.string.texto_popup_facturas),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier
-                            .padding(bottom = 20.dp)
-                    )
-                    Button(
-                        onClick = onClick,
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = colorResource(R.color.rojo_claro)
-                        )
-                    ) {
-                        Text(text = stringResource(R.string.cerrar))
-                    }
-                }
-            }
-        }
-    )
 }
 
 @Composable
@@ -283,9 +233,10 @@ private fun formatearFecha(fechaOriginal: String): String {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewFacturas() {
-    PantallaFacturas(
-        navController = rememberNavController()
+fun PreviewTopBarFactura() {
+    FacturasTopBar(
+        onBack = {},
+        onFilter = {}
     )
 }
 
@@ -304,5 +255,11 @@ fun PreviewItemFactura2() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewPopUpFacturas() {
-    PopUpFacturas(onClick = {})
+    PopUps(
+        onClick = {},
+        titulo = stringResource(R.string.informacion),
+        mensaje = stringResource(R.string.texto_popup_facturas),
+        textoBoton = stringResource(R.string.cerrar),
+        colorBoton = colorResource(R.color.rojo_claro)
+    )
 }

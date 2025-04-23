@@ -8,11 +8,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -25,6 +31,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.viewnext.kotlinmvvm.R
@@ -114,7 +121,6 @@ fun CuadroFechas(
     }
 }
 
-
 // Componenete reutilizable para las imágenes de "Mi instalación" y "Energía"
 @Composable
 fun ImagenesSmartSolar(
@@ -125,5 +131,55 @@ fun ImagenesSmartSolar(
         contentDescription = null,
         modifier = Modifier
             .aspectRatio(1f)
+    )
+}
+
+// Componente reutilizable para los popUps de "Facturas" y "Detalles"
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PopUps(
+    onClick: () -> Unit,
+    titulo: String,
+    mensaje: String,
+    textoBoton: String,
+    colorBoton: Color
+) {
+    BasicAlertDialog(
+        onDismissRequest = onClick,
+        content = {
+            Surface(
+                color = colorResource(R.color.white),
+                modifier = Modifier
+                    .padding(16.dp)
+                    .wrapContentHeight()
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(30.dp)
+                ) {
+                    Text(
+                        text = titulo,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(bottom = 20.dp)
+                    )
+                    Text(
+                        text = mensaje,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(bottom = 20.dp)
+                    )
+                    Button(
+                        onClick = onClick,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorBoton
+                        ),
+                        modifier = Modifier.width(180.dp)
+                    ) {
+                        Text(text = textoBoton)
+                    }
+                }
+            }
+        }
     )
 }

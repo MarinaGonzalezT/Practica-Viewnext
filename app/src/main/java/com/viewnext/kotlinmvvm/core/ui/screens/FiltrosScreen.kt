@@ -50,7 +50,7 @@ fun PantallaFiltros(
     Scaffold(
         topBar = {
             FiltrosTopBar(
-                onClick = { navController.navigate("Facturas") },
+                onClose = { navController.popBackStack("Facturas", inclusive = false) },
             )
         },
         containerColor = colorResource(R.color.white)
@@ -79,12 +79,12 @@ fun PantallaFiltros(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FiltrosTopBar(
-    onClick: () -> Unit
+    onClose: () -> Unit
 ) {
     TopAppBar(
         title = {  },
         actions = {
-            IconButton(onClick = onClick) {
+            IconButton(onClick = onClose) {
                 Icon(
                     Icons.Default.Close,
                     contentDescription = null,

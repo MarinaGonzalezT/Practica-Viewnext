@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Entity(tableName = "Facturas")
+@Entity(tableName = "facturas")
 @Serializable
 data class Factura(
     @PrimaryKey(autoGenerate = true)
