@@ -13,6 +13,8 @@ import com.viewnext.kotlinmvvm.FacturasApplication
 import com.viewnext.kotlinmvvm.core.data.repository.RoomFacturasRepository
 import com.viewnext.kotlinmvvm.data_retrofit.data.FacturasRepository
 import com.viewnext.kotlinmvvm.domain.Factura
+import com.viewnext.kotlinmvvm.domain.Filtros
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
@@ -33,9 +35,12 @@ class FacturasViewModel(
 
     private var datosCargados = false
 
+    private val filtroActual = MutableStateFlow(Filtros())
+    private val _todasLasFacturas = MutableStateFlow<List<Factura>>(emptyList())
+
     init {
         cargarFacturas()
-        observarFacturasActuales()
+        observarRoom()
     }
 
     fun cargarFacturas() {
@@ -48,20 +53,62 @@ class FacturasViewModel(
                     datosCargados = true
                 }
             } catch(e: IOException) {
-                FacturasUiState.Error
+                facturasUiState = FacturasUiState.Error
             } catch (e: HttpException) {
-                FacturasUiState.Error
+                facturasUiState = FacturasUiState.Error
             }
         }
     }
 
-    fun observarFacturasActuales() {
+    fun observarRoom() {
         viewModelScope.launch {
             localRepository.getAllFacturasStream()
                 .collect { facturas ->
-                    facturasUiState = FacturasUiState.Succes(facturas)
+                    _todasLasFacturas.value = facturas
+                    aplicarFiltroSeleccionado(filtroActual.value, facturas)
                 }
         }
+
+        viewModelScope.launch {
+            filtroActual.collect { filtro ->
+                aplicarFiltroSeleccionado(filtro, _todasLasFacturas.value)
+            }
+        }
+    }
+
+    private fun aplicarFiltroSeleccionado(
+        filtro: Filtros,
+        listaFacturas: List<Factura>
+    ) {
+        val resultado = listaFacturas.filter { factura ->
+            val fechaFactura = factura.fecha.toLongOrNull()
+            val cumpleFecha =
+                (filtro.fechaDesde == null || fechaFactura ?: Long.MAX_VALUE >= filtro.fechaDesde) &&
+                (filtro.fechaHasta == null || fechaFactura ?: Long.MIN_VALUE <= filtro.fechaHasta)
+
+            val cumpleImporte =
+                (filtro.importeMin == null || factura.importe >= filtro.importeMin) &&
+                (filtro.importeMax == null || factura.importe <= filtro.importeMax)
+
+            val cumpleEstado = filtro.estados.isEmpty() || filtro.estados.contains(factura.estado)
+
+            cumpleFecha && cumpleImporte && cumpleEstado
+        }
+
+        facturasUiState = FacturasUiState.Succes(resultado)
+    }
+
+    fun aplicarFiltros(nuevoFiltro: Filtros) {
+        filtroActual.value = nuevoFiltro
+    }
+
+    fun eliminarFiltros() {
+        filtroActual.value = Filtros()
+    }
+
+    fun recargarDesdeRed() {
+        datosCargados = false
+        cargarFacturas()
     }
 
     companion object {

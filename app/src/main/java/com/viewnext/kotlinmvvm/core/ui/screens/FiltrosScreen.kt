@@ -35,9 +35,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
+import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
+import com.viewnext.kotlinmvvm.domain.Filtros
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -45,8 +48,17 @@ import java.util.Locale
 fun PantallaFiltros(
     navController: NavController,
     minImporte: Float,
-    maxImporte: Float
+    maxImporte: Float,
+    viewModel: FacturasViewModel
 ) {
+    var fechaDesde by remember { mutableStateOf<Long?>(null) }
+    var fechaHasta by remember { mutableStateOf<Long?>(null) }
+    var importe by remember { mutableStateOf(minImporte..maxImporte) }
+    val estados = listOf("Pagada", "Anulada", "Cuota Fija", "Pendiente de pago", "Plan de pago")
+    val estadosSeleccionados = remember {
+        mutableStateMapOf<String, Boolean>().apply { estados.forEach { put(it, false) } }
+    }
+
     Scaffold(
         topBar = {
             FiltrosTopBar(
@@ -62,16 +74,41 @@ fun PantallaFiltros(
         ) {
             Titulo(stringResource(R.string.filtra_facturas))
 
-            SeccionFechas()
+            SeccionFechas(
+                fechaDesde = fechaDesde,
+                fechaHasta = fechaHasta,
+                onFechaDesdeChange = { fechaDesde = it },
+                onFechaHastaChange = { fechaHasta = it }
+            )
             
             SeccionImporte(
+                importe = importe,
+                onImporteChange = { importe = it },
                 minImporte = minImporte,
                 maxImporte = maxImporte
             )
 
-            SeccionChecks()
+            SeccionChecks(estadosSeleccionados)
 
-            SeccionBotones(onApply = {}, onDelete = {})
+            SeccionBotones(
+                onApply = {
+                    viewModel.recargarDesdeRed()
+                    viewModel.aplicarFiltros(
+                        Filtros(
+                            fechaDesde = fechaDesde,
+                            fechaHasta = fechaHasta,
+                            importeMin = importe.start,
+                            importeMax = importe.endInclusive,
+                            estados = estadosSeleccionados.filterValues { it }.keys.toList()
+                        )
+                    )
+                    navController.popBackStack("Facturas", inclusive = false)
+                },
+                onDelete = {
+                    viewModel.eliminarFiltros()
+                    navController.popBackStack("Facturas", inclusive = false)
+                }
+            )
         }
     }
 }
@@ -100,11 +137,13 @@ fun FiltrosTopBar(
 }
 
 @Composable
-fun SeccionFechas() {
-    var fechaDesde by remember { mutableStateOf<Long?>(null) }
-    var fechaHasta by remember { mutableStateOf<Long?>(null) }
+fun SeccionFechas(
+    fechaDesde: Long?,
+    fechaHasta: Long?,
+    onFechaDesdeChange: (Long?) -> Unit,
+    onFechaHastaChange: (Long?) -> Unit
+) {
     var mostrandoPickerPara by remember { mutableStateOf<String?>(null) }
-
     val dateFormatter = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
 
     Column(
@@ -149,8 +188,8 @@ fun SeccionFechas() {
         FechaPicker(
             onDateSelected = { millis ->
                 when(mostrandoPickerPara) {
-                    "desde" -> fechaDesde = millis
-                    "hasta" -> fechaHasta = millis
+                    "desde" -> onFechaDesdeChange(millis)
+                    "hasta" -> onFechaHastaChange(millis)
                 }
                 mostrandoPickerPara = null
             },
@@ -161,11 +200,11 @@ fun SeccionFechas() {
 
 @Composable
 fun SeccionImporte(
+    importe: ClosedFloatingPointRange<Float>,
+    onImporteChange: (ClosedFloatingPointRange<Float>) -> Unit,
     minImporte: Float,
     maxImporte: Float
 ) {
-    var importe by remember { mutableStateOf(50f..250f) }
-
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -203,7 +242,7 @@ fun SeccionImporte(
 
         RangeSlider(
             value = importe,
-            onValueChange = { importe = it },
+            onValueChange = onImporteChange,
             valueRange = minImporte..maxImporte,
             colors = SliderDefaults.colors(
                 thumbColor = colorResource(R.color.verde),
@@ -219,13 +258,12 @@ fun SeccionImporte(
 }
 
 @Composable
-fun SeccionChecks() {
+fun SeccionChecks(
+    estadosSeleccionados: MutableMap<String, Boolean>
+) {
     val estados = listOf(
-        "Pagadas", "Anuladas", "Cuota Fija", "Pendientes de pago", "Plan de pago"
+        "Pagada", "Anulada", "Cuota Fija", "Pendiente de pago", "Plan de pago"
     )
-    val estadosSeleccionados = remember {
-        mutableStateMapOf<String, Boolean>().apply { estados.forEach { put(it, false) } }
-    }
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -298,9 +336,11 @@ fun SeccionBotones(
 @Preview(showBackground = true)
 @Composable
 fun PreviewFiltros() {
+    val viewModel: FacturasViewModel = viewModel(factory = FacturasViewModel.Factory)
     PantallaFiltros(
         navController = rememberNavController(),
         minImporte = 1f,
-        maxImporte = 300f
+        maxImporte = 300f,
+        viewModel = viewModel
     )
 }
