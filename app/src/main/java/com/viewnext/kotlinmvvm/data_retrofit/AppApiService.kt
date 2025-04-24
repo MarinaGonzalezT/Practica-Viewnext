@@ -1,5 +1,7 @@
 package com.viewnext.kotlinmvvm.data_retrofit
 
+import co.infinum.retromock.meta.Mock
+import co.infinum.retromock.meta.MockResponse
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.viewnext.kotlinmvvm.domain.FacturasResponse
 import kotlinx.serialization.json.Json
@@ -14,7 +16,10 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-interface FacturasApiService {
+interface AppApiService {
+
     @GET("facturas")
+    @Mock
+    @MockResponse(body = "facturas.json")
     suspend fun getFacturas() : FacturasResponse
 }

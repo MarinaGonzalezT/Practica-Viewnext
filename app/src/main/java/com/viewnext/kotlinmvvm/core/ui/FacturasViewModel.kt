@@ -11,7 +11,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.viewnext.kotlinmvvm.FacturasApplication
 import com.viewnext.kotlinmvvm.core.data.repository.RoomFacturasRepository
-import com.viewnext.kotlinmvvm.data_retrofit.data.FacturasRepository
+import com.viewnext.kotlinmvvm.data_retrofit.FacturasRepository
 import com.viewnext.kotlinmvvm.domain.model.Factura
 import com.viewnext.kotlinmvvm.domain.model.Filtros
 import com.viewnext.kotlinmvvm.domain.usecases.FiltrarFacturasUseCase
@@ -81,11 +81,6 @@ class FacturasViewModel(
 
     fun aplicarFiltros(filtros: Filtros) {
         filtroActual.value = filtros
-    }
-
-    fun recargarDesdeRed() {
-        datosCargados = false
-        cargarFacturas()
     }
 
     fun obtenerFiltrosActuales(): Filtros {
