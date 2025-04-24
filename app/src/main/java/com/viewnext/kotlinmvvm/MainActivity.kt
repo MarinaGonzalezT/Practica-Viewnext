@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
+import com.viewnext.kotlinmvvm.core.ui.FiltrosViewModel
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFacturas
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFiltros
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaInicio
@@ -21,7 +23,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            val viewModel : FacturasViewModel = viewModel(factory = FacturasViewModel.Factory)
+            val facturasviewModel : FacturasViewModel = viewModel(factory = FacturasViewModel.Factory)
+            val filtrosViewModel : FiltrosViewModel = viewModel(factory = FiltrosViewModel.provideFactory(facturasviewModel))
+
+            val estadoFiltro = filtrosViewModel.filtros.collectAsState()
 
             KotlinMVVMTheme {
                 NavHost(navController = navController, startDestination = "Inicio") {
@@ -31,15 +36,15 @@ class MainActivity : ComponentActivity() {
                     composable("Facturas") {
                         PantallaFacturas(
                             navController = navController,
-                            viewModel = viewModel
+                            viewModel = facturasviewModel
                         )
                     }
                     composable("Filtros") {
                         PantallaFiltros(
                             navController = navController,
-                            minImporte = 1f,
-                            maxImporte = 300f,
-                            viewModel = viewModel
+                            minImporte = estadoFiltro.value.importeMin,
+                            maxImporte = estadoFiltro.value.importeMax,
+                            viewModel = filtrosViewModel
                         )
                     }
                     composable("Smart_Solar") {

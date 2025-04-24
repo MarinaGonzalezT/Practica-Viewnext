@@ -40,9 +40,7 @@ import androidx.navigation.NavController
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
 import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
-import com.viewnext.kotlinmvvm.domain.Factura
-import com.viewnext.kotlinmvvm.domain.facturaPrueba1
-import com.viewnext.kotlinmvvm.domain.facturaPrueba2
+import com.viewnext.kotlinmvvm.domain.model.Factura
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -242,12 +240,14 @@ fun PreviewTopBarFactura() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewItemFactura1() {
+    val facturaPrueba1 = Factura(0, "Pendiente de pago", 56.38, "22 Jun 2020")
     ItemFactura(facturaPrueba1)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewItemFactura2() {
+    val facturaPrueba2 = Factura(1, "Pago realizado", 56.38, "22 Jun 2020")
     ItemFactura(facturaPrueba2)
 }
 

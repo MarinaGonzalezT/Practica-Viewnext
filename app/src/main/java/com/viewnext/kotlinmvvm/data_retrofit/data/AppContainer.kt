@@ -6,6 +6,7 @@ import com.viewnext.kotlinmvvm.core.data.database.FacturaDatabase
 import com.viewnext.kotlinmvvm.core.data.repository.OfflineFacturasRepository
 import com.viewnext.kotlinmvvm.core.data.repository.RoomFacturasRepository
 import com.viewnext.kotlinmvvm.data_retrofit.FacturasApiService
+import com.viewnext.kotlinmvvm.domain.usecases.FiltrarFacturasUseCase
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
@@ -13,6 +14,7 @@ import retrofit2.Retrofit
 interface AppContainer {
     val facturasRepository : FacturasRepository
     val roomFacturasRepository : RoomFacturasRepository
+    val filtrarFacturasUseCase : FiltrarFacturasUseCase
 }
 
 class DefaultAppContainer(context: Context) : AppContainer {
@@ -36,4 +38,6 @@ class DefaultAppContainer(context: Context) : AppContainer {
     override val roomFacturasRepository: RoomFacturasRepository by lazy {
         OfflineFacturasRepository(database.facturaDao())
     }
+
+    override val filtrarFacturasUseCase: FiltrarFacturasUseCase = FiltrarFacturasUseCase()
 }

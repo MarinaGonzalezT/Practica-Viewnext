@@ -12,9 +12,11 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.viewnext.kotlinmvvm.FacturasApplication
 import com.viewnext.kotlinmvvm.core.data.repository.RoomFacturasRepository
 import com.viewnext.kotlinmvvm.data_retrofit.data.FacturasRepository
-import com.viewnext.kotlinmvvm.domain.Factura
-import com.viewnext.kotlinmvvm.domain.Filtros
+import com.viewnext.kotlinmvvm.domain.model.Factura
+import com.viewnext.kotlinmvvm.domain.model.Filtros
+import com.viewnext.kotlinmvvm.domain.usecases.FiltrarFacturasUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
@@ -27,7 +29,8 @@ sealed interface FacturasUiState {
 
 class FacturasViewModel(
     private val facturasRepository: FacturasRepository,
-    private val localRepository: RoomFacturasRepository
+    private val localRepository: RoomFacturasRepository,
+    private val filtrarFacturasUseCase: FiltrarFacturasUseCase
 ) : ViewModel() {
 
     var facturasUiState: FacturasUiState by mutableStateOf(FacturasUiState.Loading)
@@ -35,12 +38,12 @@ class FacturasViewModel(
 
     private var datosCargados = false
 
+    private val todasLasFacturas = MutableStateFlow<List<Factura>>(emptyList())
     private val filtroActual = MutableStateFlow(Filtros())
-    private val _todasLasFacturas = MutableStateFlow<List<Factura>>(emptyList())
 
     init {
         cargarFacturas()
-        observarRoom()
+        observarDatosLocales()
     }
 
     fun cargarFacturas() {
@@ -60,55 +63,33 @@ class FacturasViewModel(
         }
     }
 
-    fun observarRoom() {
+    fun observarDatosLocales() {
         viewModelScope.launch {
-            localRepository.getAllFacturasStream()
-                .collect { facturas ->
-                    _todasLasFacturas.value = facturas
-                    aplicarFiltroSeleccionado(filtroActual.value, facturas)
-                }
+            combine(todasLasFacturas, filtroActual) { facturas, filtro ->
+                filtrarFacturasUseCase(facturas, filtro)
+            }.collect { facturasFiltradas ->
+                facturasUiState = FacturasUiState.Succes(facturasFiltradas)
+            }
         }
 
         viewModelScope.launch {
-            filtroActual.collect { filtro ->
-                aplicarFiltroSeleccionado(filtro, _todasLasFacturas.value)
+            localRepository.getAllFacturasStream().collect {
+                todasLasFacturas.value = it
             }
         }
     }
 
-    private fun aplicarFiltroSeleccionado(
-        filtro: Filtros,
-        listaFacturas: List<Factura>
-    ) {
-        val resultado = listaFacturas.filter { factura ->
-            val fechaFactura = factura.fecha.toLongOrNull()
-            val cumpleFecha =
-                (filtro.fechaDesde == null || fechaFactura ?: Long.MAX_VALUE >= filtro.fechaDesde) &&
-                (filtro.fechaHasta == null || fechaFactura ?: Long.MIN_VALUE <= filtro.fechaHasta)
-
-            val cumpleImporte =
-                (filtro.importeMin == null || factura.importe >= filtro.importeMin) &&
-                (filtro.importeMax == null || factura.importe <= filtro.importeMax)
-
-            val cumpleEstado = filtro.estados.isEmpty() || filtro.estados.contains(factura.estado)
-
-            cumpleFecha && cumpleImporte && cumpleEstado
-        }
-
-        facturasUiState = FacturasUiState.Succes(resultado)
-    }
-
-    fun aplicarFiltros(nuevoFiltro: Filtros) {
-        filtroActual.value = nuevoFiltro
-    }
-
-    fun eliminarFiltros() {
-        filtroActual.value = Filtros()
+    fun aplicarFiltros(filtros: Filtros) {
+        filtroActual.value = filtros
     }
 
     fun recargarDesdeRed() {
         datosCargados = false
         cargarFacturas()
+    }
+
+    fun obtenerFiltrosActuales(): Filtros {
+        return filtroActual.value
     }
 
     companion object {
@@ -119,7 +100,8 @@ class FacturasViewModel(
 
                 FacturasViewModel(
                     facturasRepository = container.facturasRepository,
-                    localRepository = container.roomFacturasRepository
+                    localRepository = container.roomFacturasRepository,
+                    filtrarFacturasUseCase = container.filtrarFacturasUseCase
                 )
             }
         }

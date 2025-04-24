@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +41,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
-import com.viewnext.kotlinmvvm.domain.Filtros
+import com.viewnext.kotlinmvvm.core.ui.FiltrosViewModel
+import com.viewnext.kotlinmvvm.domain.model.Filtros
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -49,14 +51,22 @@ fun PantallaFiltros(
     navController: NavController,
     minImporte: Float,
     maxImporte: Float,
-    viewModel: FacturasViewModel
+    viewModel: FiltrosViewModel
 ) {
+    val filtros by viewModel.filtros.collectAsState()
+
     var fechaDesde by remember { mutableStateOf<Long?>(null) }
     var fechaHasta by remember { mutableStateOf<Long?>(null) }
+
     var importe by remember { mutableStateOf(minImporte..maxImporte) }
+
     val estados = listOf("Pagada", "Anulada", "Cuota Fija", "Pendiente de pago", "Plan de pago")
     val estadosSeleccionados = remember {
-        mutableStateMapOf<String, Boolean>().apply { estados.forEach { put(it, false) } }
+        mutableStateMapOf<String, Boolean>().apply {
+            estados.forEach { estado ->
+                put(estado, filtros.estados.contains(estado))
+            }
+        }
     }
 
     Scaffold(
@@ -92,8 +102,7 @@ fun PantallaFiltros(
 
             SeccionBotones(
                 onApply = {
-                    viewModel.recargarDesdeRed()
-                    viewModel.aplicarFiltros(
+                    viewModel.actualizarFiltros(
                         Filtros(
                             fechaDesde = fechaDesde,
                             fechaHasta = fechaHasta,
@@ -243,7 +252,7 @@ fun SeccionImporte(
         RangeSlider(
             value = importe,
             onValueChange = onImporteChange,
-            valueRange = minImporte..maxImporte,
+            valueRange = 1f..300f,
             colors = SliderDefaults.colors(
                 thumbColor = colorResource(R.color.verde),
                 activeTrackColor = colorResource(R.color.verde),
@@ -336,7 +345,7 @@ fun SeccionBotones(
 @Preview(showBackground = true)
 @Composable
 fun PreviewFiltros() {
-    val viewModel: FacturasViewModel = viewModel(factory = FacturasViewModel.Factory)
+    val viewModel: FiltrosViewModel = viewModel(factory = FacturasViewModel.Factory)
     PantallaFiltros(
         navController = rememberNavController(),
         minImporte = 1f,

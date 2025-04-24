@@ -1,5 +1,6 @@
 package com.viewnext.kotlinmvvm.domain
 
+import com.viewnext.kotlinmvvm.domain.model.Factura
 import kotlinx.serialization.Serializable
 
 @Serializable

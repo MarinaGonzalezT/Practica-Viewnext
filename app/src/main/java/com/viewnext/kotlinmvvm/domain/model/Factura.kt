@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.domain
+package com.viewnext.kotlinmvvm.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -19,6 +19,3 @@ data class Factura(
 
     val fecha: String
 )
-
-val facturaPrueba1 = Factura(0, "Pendiente de pago", 56.38, "22 Jun 2020")
-val facturaPrueba2 = Factura(1, "Pago realizado", 56.38, "22 Jun 2020")

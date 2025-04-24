@@ -1,7 +1,7 @@
 package com.viewnext.kotlinmvvm.core.data.repository
 
 import com.viewnext.kotlinmvvm.core.data.database.FacturaDao
-import com.viewnext.kotlinmvvm.domain.Factura
+import com.viewnext.kotlinmvvm.domain.model.Factura
 import kotlinx.coroutines.flow.Flow
 
 interface RoomFacturasRepository {
