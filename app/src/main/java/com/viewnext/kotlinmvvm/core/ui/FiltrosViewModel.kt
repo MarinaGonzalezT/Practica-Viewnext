@@ -22,6 +22,14 @@ class FiltrosViewModel(
         facturasViewModel.aplicarFiltros(Filtros())
     }
 
+    fun actualizarFechaDesde(nuevaFecha: Long?) {
+        _filtros.value = _filtros.value.copy(fechaDesde = nuevaFecha)
+    }
+
+    fun actualizarFechaHasta(nuevaFecha: Long?) {
+        _filtros.value = _filtros.value.copy(fechaHasta = nuevaFecha)
+    }
+
     companion object {
         fun provideFactory(facturasViewModel: FacturasViewModel): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {

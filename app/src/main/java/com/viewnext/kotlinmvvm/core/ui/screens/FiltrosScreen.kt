@@ -55,8 +55,8 @@ fun PantallaFiltros(
 ) {
     val filtros by viewModel.filtros.collectAsState()
 
-    var fechaDesde by remember { mutableStateOf<Long?>(null) }
-    var fechaHasta by remember { mutableStateOf<Long?>(null) }
+    var fechaDesde = filtros.fechaDesde
+    var fechaHasta = filtros.fechaHasta
 
     var importe by remember { mutableStateOf(minImporte..maxImporte) }
 
@@ -87,8 +87,8 @@ fun PantallaFiltros(
             SeccionFechas(
                 fechaDesde = fechaDesde,
                 fechaHasta = fechaHasta,
-                onFechaDesdeChange = { fechaDesde = it },
-                onFechaHastaChange = { fechaHasta = it }
+                onFechaDesdeChange = { viewModel.actualizarFechaDesde(it) },
+                onFechaHastaChange = { viewModel.actualizarFechaHasta(it) }
             )
             
             SeccionImporte(
@@ -270,8 +270,12 @@ fun SeccionImporte(
 fun SeccionChecks(
     estadosSeleccionados: MutableMap<String, Boolean>
 ) {
-    val estados = listOf(
-        "Pagada", "Anulada", "Cuota Fija", "Pendiente de pago", "Plan de pago"
+    val estados = mapOf(
+        "Pagadas" to "Pagada",
+        "Anuladas" to "Anulada",
+        "Cuota Fija" to "Cuota Fija",
+        "Pendientes de pago" to "Pendiente de pago",
+        "Plan de pago" to "Plan de pago"
     )
 
     Column(
@@ -288,7 +292,7 @@ fun SeccionChecks(
                 .padding(start = 12.dp, bottom = 12.dp)
         )
 
-        estados.forEach { estado ->
+        estados.forEach { (visible, real) ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,
@@ -296,10 +300,10 @@ fun SeccionChecks(
                     .size(height = 36.dp, width = 200.dp)
             ) {
                 Checkbox(
-                    checked = estadosSeleccionados[estado] == true,
-                    onCheckedChange = { estadosSeleccionados[estado] = it }
+                    checked = estadosSeleccionados[real] == true,
+                    onCheckedChange = { estadosSeleccionados[real] = it }
                 )
-                Text(text = estado)
+                Text(text = visible)
             }
         }
     }
