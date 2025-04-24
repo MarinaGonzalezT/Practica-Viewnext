@@ -16,10 +16,21 @@ import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFiltros
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaInicio
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaSmartSolar
 import com.viewnext.kotlinmvvm.core.ui.theme.KotlinMVVMTheme
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Para que el idioma sea español
+        // (En el FechaPicker sin esto se muestran las fechas en inglés)
+        val locale = Locale("es")
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        @Suppress("DEPRECATION")
+        resources.updateConfiguration(config, resources.displayMetrics)
+
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
