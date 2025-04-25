@@ -33,4 +33,5 @@
     <string name="loading">Cargando</string>
     <string name="loading_failed">Carga fallida</string>
     <string name="retry">Reintentar</string>
+    <string name="retromock">Retromock</string>
 </resources>

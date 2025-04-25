@@ -1,6 +1,7 @@
 package com.viewnext.kotlinmvvm.data_retrofit
 
 import android.content.Context
+import android.util.Log
 import co.infinum.retromock.Retromock
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.viewnext.kotlinmvvm.core.data.database.FacturaDatabase
@@ -32,8 +33,10 @@ class DefaultAppContainer(context: Context) : AppContainer {
 
     private val retrofitService: AppApiService
         get() = if(!mockActivado) {
+            Log.d("", "retrofit")
             retrofit.create(AppApiService::class.java)
         } else {
+            Log.d("", "retromock")
             retromock.create(AppApiService::class.java)
         }
 

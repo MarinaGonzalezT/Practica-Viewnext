@@ -1,5 +1,6 @@
 package com.viewnext.kotlinmvvm.core.ui
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -36,7 +37,6 @@ class FacturasViewModel(
     var facturasUiState: FacturasUiState by mutableStateOf(FacturasUiState.Loading)
         private set
 
-    private var datosCargados = false
 
     private val todasLasFacturas = MutableStateFlow<List<Factura>>(emptyList())
     private val filtroActual = MutableStateFlow(Filtros())
@@ -51,6 +51,7 @@ class FacturasViewModel(
             facturasUiState = FacturasUiState.Loading
             try {
                 if(!datosCargados) {
+                    Log.d("", "Cargando datos")
                     val response = facturasRepository.getFacturas()
                     localRepository.refreshFacturasFromNetwork(response.facturas)
                     datosCargados = true
@@ -99,6 +100,12 @@ class FacturasViewModel(
                     filtrarFacturasUseCase = container.filtrarFacturasUseCase
                 )
             }
+        }
+
+        private var datosCargados = false
+
+        fun resetearDatos(){
+            datosCargados = !datosCargados
         }
     }
 }

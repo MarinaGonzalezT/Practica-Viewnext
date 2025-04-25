@@ -3,6 +3,7 @@ package com.viewnext.kotlinmvvm.core.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,11 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -80,7 +82,7 @@ fun FacturasDeciderScreen(
     retryAction: () -> Unit
 ) {
     when(facturasUiState) {
-        is FacturasUiState.Loading -> LoadingScreen(modifier = Modifier.fillMaxSize())
+        is FacturasUiState.Loading -> LoadingScreen()
         is FacturasUiState.Succes -> {
             facturasUiState.facturas.forEach { factura ->
                 ItemFactura(factura)
@@ -185,12 +187,23 @@ fun ItemFactura(
 }
 
 @Composable
-fun LoadingScreen(modifier: Modifier = Modifier) {
-    Image(
-        modifier = modifier.size(200.dp),
-        painter = painterResource(R.drawable.loading_img),
-        contentDescription = stringResource(R.string.loading)
-    )
+fun LoadingScreen() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        CircularProgressIndicator(
+            trackColor = colorResource(R.color.gris),
+            color = colorResource(R.color.verde),
+            modifier = Modifier.width(64.dp),
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewCarga() {
+    LoadingScreen()
 }
 
 @Composable
