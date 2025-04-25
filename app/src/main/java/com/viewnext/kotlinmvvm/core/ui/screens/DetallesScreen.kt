@@ -26,40 +26,50 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.viewnext.kotlinmvvm.R
+import com.viewnext.kotlinmvvm.core.ui.DetallesViewModel
 
 @Composable
-fun DetallesContent() {
-    Column(
-        horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp)
-    ) {
-        CampoInfoDetalles(
-            titulo = stringResource(R.string.CAU),
-            valor = "ES00210000000001994LJ1FA000"
-        )
+fun DetallesContent(
+    viewModel: DetallesViewModel = viewModel(factory = DetallesViewModel.Factory)
+) {
+    val detalles = viewModel.detalles
 
-        EstadoSolicitud(
-            titulo = stringResource(R.string.estado_solicitud),
-            valor = "No hemos recibido ninguna solicitud de autoconsumo"
-        )
+    if(detalles != null) {
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)
+        ) {
+            CampoInfoDetalles(
+                titulo = stringResource(R.string.CAU),
+                valor = detalles.cau
+            )
 
-        CampoInfoDetalles(
-            titulo = stringResource(R.string.tipo_autoconsumo),
-            valor = "Con excedentes y compensación individual - Consumo"
-        )
+            EstadoSolicitud(
+                titulo = stringResource(R.string.estado_solicitud),
+                valor = detalles.estado
+            )
 
-        CampoInfoDetalles(
-            titulo = stringResource(R.string.compensacion_excedente),
-            valor = "Precio PVPC"
-        )
+            CampoInfoDetalles(
+                titulo = stringResource(R.string.tipo_autoconsumo),
+                valor = detalles.tipo
+            )
 
-        CampoInfoDetalles(
-            titulo = stringResource(R.string.potencia_instalacion),
-            valor = "5kWp"
-        )
+            CampoInfoDetalles(
+                titulo = stringResource(R.string.compensacion_excedente),
+                valor = detalles.compensacion
+            )
+
+            CampoInfoDetalles(
+                titulo = stringResource(R.string.potencia_instalacion),
+                valor = detalles.potencia
+            )
+        }
+    } else {
+        LoadingScreen()
     }
 }
 

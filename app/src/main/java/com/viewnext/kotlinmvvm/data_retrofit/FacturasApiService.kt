@@ -16,8 +16,7 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-interface AppApiService {
-
+interface FacturasApiService {
     @GET("facturas")
     @Mock
     @MockResponse(body = "facturas.json")

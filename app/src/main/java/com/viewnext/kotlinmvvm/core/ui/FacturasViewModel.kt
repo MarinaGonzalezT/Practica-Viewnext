@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.viewnext.kotlinmvvm.FacturasApplication
+import com.viewnext.kotlinmvvm.MainApplication
 import com.viewnext.kotlinmvvm.core.data.repository.RoomFacturasRepository
 import com.viewnext.kotlinmvvm.data_retrofit.FacturasRepository
 import com.viewnext.kotlinmvvm.domain.model.Factura
@@ -37,9 +37,11 @@ class FacturasViewModel(
     var facturasUiState: FacturasUiState by mutableStateOf(FacturasUiState.Loading)
         private set
 
-
     private val todasLasFacturas = MutableStateFlow<List<Factura>>(emptyList())
     private val filtroActual = MutableStateFlow(Filtros())
+
+    private var datosCargados = false
+//    private var modoAnterior: Boolean = DefaultAppContainer.isMocking()
 
     init {
         cargarFacturas()
@@ -49,6 +51,14 @@ class FacturasViewModel(
     fun cargarFacturas() {
         viewModelScope.launch {
             facturasUiState = FacturasUiState.Loading
+
+//            val modoActual = DefaultAppContainer.isMocking()
+//
+//            if(modoActual != modoAnterior) {
+//                datosCargados = false
+//                modoAnterior = modoActual
+//            }
+
             try {
                 if(!datosCargados) {
                     Log.d("", "Cargando datos")
@@ -91,7 +101,7 @@ class FacturasViewModel(
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as FacturasApplication)
+                val application = (this[APPLICATION_KEY] as MainApplication)
                 val container = application.container
 
                 FacturasViewModel(
@@ -100,12 +110,6 @@ class FacturasViewModel(
                     filtrarFacturasUseCase = container.filtrarFacturasUseCase
                 )
             }
-        }
-
-        private var datosCargados = false
-
-        fun resetearDatos(){
-            datosCargados = !datosCargados
         }
     }
 }

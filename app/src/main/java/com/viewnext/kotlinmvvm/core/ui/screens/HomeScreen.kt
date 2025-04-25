@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
-import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
 import com.viewnext.kotlinmvvm.data_retrofit.DefaultAppContainer
 
 @Composable
@@ -133,7 +132,6 @@ private fun BotonRetromock(
             .size(100.dp)
             .clickable {
                 onClick()
-                FacturasViewModel.resetearDatos()
                 val mensaje = if (DefaultAppContainer.isMocking()) "Mocks activados" else "Mocks desactivados"
                 Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
             }

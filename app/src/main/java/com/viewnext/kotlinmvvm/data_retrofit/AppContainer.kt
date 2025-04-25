@@ -15,6 +15,7 @@ import retrofit2.Retrofit
 interface AppContainer {
     val facturasRepository : FacturasRepository
     val roomFacturasRepository : RoomFacturasRepository
+    val detallesRepository : DetallesRepository
     val filtrarFacturasUseCase : FiltrarFacturasUseCase
 }
 
@@ -31,14 +32,18 @@ class DefaultAppContainer(context: Context) : AppContainer {
         .defaultBodyFactory(context.assets::open)
         .build()
 
-    private val retrofitService: AppApiService
+    private val retrofitService: FacturasApiService
         get() = if(!mockActivado) {
             Log.d("", "retrofit")
-            retrofit.create(AppApiService::class.java)
+            retrofit.create(FacturasApiService::class.java)
         } else {
             Log.d("", "retromock")
-            retromock.create(AppApiService::class.java)
+            retromock.create(FacturasApiService::class.java)
         }
+
+    private val detallesService: SmartSolarApiService
+        get() = retromock.create(SmartSolarApiService::class.java)
+
 
     private val database: FacturaDatabase = FacturaDatabase.getDatabase(context)
 
@@ -51,6 +56,9 @@ class DefaultAppContainer(context: Context) : AppContainer {
     override val roomFacturasRepository: RoomFacturasRepository by lazy {
         OfflineFacturasRepository(database.facturaDao())
     }
+
+    override val detallesRepository: DetallesRepository
+        get() = NetworkDetallesRepository(detallesService)
 
     override val filtrarFacturasUseCase: FiltrarFacturasUseCase = FiltrarFacturasUseCase()
 

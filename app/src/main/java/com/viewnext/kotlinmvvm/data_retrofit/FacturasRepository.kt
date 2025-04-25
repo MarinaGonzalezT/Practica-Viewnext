@@ -7,7 +7,7 @@ interface FacturasRepository {
 }
 
 class NetworkFacturasRepository(
-    private val appApiService: AppApiService
+    private val facturasApiService: FacturasApiService
 ) : FacturasRepository {
-    override suspend fun getFacturas(): FacturasResponse = appApiService.getFacturas()
+    override suspend fun getFacturas(): FacturasResponse = facturasApiService.getFacturas()
 }

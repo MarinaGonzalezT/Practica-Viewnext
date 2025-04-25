@@ -144,3 +144,5 @@ fun PreviewTopBar() {
 fun PreviewPantallaSS() {
     PantallaSmartSolar(navController = rememberNavController())
 }
+
+//val detallesViewModel : DetallesViewModel = viewModel(factory = DetallesViewModel.Factory)
