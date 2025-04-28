@@ -39,7 +39,10 @@ import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.data_retrofit.DefaultAppContainer
 
 @Composable
-fun PantallaInicio(navController: NavController) {
+fun PantallaInicio(
+    navController: NavController,
+    onClick: () -> Unit
+) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Surface(
@@ -81,7 +84,7 @@ fun PantallaInicio(navController: NavController) {
         }
 
         BotonRetromock(
-            onClick = { DefaultAppContainer.alternarMock() },
+            onClick = { onClick() },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
@@ -169,5 +172,8 @@ fun PreviewBotonRetromock() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
-    PantallaInicio(navController = rememberNavController())
+    PantallaInicio(
+        navController = rememberNavController(),
+        onClick = {}
+    )
 }

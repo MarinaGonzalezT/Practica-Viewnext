@@ -1,9 +1,6 @@
 package com.viewnext.kotlinmvvm.core.ui
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -17,7 +14,7 @@ import com.viewnext.kotlinmvvm.domain.model.Factura
 import com.viewnext.kotlinmvvm.domain.model.Filtros
 import com.viewnext.kotlinmvvm.domain.usecases.FiltrarFacturasUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
@@ -34,68 +31,51 @@ class FacturasViewModel(
     private val filtrarFacturasUseCase: FiltrarFacturasUseCase
 ) : ViewModel() {
 
-    var facturasUiState: FacturasUiState by mutableStateOf(FacturasUiState.Loading)
-        private set
+    private val _facturasUiState = MutableStateFlow<FacturasUiState>(FacturasUiState.Loading)
+    val facturasUiState: StateFlow<FacturasUiState> = _facturasUiState
 
-    private val todasLasFacturas = MutableStateFlow<List<Factura>>(emptyList())
-    private val filtroActual = MutableStateFlow(Filtros())
-
-    private var datosCargados = false
-//    private var modoAnterior: Boolean = DefaultAppContainer.isMocking()
+    private var filtrosActivos: Filtros = Filtros()
 
     init {
+        Log.d("", "Creando viewmodel")
         cargarFacturas()
-        observarDatosLocales()
     }
 
     fun cargarFacturas() {
         viewModelScope.launch {
-            facturasUiState = FacturasUiState.Loading
-
-//            val modoActual = DefaultAppContainer.isMocking()
-//
-//            if(modoActual != modoAnterior) {
-//                datosCargados = false
-//                modoAnterior = modoActual
-//            }
+            _facturasUiState.value = FacturasUiState.Loading
 
             try {
-                if(!datosCargados) {
-                    Log.d("", "Cargando datos")
-                    val response = facturasRepository.getFacturas()
-                    localRepository.refreshFacturasFromNetwork(response.facturas)
-                    datosCargados = true
+                Log.d("", "Cargando datos")
+                val response = facturasRepository.getFacturas()
+                localRepository.refreshFacturasFromNetwork(response.facturas)
+                localRepository.getAllFacturasStream().collect { facturas ->
+                    val facturasFiltradas = aplicarFiltrosInterno(facturas)
+                    _facturasUiState.value = FacturasUiState.Succes(facturasFiltradas)
                 }
             } catch(e: IOException) {
-                facturasUiState = FacturasUiState.Error
+                _facturasUiState.value = FacturasUiState.Error
             } catch (e: HttpException) {
-                facturasUiState = FacturasUiState.Error
-            }
-        }
-    }
-
-    fun observarDatosLocales() {
-        viewModelScope.launch {
-            combine(todasLasFacturas, filtroActual) { facturas, filtro ->
-                filtrarFacturasUseCase(facturas, filtro)
-            }.collect { facturasFiltradas ->
-                facturasUiState = FacturasUiState.Succes(facturasFiltradas)
-            }
-        }
-
-        viewModelScope.launch {
-            localRepository.getAllFacturasStream().collect {
-                todasLasFacturas.value = it
+                _facturasUiState.value = FacturasUiState.Error
             }
         }
     }
 
     fun aplicarFiltros(filtros: Filtros) {
-        filtroActual.value = filtros
+        filtrosActivos = filtros
+        viewModelScope.launch {
+            localRepository.getAllFacturasStream()
+                .collect { facturas ->
+                    val facturasFiltradas = aplicarFiltrosInterno(facturas)
+                    _facturasUiState.value = FacturasUiState.Succes(facturasFiltradas)
+                }
+        }
     }
 
-    fun obtenerFiltrosActuales(): Filtros {
-        return filtroActual.value
+    fun obtenerFiltrosActuales(): Filtros = filtrosActivos
+
+    private fun aplicarFiltrosInterno(facturas: List<Factura>): List<Factura> {
+        return filtrarFacturasUseCase.invoke(facturas, filtrosActivos)
     }
 
     companion object {

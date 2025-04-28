@@ -1,5 +1,6 @@
 package com.viewnext.kotlinmvvm.core.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,19 +47,27 @@ import com.viewnext.kotlinmvvm.domain.model.Filtros
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+@SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
 fun PantallaFiltros(
-    navController: NavController,
-    minImporte: Float,
-    maxImporte: Float,
-    viewModel: FiltrosViewModel
+    navController: NavController
 ) {
-    val filtros by viewModel.filtros.collectAsState()
+    val facturasEntry = remember { navController.getBackStackEntry("Facturas") }
+    val facturasViewModel = viewModel<FacturasViewModel>(
+            facturasEntry,
+            factory = FacturasViewModel.Factory
+    )
+    val filtroViewModel = viewModel<FiltrosViewModel>(
+        factory = FiltrosViewModel.provideFactory(facturasViewModel)
+    )
+    val filtros by filtroViewModel.filtros.collectAsState()
+
+    val minImporte = filtros.importeMin
+    val maxImporte = filtros.importeMax
+    var importe by remember { mutableStateOf(minImporte..maxImporte) }
 
     var fechaDesde = filtros.fechaDesde
     var fechaHasta = filtros.fechaHasta
-
-    var importe by remember { mutableStateOf(minImporte..maxImporte) }
 
     val estados = listOf("Pagada", "Anulada", "Cuota Fija", "Pendiente de pago", "Plan de pago")
     val estadosSeleccionados = remember {
@@ -87,10 +96,10 @@ fun PantallaFiltros(
             SeccionFechas(
                 fechaDesde = fechaDesde,
                 fechaHasta = fechaHasta,
-                onFechaDesdeChange = { viewModel.actualizarFechaDesde(it) },
-                onFechaHastaChange = { viewModel.actualizarFechaHasta(it) }
+                onFechaDesdeChange = { filtroViewModel.actualizarFechaDesde(it) },
+                onFechaHastaChange = { filtroViewModel.actualizarFechaHasta(it) }
             )
-            
+
             SeccionImporte(
                 importe = importe,
                 onImporteChange = { importe = it },
@@ -102,7 +111,7 @@ fun PantallaFiltros(
 
             SeccionBotones(
                 onApply = {
-                    viewModel.actualizarFiltros(
+                    filtroViewModel.actualizarFiltros(
                         Filtros(
                             fechaDesde = fechaDesde,
                             fechaHasta = fechaHasta,
@@ -114,7 +123,7 @@ fun PantallaFiltros(
                     navController.popBackStack("Facturas", inclusive = false)
                 },
                 onDelete = {
-                    viewModel.eliminarFiltros()
+                    filtroViewModel.eliminarFiltros()
                     navController.popBackStack("Facturas", inclusive = false)
                 }
             )
@@ -128,7 +137,7 @@ fun FiltrosTopBar(
     onClose: () -> Unit
 ) {
     TopAppBar(
-        title = {  },
+        title = { },
         actions = {
             IconButton(onClick = onClose) {
                 Icon(
@@ -193,10 +202,10 @@ fun SeccionFechas(
     }
     HorizontalDivider(modifier = Modifier.padding(horizontal = 12.dp))
 
-    if(mostrandoPickerPara != null) {
+    if (mostrandoPickerPara != null) {
         FechaPicker(
             onDateSelected = { millis ->
-                when(mostrandoPickerPara) {
+                when (mostrandoPickerPara) {
                     "desde" -> onFechaDesdeChange(millis)
                     "hasta" -> onFechaHastaChange(millis)
                 }
@@ -349,11 +358,7 @@ fun SeccionBotones(
 @Preview(showBackground = true)
 @Composable
 fun PreviewFiltros() {
-    val viewModel: FiltrosViewModel = viewModel(factory = FacturasViewModel.Factory)
     PantallaFiltros(
-        navController = rememberNavController(),
-        minImporte = 1f,
-        maxImporte = 300f,
-        viewModel = viewModel
+        navController = rememberNavController()
     )
 }

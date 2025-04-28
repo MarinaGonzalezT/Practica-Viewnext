@@ -52,7 +52,6 @@ class DefaultAppContainer(context: Context) : AppContainer {
             _repositorio = it
         }
 
-
     override val roomFacturasRepository: RoomFacturasRepository by lazy {
         OfflineFacturasRepository(database.facturaDao())
     }

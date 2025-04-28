@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
@@ -45,9 +47,10 @@ import java.util.Locale
 
 @Composable
 fun PantallaFacturas(
-    navController: NavController,
-    viewModel: FacturasViewModel
+    navController: NavController
 ) {
+    val viewModel : FacturasViewModel = viewModel(factory = FacturasViewModel.Factory)
+    val facturasUiState by viewModel.facturasUiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -66,7 +69,7 @@ fun PantallaFacturas(
             Titulo(stringResource(R.string.facturas))
             Spacer(modifier = Modifier.height(10.dp))
             FacturasDeciderScreen(
-                facturasUiState = viewModel.facturasUiState,
+                facturasUiState = facturasUiState,
                 retryAction = viewModel::cargarFacturas
             )
         }

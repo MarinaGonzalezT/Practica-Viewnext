@@ -17,6 +17,7 @@ import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFiltros
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaInicio
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaSmartSolar
 import com.viewnext.kotlinmvvm.core.ui.theme.KotlinMVVMTheme
+import com.viewnext.kotlinmvvm.data_retrofit.DefaultAppContainer
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,28 +26,23 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            val facturasviewModel : FacturasViewModel = viewModel(factory = FacturasViewModel.Factory)
-            val filtrosViewModel : FiltrosViewModel = viewModel(factory = FiltrosViewModel.provideFactory(facturasviewModel))
-
-            val estadoFiltro = filtrosViewModel.filtros.collectAsState()
 
             KotlinMVVMTheme {
                 NavHost(navController = navController, startDestination = "Inicio") {
                     composable("Inicio") {
-                        PantallaInicio(navController = navController)
+                        PantallaInicio(
+                            navController = navController,
+                            onClick = { DefaultAppContainer.alternarMock() }
+                        )
                     }
                     composable("Facturas") {
                         PantallaFacturas(
-                            navController = navController,
-                            viewModel = facturasviewModel
+                            navController = navController
                         )
                     }
                     composable("Filtros") {
                         PantallaFiltros(
-                            navController = navController,
-                            minImporte = estadoFiltro.value.importeMin,
-                            maxImporte = estadoFiltro.value.importeMax,
-                            viewModel = filtrosViewModel
+                            navController = navController
                         )
                     }
                     composable("Smart_Solar") {
