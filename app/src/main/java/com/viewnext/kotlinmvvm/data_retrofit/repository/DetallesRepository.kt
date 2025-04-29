@@ -1,5 +1,6 @@
-package com.viewnext.kotlinmvvm.data_retrofit
+package com.viewnext.kotlinmvvm.data_retrofit.repository
 
+import com.viewnext.kotlinmvvm.data_retrofit.apiService.SmartSolarApiService
 import com.viewnext.kotlinmvvm.domain.model.Detalles
 
 interface DetallesRepository {

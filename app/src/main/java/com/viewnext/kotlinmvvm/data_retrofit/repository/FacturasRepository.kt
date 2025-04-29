@@ -1,5 +1,6 @@
-package com.viewnext.kotlinmvvm.data_retrofit
+package com.viewnext.kotlinmvvm.data_retrofit.repository
 
+import com.viewnext.kotlinmvvm.data_retrofit.apiService.FacturasApiService
 import com.viewnext.kotlinmvvm.domain.FacturasResponse
 
 interface FacturasRepository {

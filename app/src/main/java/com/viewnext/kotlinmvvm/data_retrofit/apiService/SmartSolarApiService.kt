@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.data_retrofit
+package com.viewnext.kotlinmvvm.data_retrofit.apiService
 
 import co.infinum.retromock.meta.Mock
 import co.infinum.retromock.meta.MockResponse

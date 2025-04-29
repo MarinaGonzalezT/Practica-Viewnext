@@ -4,14 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.viewnext.kotlinmvvm.core.ui.DetallesViewModel
 import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
-import com.viewnext.kotlinmvvm.core.ui.FiltrosViewModel
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFacturas
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFiltros
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaInicio

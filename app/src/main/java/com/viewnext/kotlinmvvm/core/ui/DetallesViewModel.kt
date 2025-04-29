@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.viewnext.kotlinmvvm.MainApplication
-import com.viewnext.kotlinmvvm.data_retrofit.DetallesRepository
+import com.viewnext.kotlinmvvm.data_retrofit.repository.DetallesRepository
 import com.viewnext.kotlinmvvm.domain.model.Detalles
 import kotlinx.coroutines.launch
 

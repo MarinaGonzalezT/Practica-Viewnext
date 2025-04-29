@@ -9,7 +9,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.viewnext.kotlinmvvm.MainApplication
 import com.viewnext.kotlinmvvm.core.data.repository.RoomFacturasRepository
-import com.viewnext.kotlinmvvm.data_retrofit.FacturasRepository
+import com.viewnext.kotlinmvvm.data_retrofit.repository.FacturasRepository
 import com.viewnext.kotlinmvvm.domain.model.Factura
 import com.viewnext.kotlinmvvm.domain.model.Filtros
 import com.viewnext.kotlinmvvm.domain.usecases.FiltrarFacturasUseCase

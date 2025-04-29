@@ -7,6 +7,12 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.viewnext.kotlinmvvm.core.data.database.FacturaDatabase
 import com.viewnext.kotlinmvvm.core.data.repository.OfflineFacturasRepository
 import com.viewnext.kotlinmvvm.core.data.repository.RoomFacturasRepository
+import com.viewnext.kotlinmvvm.data_retrofit.apiService.FacturasApiService
+import com.viewnext.kotlinmvvm.data_retrofit.apiService.SmartSolarApiService
+import com.viewnext.kotlinmvvm.data_retrofit.repository.DetallesRepository
+import com.viewnext.kotlinmvvm.data_retrofit.repository.FacturasRepository
+import com.viewnext.kotlinmvvm.data_retrofit.repository.NetworkDetallesRepository
+import com.viewnext.kotlinmvvm.data_retrofit.repository.NetworkFacturasRepository
 import com.viewnext.kotlinmvvm.domain.usecases.FiltrarFacturasUseCase
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
