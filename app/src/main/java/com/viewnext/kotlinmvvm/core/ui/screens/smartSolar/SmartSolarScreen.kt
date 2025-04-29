@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.core.ui.screens
+package com.viewnext.kotlinmvvm.core.ui.screens.smartSolar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
+import com.viewnext.kotlinmvvm.core.ui.screens.Titulo
 
 @Composable
 fun PantallaSmartSolar(

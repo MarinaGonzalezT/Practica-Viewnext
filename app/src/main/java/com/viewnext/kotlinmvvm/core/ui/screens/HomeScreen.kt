@@ -35,8 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.viewnext.kotlinmvvm.R
+import com.viewnext.kotlinmvvm.BuildConfig
 import com.viewnext.kotlinmvvm.data_retrofit.DefaultAppContainer
+import com.viewnext.kotlinmvvm.R
 
 @Composable
 fun PantallaInicio(
@@ -83,12 +84,14 @@ fun PantallaInicio(
             }
         }
 
-        BotonRetromock(
-            onClick = { onClick() },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
-        )
+        if(BuildConfig.DEBUG) {
+            BotonRetromock(
+                onClick = { onClick() },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+            )
+        }
     }
 }
 

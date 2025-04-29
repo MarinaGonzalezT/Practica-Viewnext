@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.core.ui.screens
+package com.viewnext.kotlinmvvm.core.ui.screens.smartSolar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.viewnext.kotlinmvvm.R
+import com.viewnext.kotlinmvvm.core.ui.screens.ImagenesSmartSolar
 
 @Composable
 fun EnergiaContent() {

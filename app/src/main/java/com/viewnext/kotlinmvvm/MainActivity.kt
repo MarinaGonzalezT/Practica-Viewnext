@@ -8,10 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
-import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFacturas
-import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFiltros
+import com.viewnext.kotlinmvvm.core.ui.screens.facturas.PantallaFacturas
+import com.viewnext.kotlinmvvm.core.ui.screens.facturas.PantallaFiltros
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaInicio
-import com.viewnext.kotlinmvvm.core.ui.screens.PantallaSmartSolar
+import com.viewnext.kotlinmvvm.core.ui.screens.smartSolar.PantallaSmartSolar
 import com.viewnext.kotlinmvvm.core.ui.theme.KotlinMVVMTheme
 import com.viewnext.kotlinmvvm.data_retrofit.DefaultAppContainer
 

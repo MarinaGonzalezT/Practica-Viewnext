@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.core.ui.screens
+package com.viewnext.kotlinmvvm.core.ui.screens.facturas
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +38,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
+import com.viewnext.kotlinmvvm.core.ui.screens.ErrorScreen
+import com.viewnext.kotlinmvvm.core.ui.screens.LoadingScreen
+import com.viewnext.kotlinmvvm.core.ui.screens.PopUps
+import com.viewnext.kotlinmvvm.core.ui.screens.Titulo
 import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
 import com.viewnext.kotlinmvvm.domain.model.Factura
 import java.text.SimpleDateFormat

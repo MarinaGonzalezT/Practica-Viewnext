@@ -1,4 +1,4 @@
-package com.viewnext.kotlinmvvm.core.ui.screens
+package com.viewnext.kotlinmvvm.core.ui.screens.facturas
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -41,6 +41,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
+import com.viewnext.kotlinmvvm.core.ui.screens.CuadroFechas
+import com.viewnext.kotlinmvvm.core.ui.screens.FechaPicker
+import com.viewnext.kotlinmvvm.core.ui.screens.Titulo
 import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
 import com.viewnext.kotlinmvvm.core.ui.viewmodels.FiltrosViewModel
 import com.viewnext.kotlinmvvm.domain.model.Filtros
