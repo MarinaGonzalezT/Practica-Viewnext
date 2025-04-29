@@ -51,9 +51,9 @@ class FacturasViewModel(
                     _facturasUiState.value = FacturasUiState.Succes(facturasFiltradas)
                 }
             } catch(e: IOException) {
-                _facturasUiState.value = FacturasUiState.Error
+                _facturasUiState.value = FacturasUiState.Error("Error de red: ${e.localizedMessage}")
             } catch (e: HttpException) {
-                _facturasUiState.value = FacturasUiState.Error
+                _facturasUiState.value = FacturasUiState.Error("Error del servidor: ${e.message}")
             }
         }
     }

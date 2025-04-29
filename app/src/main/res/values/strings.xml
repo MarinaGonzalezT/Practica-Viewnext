@@ -30,8 +30,6 @@
     <string name="informacion">Información</string>
     <string name="texto_popup_facturas">Esta funcionalidad aún no está disponible</string>
     <string name="cerrar">Cerrar</string>
-    <string name="loading">Cargando</string>
-    <string name="loading_failed">Carga fallida</string>
     <string name="retry">Reintentar</string>
     <string name="retromock">Retromock</string>
 </resources>
