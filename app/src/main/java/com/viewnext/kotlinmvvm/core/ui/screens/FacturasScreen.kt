@@ -40,7 +40,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
-import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
+import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
 import com.viewnext.kotlinmvvm.domain.model.Factura
 import java.text.SimpleDateFormat
 import java.util.Locale

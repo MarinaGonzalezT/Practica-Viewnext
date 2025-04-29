@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
+import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFacturas
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaFiltros
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaInicio

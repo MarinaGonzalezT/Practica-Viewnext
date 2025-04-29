@@ -41,8 +41,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.R
-import com.viewnext.kotlinmvvm.core.ui.FacturasViewModel
-import com.viewnext.kotlinmvvm.core.ui.FiltrosViewModel
+import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
+import com.viewnext.kotlinmvvm.core.ui.viewmodels.FiltrosViewModel
 import com.viewnext.kotlinmvvm.domain.model.Filtros
 import java.text.SimpleDateFormat
 import java.util.Locale

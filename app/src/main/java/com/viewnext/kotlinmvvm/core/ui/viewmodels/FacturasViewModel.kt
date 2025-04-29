@@ -1,14 +1,14 @@
-package com.viewnext.kotlinmvvm.core.ui
+package com.viewnext.kotlinmvvm.core.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.viewnext.kotlinmvvm.MainApplication
 import com.viewnext.kotlinmvvm.core.data.repository.RoomFacturasRepository
+import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
 import com.viewnext.kotlinmvvm.data_retrofit.repository.FacturasRepository
 import com.viewnext.kotlinmvvm.domain.model.Factura
 import com.viewnext.kotlinmvvm.domain.model.Filtros
@@ -18,12 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
-
-sealed interface FacturasUiState {
-    data class Succes(val facturas: List<Factura>) : FacturasUiState
-    object Error : FacturasUiState
-    object Loading : FacturasUiState
-}
 
 class FacturasViewModel(
     private val facturasRepository: FacturasRepository,
@@ -84,7 +78,8 @@ class FacturasViewModel(
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as MainApplication)
+                val application =
+                    (this[ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY] as MainApplication)
                 val container = application.container
 
                 FacturasViewModel(
