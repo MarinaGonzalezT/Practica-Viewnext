@@ -57,10 +57,10 @@ fun PantallaFiltros(
             facturasEntry,
             factory = FacturasViewModel.Factory
     )
-    val filtroViewModel = viewModel<FiltrosViewModel>(
+    val filtrosViewModel = viewModel<FiltrosViewModel>(
         factory = FiltrosViewModel.provideFactory(facturasViewModel)
     )
-    val filtros by filtroViewModel.filtros.collectAsState()
+    val filtros by filtrosViewModel.filtros.collectAsState()
 
     val minImporte = filtros.importeMin
     val maxImporte = filtros.importeMax
@@ -96,8 +96,8 @@ fun PantallaFiltros(
             SeccionFechas(
                 fechaDesde = fechaDesde,
                 fechaHasta = fechaHasta,
-                onFechaDesdeChange = { filtroViewModel.actualizarFechaDesde(it) },
-                onFechaHastaChange = { filtroViewModel.actualizarFechaHasta(it) }
+                onFechaDesdeChange = { filtrosViewModel.actualizarFechaDesde(it) },
+                onFechaHastaChange = { filtrosViewModel.actualizarFechaHasta(it) }
             )
 
             SeccionImporte(
@@ -111,7 +111,7 @@ fun PantallaFiltros(
 
             SeccionBotones(
                 onApply = {
-                    filtroViewModel.actualizarFiltros(
+                    filtrosViewModel.actualizarFiltros(
                         Filtros(
                             fechaDesde = fechaDesde,
                             fechaHasta = fechaHasta,
@@ -123,7 +123,7 @@ fun PantallaFiltros(
                     navController.popBackStack("Facturas", inclusive = false)
                 },
                 onDelete = {
-                    filtroViewModel.eliminarFiltros()
+                    filtrosViewModel.eliminarFiltros()
                     navController.popBackStack("Facturas", inclusive = false)
                 }
             )

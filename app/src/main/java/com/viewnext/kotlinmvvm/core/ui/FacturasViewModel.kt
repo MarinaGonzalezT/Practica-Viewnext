@@ -46,9 +46,12 @@ class FacturasViewModel(
             _facturasUiState.value = FacturasUiState.Loading
 
             try {
-                Log.d("", "Cargando datos")
-                val response = facturasRepository.getFacturas()
-                localRepository.refreshFacturasFromNetwork(response.facturas)
+                if(!datosCargados) {
+                    Log.d("", "Cargando datos")
+                    val response = facturasRepository.getFacturas()
+                    localRepository.refreshFacturasFromNetwork(response.facturas)
+                    datosCargados = true
+                }
                 localRepository.getAllFacturasStream().collect { facturas ->
                     val facturasFiltradas = aplicarFiltrosInterno(facturas)
                     _facturasUiState.value = FacturasUiState.Succes(facturasFiltradas)
@@ -91,5 +94,7 @@ class FacturasViewModel(
                 )
             }
         }
+
+        var datosCargados = false
     }
 }

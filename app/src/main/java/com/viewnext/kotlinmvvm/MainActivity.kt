@@ -32,7 +32,10 @@ class MainActivity : ComponentActivity() {
                     composable("Inicio") {
                         PantallaInicio(
                             navController = navController,
-                            onClick = { DefaultAppContainer.alternarMock() }
+                            onClick = {
+                                DefaultAppContainer.alternarMock()
+                                FacturasViewModel.datosCargados = false
+                            }
                         )
                     }
                     composable("Facturas") {
