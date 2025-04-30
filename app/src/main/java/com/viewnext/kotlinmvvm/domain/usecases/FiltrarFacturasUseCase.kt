@@ -19,9 +19,9 @@ class FiltrarFacturasUseCase {
                 null
             }
 
-            val cumpleFecha =
-                (filtro.fechaDesde == null || (fechaFactura ?: Long.MAX_VALUE) >= filtro.fechaDesde) &&
-                (filtro.fechaHasta == null || (fechaFactura ?: Long.MIN_VALUE) <= filtro.fechaHasta)
+            val cumpleFecha = (fechaFactura != null) &&
+                (filtro.fechaDesde == null || fechaFactura >= filtro.fechaDesde) &&
+                (filtro.fechaHasta == null || fechaFactura <= filtro.fechaHasta)
 
             val cumpleImporte =
                 (factura.importe >= filtro.importeMin) &&

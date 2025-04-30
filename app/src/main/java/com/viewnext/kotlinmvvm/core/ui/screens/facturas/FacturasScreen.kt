@@ -226,7 +226,7 @@ fun PreviewItemFactura1() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewItemFactura2() {
-    val facturaPrueba2 = Factura(1, "Pago realizado", 56.38, "22 Jun 2020")
+    val facturaPrueba2 = Factura(1, "Pagada", 56.38, "22 Jun 2020")
     ItemFactura(facturaPrueba2)
 }
 
