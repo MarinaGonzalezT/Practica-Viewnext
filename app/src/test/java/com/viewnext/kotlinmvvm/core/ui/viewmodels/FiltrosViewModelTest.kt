@@ -9,6 +9,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.`when`
@@ -74,5 +75,14 @@ class FiltrosViewModelTest {
         filtrosViewModel.actualizarFechaHasta(nuevaFecha)
         assertEquals(nuevaFecha, filtrosViewModel.filtros.value.fechaHasta)
         assertEquals(anterior.fechaDesde, filtrosViewModel.filtros.value.fechaDesde)
+    }
+
+    @Test
+    fun `companion provideFactory crea correctamente el viewModel`() {
+        val factory = FiltrosViewModel.provideFactory(facturasViewModel)
+
+        val viewModel = factory.create(FiltrosViewModel::class.java)
+
+        assertNotNull(viewModel)
     }
 }

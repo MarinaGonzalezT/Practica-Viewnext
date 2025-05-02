@@ -81,7 +81,7 @@ class FacturasViewModelTest {
 
     @Test
     fun `cuando getFacturas lanza excepcion se emite Error`() = runTest {
-        `when`(facturasRepository.getFacturas()).thenThrow(RuntimeException("Error de red"))
+        `when`(facturasRepository.getFacturas()).thenThrow(RuntimeException())
 
         FacturasViewModel.datosCargados = false
         viewModel.cargarFacturas()
