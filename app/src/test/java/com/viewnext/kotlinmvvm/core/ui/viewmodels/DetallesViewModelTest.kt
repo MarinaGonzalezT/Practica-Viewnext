@@ -26,7 +26,7 @@ class DetallesViewModelTest {
     private lateinit var repository: DetallesRepository
     private lateinit var viewModel: DetallesViewModel
 
-    private val mockDetalles = Detalles(
+    private val detalles = Detalles(
         cau = "ES00210000000001994LJ1FA000",
         estado = "No hemos recibido ninguna solicitud de autoconsumo",
         tipo = "Con excedentes y compensación individual - Consumo",
@@ -48,12 +48,12 @@ class DetallesViewModelTest {
 
     @Test
     fun `cuando getDetalles va bien se actualiza el estado correctamente`() = runTest {
-        `when`(repository.getDetalles()).thenReturn(mockDetalles)
+        `when`(repository.getDetalles()).thenReturn(detalles)
 
         viewModel = DetallesViewModel(repository)
         advanceUntilIdle()
 
-        assertEquals(mockDetalles, viewModel.detalles)
+        assertEquals(detalles, viewModel.detalles)
         assertFalse(viewModel.error)
     }
 
