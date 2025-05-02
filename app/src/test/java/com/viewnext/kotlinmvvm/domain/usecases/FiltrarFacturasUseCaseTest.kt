@@ -19,7 +19,7 @@ class FiltrarFacturasUseCaseTest {
     )
 
     @Test
-    fun filtrarFacturasPorEstado() {
+    fun `filtra Facturas por estado correctamente`() {
         val filtros = Filtros(estados = listOf("Pagada"))
 
         val resultado = usecase(facturas, filtros)
@@ -30,7 +30,7 @@ class FiltrarFacturasUseCaseTest {
     }
 
     @Test
-    fun filtrarFacturasPorImporte() {
+    fun `filtra Facturas por importe correctamente`() {
         val filtro = Filtros(importeMin = 10f, importeMax = 30f)
 
         val resultado = usecase(facturas, filtro)
@@ -41,7 +41,7 @@ class FiltrarFacturasUseCaseTest {
     }
 
     @Test
-    fun filtrarFacturasPorFecha() {
+    fun `filtra Facturas por fecha correctamente`() {
         val formato = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val desde = formato.parse("01/02/2019")!!.time
         val hasta = formato.parse("01/03/2019")!!.time
@@ -56,7 +56,7 @@ class FiltrarFacturasUseCaseTest {
     }
 
     @Test
-    fun filtrarFacturasConFechaInvalida() {
+    fun `al filtrar descarta las Facturas con fechas invalidas`() {
         val facturasInvalidas = listOf(
             Factura(0, "Pendiente de pago", 56.38, "07/02/2019"),
             Factura(1, "Pagada", 51.2435, "05/02/2019"),
@@ -71,7 +71,7 @@ class FiltrarFacturasUseCaseTest {
     }
 
     @Test
-    fun sinFiltroDevuelveTodas() {
+    fun `si no hay filtro devuelve todas las Facturas`() {
         val filtro = Filtros()
 
         val resultado = usecase(facturas, filtro)

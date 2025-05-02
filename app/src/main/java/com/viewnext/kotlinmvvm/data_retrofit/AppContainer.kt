@@ -40,10 +40,10 @@ class DefaultAppContainer(context: Context) : AppContainer {
 
     private val retrofitService: FacturasApiService
         get() = if(!mockActivado) {
-            Log.d("", "retrofit")
+            //Log.d("", "retrofit")
             retrofit.create(FacturasApiService::class.java)
         } else {
-            Log.d("", "retromock")
+            //Log.d("", "retromock")
             retromock.create(FacturasApiService::class.java)
         }
 

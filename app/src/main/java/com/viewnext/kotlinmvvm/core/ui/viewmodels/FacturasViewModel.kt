@@ -1,6 +1,5 @@
 package com.viewnext.kotlinmvvm.core.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -16,8 +15,6 @@ import com.viewnext.kotlinmvvm.domain.usecases.FiltrarFacturasUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import okio.IOException
-import retrofit2.HttpException
 
 class FacturasViewModel(
     private val facturasRepository: FacturasRepository,
@@ -31,17 +28,17 @@ class FacturasViewModel(
     private var filtrosActivos: Filtros = Filtros()
 
     init {
-        Log.d("", "Creando viewmodel")
+        //Log.d("", "Creando viewmodel")
         cargarFacturas()
     }
 
     fun cargarFacturas() {
-        viewModelScope.launch {
-            _facturasUiState.value = FacturasUiState.Loading
+        _facturasUiState.value = FacturasUiState.Loading
 
+        viewModelScope.launch {
             try {
                 if(!datosCargados) {
-                    Log.d("", "Cargando datos")
+                    //Log.d("", "Cargando datos")
                     val response = facturasRepository.getFacturas()
                     localRepository.refreshFacturasFromNetwork(response.facturas)
                     datosCargados = true
@@ -50,10 +47,8 @@ class FacturasViewModel(
                     val facturasFiltradas = aplicarFiltrosInterno(facturas)
                     _facturasUiState.value = FacturasUiState.Succes(facturasFiltradas)
                 }
-            } catch(e: IOException) {
-                _facturasUiState.value = FacturasUiState.Error("Error de red: ${e.localizedMessage}")
-            } catch (e: HttpException) {
-                _facturasUiState.value = FacturasUiState.Error("Error del servidor: ${e.message}")
+            } catch(e: Exception) {
+                _facturasUiState.value = FacturasUiState.Error("Error al cargar: ${e.localizedMessage}")
             }
         }
     }
