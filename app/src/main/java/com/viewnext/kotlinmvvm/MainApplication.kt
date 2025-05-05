@@ -1,14 +1,7 @@
 package com.viewnext.kotlinmvvm
 
 import android.app.Application
-import com.viewnext.kotlinmvvm.data_retrofit.AppContainer
-import com.viewnext.kotlinmvvm.data_retrofit.DefaultAppContainer
+import dagger.hilt.android.HiltAndroidApp
 
-class MainApplication : Application() {
-    lateinit var container: AppContainer
-
-    override fun onCreate() {
-        super.onCreate()
-        container = DefaultAppContainer(applicationContext)
-    }
-}
+@HiltAndroidApp
+class MainApplication : Application()

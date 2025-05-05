@@ -2,8 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.application)
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
-    id("com.google.devtools.ksp") version "2.1.0-1.0.29"
+    id("kotlin-kapt")
 }
 
 android {
@@ -57,7 +58,7 @@ dependencies {
 
     // Dependencias de Room
     implementation("androidx.room:room-runtime:2.7.0")
-    ksp("androidx.room:room-compiler:2.7.0")
+    kapt("androidx.room:room-compiler:2.7.0")
     implementation("androidx.room:room-ktx:2.7.0")
 
     // Dependencias de retrofit
@@ -70,6 +71,11 @@ dependencies {
 
     // Dependencias de retromock
     implementation("co.infinum:retromock:1.1.1")
+
+    // Dependencias de Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
 
     // Dependencias para tests
     testImplementation("org.mockito:mockito-core:5.5.0")

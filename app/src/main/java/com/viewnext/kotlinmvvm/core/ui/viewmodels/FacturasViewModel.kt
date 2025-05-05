@@ -1,22 +1,21 @@
 package com.viewnext.kotlinmvvm.core.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.viewnext.kotlinmvvm.MainApplication
 import com.viewnext.kotlinmvvm.core.data.repository.RoomFacturasRepository
 import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
 import com.viewnext.kotlinmvvm.data_retrofit.repository.FacturasRepository
 import com.viewnext.kotlinmvvm.domain.model.Factura
 import com.viewnext.kotlinmvvm.domain.model.Filtros
 import com.viewnext.kotlinmvvm.domain.usecases.FiltrarFacturasUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FacturasViewModel(
+@HiltViewModel
+class FacturasViewModel @Inject constructor(
     private val facturasRepository: FacturasRepository,
     private val localRepository: RoomFacturasRepository,
     private val filtrarFacturasUseCase: FiltrarFacturasUseCase
@@ -71,20 +70,6 @@ class FacturasViewModel(
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY] as MainApplication)
-                val container = application.container
-
-                FacturasViewModel(
-                    facturasRepository = container.facturasRepository,
-                    localRepository = container.roomFacturasRepository,
-                    filtrarFacturasUseCase = container.filtrarFacturasUseCase
-                )
-            }
-        }
-
         var datosCargados = false
     }
 }

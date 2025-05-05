@@ -13,8 +13,10 @@ import com.viewnext.kotlinmvvm.core.ui.screens.facturas.PantallaFiltros
 import com.viewnext.kotlinmvvm.core.ui.screens.PantallaInicio
 import com.viewnext.kotlinmvvm.core.ui.screens.smartSolar.PantallaSmartSolar
 import com.viewnext.kotlinmvvm.core.ui.theme.KotlinMVVMTheme
-import com.viewnext.kotlinmvvm.data_retrofit.DefaultAppContainer
+import com.viewnext.kotlinmvvm.data_retrofit.di.MockProvider
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,7 @@ class MainActivity : ComponentActivity() {
                         PantallaInicio(
                             navController = navController,
                             onClick = {
-                                DefaultAppContainer.alternarMock()
+                                MockProvider.alternarMock()
                                 FacturasViewModel.datosCargados = false
                             }
                         )

@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.viewnext.kotlinmvvm.BuildConfig
-import com.viewnext.kotlinmvvm.data_retrofit.DefaultAppContainer
 import com.viewnext.kotlinmvvm.R
+import com.viewnext.kotlinmvvm.data_retrofit.di.MockProvider
 
 @Composable
 fun PantallaInicio(
@@ -138,7 +138,7 @@ private fun BotonRetromock(
             .size(100.dp)
             .clickable {
                 onClick()
-                val mensaje = if (DefaultAppContainer.isMocking()) "Mocks activados" else "Mocks desactivados"
+                val mensaje = if (MockProvider.isMocking()) "Mocks activados" else "Mocks desactivados"
                 Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
             }
     ) {
