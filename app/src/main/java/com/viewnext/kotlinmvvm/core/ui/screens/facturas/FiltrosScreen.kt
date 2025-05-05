@@ -1,6 +1,7 @@
 package com.viewnext.kotlinmvvm.core.ui.screens.facturas
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
@@ -32,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,6 +78,15 @@ fun PantallaFiltros(
             estados.forEach { estado ->
                 put(estado, filtros.estados.contains(estado))
             }
+        }
+    }
+
+    val context = LocalContext.current
+    val errorFlow = filtrosViewModel.mensajeError
+
+    LaunchedEffect(Unit) {
+        errorFlow.collect { mensaje ->
+            Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
         }
     }
 
