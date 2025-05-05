@@ -4,16 +4,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.viewnext.kotlinmvvm.MainApplication
 import com.viewnext.kotlinmvvm.data_retrofit.repository.DetallesRepository
 import com.viewnext.kotlinmvvm.domain.model.Detalles
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetallesViewModel(
+@HiltViewModel
+class DetallesViewModel @Inject constructor(
     private val repository: DetallesRepository
 ) : ViewModel() {
     var detalles by mutableStateOf<Detalles?>(null)
@@ -32,18 +31,6 @@ class DetallesViewModel(
                 detalles = repository.getDetalles()
             } catch (e: Exception) {
                 error = true
-            }
-        }
-    }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY] as MainApplication)
-                val container = application.container
-
-                DetallesViewModel(container.detallesRepository)
             }
         }
     }

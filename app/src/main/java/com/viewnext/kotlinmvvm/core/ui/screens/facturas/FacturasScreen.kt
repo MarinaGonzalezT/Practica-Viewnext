@@ -34,7 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
@@ -51,7 +51,7 @@ import java.util.Locale
 fun PantallaFacturas(
     navController: NavController
 ) {
-    val viewModel : FacturasViewModel = viewModel(factory = FacturasViewModel.Factory)
+    val viewModel : FacturasViewModel = hiltViewModel()
     val facturasUiState by viewModel.facturasUiState.collectAsState()
 
     Scaffold(

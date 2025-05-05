@@ -56,10 +56,7 @@ fun PantallaFiltros(
     navController: NavController
 ) {
     val facturasEntry = remember { navController.getBackStackEntry("Facturas") }
-    val facturasViewModel = viewModel<FacturasViewModel>(
-            facturasEntry,
-            factory = FacturasViewModel.Factory
-    )
+    val facturasViewModel = viewModel<FacturasViewModel>(facturasEntry)
     val filtrosViewModel = viewModel<FiltrosViewModel>(
         factory = FiltrosViewModel.provideFactory(facturasViewModel)
     )

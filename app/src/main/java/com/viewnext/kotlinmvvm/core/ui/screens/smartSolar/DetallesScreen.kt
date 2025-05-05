@@ -26,7 +26,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.screens.LoadingScreen
 import com.viewnext.kotlinmvvm.core.ui.screens.PopUps
@@ -34,7 +34,7 @@ import com.viewnext.kotlinmvvm.core.ui.viewmodels.DetallesViewModel
 
 @Composable
 fun DetallesContent(
-    viewModel: DetallesViewModel = viewModel(factory = DetallesViewModel.Factory)
+    viewModel: DetallesViewModel = hiltViewModel()
 ) {
     val detalles = viewModel.detalles
 
