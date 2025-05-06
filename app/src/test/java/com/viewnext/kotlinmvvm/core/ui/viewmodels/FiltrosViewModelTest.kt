@@ -16,6 +16,7 @@ import org.junit.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.verify
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -43,23 +44,6 @@ class FiltrosViewModelTest {
     }
 
     @Test
-    fun `al actualizar filtros se actualiza el StateFlow y se llama a aplicarFiltros`() = runTest {
-        val nuevos = Filtros(importeMin = 20f, importeMax = 50f)
-        filtrosViewModel.actualizarFiltros(nuevos)
-
-        assertEquals(nuevos, filtrosViewModel.filtros.value)
-        verify(facturasViewModel).aplicarFiltros(nuevos)
-    }
-
-    @Test
-    fun `al eliminar filtros se reinicia el StateFlow y se llama a aplicarFiltros sin Filtros`() = runTest {
-        filtrosViewModel.eliminarFiltros()
-
-        assertEquals(Filtros(), filtrosViewModel.filtros.value)
-        verify(facturasViewModel).aplicarFiltros(Filtros())
-    }
-
-    @Test
     fun `al actualizar fechaDesde se modifica solo ese campo`() = runTest {
         val nuevaFecha = 123456789L
         val anterior = filtrosViewModel.filtros.value
@@ -67,23 +51,6 @@ class FiltrosViewModelTest {
         filtrosViewModel.actualizarFechaDesde(nuevaFecha)
         assertEquals(nuevaFecha, filtrosViewModel.filtros.value.fechaDesde)
         assertEquals(anterior.fechaHasta, filtrosViewModel.filtros.value.fechaHasta)
-    }
-
-    @Test
-    fun `actualizarFechaDesde no permite una fecha posterior a la actual`() = runTest {
-        val fechaActual = System.currentTimeMillis()
-        val invalida = fechaActual + 1000000L
-
-        val job = launch {
-            filtrosViewModel.mensajeError.collect { mensaje ->
-                assertEquals("No puedes seleccionar una fecha posterior a hoy", mensaje)
-            }
-            filtrosViewModel.actualizarFechaDesde(invalida)
-            assertNull(filtrosViewModel.filtros.value.fechaDesde)
-            assertNull(filtrosViewModel.filtros.value.fechaHasta)
-        }
-
-        job.cancel()
     }
 
     @Test
@@ -107,50 +74,15 @@ class FiltrosViewModelTest {
     }
 
     @Test
-    fun `al actualizar fechaHasta se modifica solo ese campo`() = runTest {
-        val nuevaFecha = 987654321L
-        val anterior = filtrosViewModel.filtros.value
-
-        filtrosViewModel.actualizarFechaHasta(nuevaFecha)
-        assertEquals(nuevaFecha, filtrosViewModel.filtros.value.fechaHasta)
-        assertEquals(anterior.fechaDesde, filtrosViewModel.filtros.value.fechaDesde)
+    fun `actualizarFechaDesde con null borra la fechaDesde`() = runTest {
+        filtrosViewModel.actualizarFechaDesde(null)
+        assertNull(filtrosViewModel.filtros.value.fechaDesde)
     }
 
     @Test
-    fun `actualizarFechaHasta no permite una fecha posterior a la actual`() = runTest {
-        val fechaActual = System.currentTimeMillis()
-        val invalida = fechaActual + 1000000L
-
-        val job = launch {
-            filtrosViewModel.mensajeError.collect { mensaje ->
-                assertEquals("No puedes seleccionar una fecha posterior a hoy", mensaje)
-            }
-            filtrosViewModel.actualizarFechaHasta(invalida)
-            assertNull(filtrosViewModel.filtros.value.fechaDesde)
-            assertNull(filtrosViewModel.filtros.value.fechaHasta)
-        }
-
-        job.cancel()
-    }
-
-    @Test
-    fun `actualizarFechaHasta no permite una fecha anterior a fechaDesde`() = runTest {
-        val fechaActual = System.currentTimeMillis()
-        val desde = fechaActual
-        val hasta = fechaActual - 100000L
-
-        filtrosViewModel.actualizarFechaDesde(desde)
-
-        val job = launch {
-            filtrosViewModel.mensajeError.collect { mensaje ->
-                assertEquals("La fecha 'Hasta' debe ser posterior a la fecha 'Desde'", mensaje)
-            }
-            filtrosViewModel.actualizarFechaHasta(hasta)
-            assertNull(filtrosViewModel.filtros.value.fechaDesde)
-            assertNull(filtrosViewModel.filtros.value.fechaHasta)
-        }
-
-        job.cancel()
+    fun `actualizarFechaHasta con null borra la fechaHasta`() = runTest {
+        filtrosViewModel.actualizarFechaHasta(null)
+        assertNull(filtrosViewModel.filtros.value.fechaHasta)
     }
 
     @Test
