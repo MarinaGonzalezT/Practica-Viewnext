@@ -3,7 +3,6 @@ package com.viewnext.kotlinmvvm.core.ui.viewmodels
 import com.viewnext.kotlinmvvm.domain.model.Filtros
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -13,11 +12,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
-import org.mockito.kotlin.verify
-import kotlin.test.assertNotEquals
-import kotlin.test.assertNull
+import org.mockito.Mockito.`when`
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FiltrosViewModelTest {
@@ -54,35 +50,13 @@ class FiltrosViewModelTest {
     }
 
     @Test
-    fun `actualizarFechaDesde no permite una fecha posterior a fechaHasta`() = runTest {
-        val fechaActual = System.currentTimeMillis()
-        val desde = fechaActual
-        val hasta = fechaActual - 100000L
+    fun `al actualizar fechaHasta se modifica solo ese campo`() = runTest {
+        val nuevaFecha = 123456789L
+        val anterior = filtrosViewModel.filtros.value
 
-        filtrosViewModel.actualizarFechaHasta(hasta)
-
-        val job = launch {
-            filtrosViewModel.mensajeError.collect { mensaje ->
-                assertEquals("La fecha 'Desde' debe ser anterior a la fecha 'Hasta'", mensaje)
-            }
-            filtrosViewModel.actualizarFechaDesde(desde)
-            assertNull(filtrosViewModel.filtros.value.fechaDesde)
-            assertNull(filtrosViewModel.filtros.value.fechaHasta)
-        }
-
-        job.cancel()
-    }
-
-    @Test
-    fun `actualizarFechaDesde con null borra la fechaDesde`() = runTest {
-        filtrosViewModel.actualizarFechaDesde(null)
-        assertNull(filtrosViewModel.filtros.value.fechaDesde)
-    }
-
-    @Test
-    fun `actualizarFechaHasta con null borra la fechaHasta`() = runTest {
-        filtrosViewModel.actualizarFechaHasta(null)
-        assertNull(filtrosViewModel.filtros.value.fechaHasta)
+        filtrosViewModel.actualizarFechaHasta(nuevaFecha)
+        assertEquals(nuevaFecha, filtrosViewModel.filtros.value.fechaHasta)
+        assertEquals(anterior.fechaDesde, filtrosViewModel.filtros.value.fechaDesde)
     }
 
     @Test

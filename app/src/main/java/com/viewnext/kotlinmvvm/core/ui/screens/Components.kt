@@ -26,11 +26,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -60,16 +65,44 @@ fun Titulo(titulo: String) {
 @Composable
 fun FechaPicker(
     onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    minFecha: Long? = null,
+    maxFecha: Long? = null,
+    tipo: String
 ) {
     val datePickerState = rememberDatePickerState()
+    var mostrarPopUp by remember { mutableStateOf(false) }
+    var mensajeError by remember { mutableStateOf("") }
 
     DatePickerDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = {
+            mostrarPopUp = false
+            onDismiss()
+        },
         confirmButton = {
             TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
-                onDismiss()
+                val seleccionado = datePickerState.selectedDateMillis
+                val hoy = System.currentTimeMillis()
+
+                when {
+                    seleccionado == null -> false
+                    seleccionado > hoy -> {
+                        mensajeError = "No puede seleccionar una fecha posterior a hoy"
+                        mostrarPopUp = true
+                    }
+                    tipo == "desde" && maxFecha != null && seleccionado > maxFecha -> {
+                        mensajeError = "No puede seleccionar una fecha de inicio posterior a la fecha fin"
+                        mostrarPopUp = true
+                    }
+                    tipo == "hasta" && minFecha != null && seleccionado < minFecha -> {
+                        mensajeError = "No puede seleccionar una fecha fin anterior a la fecha de inicio"
+                        mostrarPopUp = true
+                    }
+                    else -> {
+                        onDateSelected(seleccionado)
+                        onDismiss()
+                    }
+                }
             }) {
                 Text("Aceptar")
             }
@@ -88,6 +121,16 @@ fun FechaPicker(
             colors = DatePickerDefaults.colors(
                 containerColor = colorResource(R.color.white)
             )
+        )
+    }
+
+    if(mostrarPopUp) {
+        PopUps(
+            onClick = { mostrarPopUp = false },
+            titulo = "Fecha no válida",
+            mensaje = mensajeError,
+            textoBoton = "Aceptar",
+            colorBoton = colorResource(R.color.rojo_claro)
         )
     }
 }
