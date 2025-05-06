@@ -6,6 +6,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.test.assertTrue
 
 class FiltrarFacturasUseCaseTest {
     private val usecase = FiltrarFacturasUseCase()
@@ -59,7 +60,7 @@ class FiltrarFacturasUseCaseTest {
     fun `al filtrar descarta las Facturas con fechas invalidas`() {
         val facturasInvalidas = listOf(
             Factura(0, "Pendiente de pago", 56.38, "07/02/2019"),
-            Factura(1, "Pagada", 51.2435, "05/02/2019"),
+            Factura(1, "Pagada", 51.2435, ""),
             Factura(2, "Pagada", 12.0, "fechaInvalida")
         )
 
@@ -67,7 +68,7 @@ class FiltrarFacturasUseCaseTest {
 
         val resultado = usecase(facturasInvalidas, filtro)
 
-        assertEquals(2, resultado.size)
+        assertEquals(1, resultado.size)
     }
 
     @Test
@@ -77,5 +78,41 @@ class FiltrarFacturasUseCaseTest {
         val resultado = usecase(facturas, filtro)
 
         assertEquals(5, resultado.size)
+    }
+
+    @Test
+    fun `filtro con fechaDesde y sin fechaHasta filtra correctamente`() {
+        val filtro = Filtros(fechaDesde = 1546300800000L) // 01/01/2019
+
+        val resultado = usecase(facturas, filtro)
+
+        assertEquals(3, resultado.size)
+    }
+
+    @Test
+    fun `filtro con fechaHasta y sin fechaDesde filtra correctamente`() {
+        val filtro = Filtros(fechaHasta = 1546300800000L) // 01/01/2019
+
+        val resultado = usecase(facturas, filtro)
+
+        assertEquals(2, resultado.size)
+    }
+
+    @Test
+    fun `filtro con importeMin y sin importeMax filtra correctamente`() {
+        val filtro = Filtros(importeMin = 30f)
+
+        val resultado = usecase(facturas, filtro)
+
+        assertEquals(3, resultado.size)
+    }
+
+    @Test
+    fun `filtro con importeMax y sin importeMin filtra correctamente`() {
+        val filtro = Filtros(importeMax = 30f)
+
+        val resultado = usecase(facturas, filtro)
+
+        assertEquals(2, resultado.size)
     }
 }
