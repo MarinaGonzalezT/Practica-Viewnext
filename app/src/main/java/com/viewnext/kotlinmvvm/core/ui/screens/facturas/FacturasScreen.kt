@@ -1,5 +1,6 @@
 package com.viewnext.kotlinmvvm.core.ui.screens.facturas
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -31,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -83,17 +86,44 @@ fun FacturasDeciderScreen(
     facturasUiState: FacturasUiState,
     retryAction: () -> Unit
 ) {
-    when(facturasUiState) {
-        is FacturasUiState.Loading -> LoadingScreen()
-        is FacturasUiState.Succes -> {
-            facturasUiState.facturas.forEach { factura ->
-                ItemFactura(factura)
+    Crossfade(
+        targetState = facturasUiState,
+        label = "FacturasState"
+    ) { estado ->
+        when(estado) {
+            is FacturasUiState.Loading -> LoadingScreen()
+            is FacturasUiState.Succes -> {
+                if(estado.facturas.isEmpty()) {
+                    SinFacturasScreen()
+                } else {
+                    Column {
+                        estado.facturas.forEach { ItemFactura(it) }
+                    }
+                }
             }
+            is FacturasUiState.Error -> ErrorScreen(
+                retryAction = retryAction,
+                mensaje = estado.mensaje,
+                modifier = Modifier.fillMaxSize()
+            )
         }
-        is FacturasUiState.Error -> ErrorScreen(
-            retryAction = retryAction,
-            mensaje = facturasUiState.mensaje,
-            modifier = Modifier.fillMaxSize()
+    }
+}
+
+@Composable
+fun SinFacturasScreen() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.noEncontraronFacturas),
+            style = MaterialTheme.typography.titleMedium,
+            color = colorResource(R.color.gris),
+            textAlign = TextAlign.Center
         )
     }
 }
