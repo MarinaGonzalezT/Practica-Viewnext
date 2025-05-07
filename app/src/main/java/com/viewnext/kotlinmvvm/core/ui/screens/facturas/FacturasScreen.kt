@@ -1,6 +1,8 @@
 package com.viewnext.kotlinmvvm.core.ui.screens.facturas
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -88,7 +90,7 @@ fun FacturasDeciderScreen(
 ) {
     Crossfade(
         targetState = facturasUiState,
-        label = "FacturasState"
+        animationSpec = tween(1000)
     ) { estado ->
         when(estado) {
             is FacturasUiState.Loading -> LoadingScreen()
@@ -120,7 +122,7 @@ fun SinFacturasScreen() {
             .padding(32.dp)
     ) {
         Text(
-            text = stringResource(R.string.noEncontraronFacturas),
+            text = stringResource(R.string.no_encontraron_facturas),
             style = MaterialTheme.typography.titleMedium,
             color = colorResource(R.color.gris),
             textAlign = TextAlign.Center
@@ -166,6 +168,7 @@ fun FacturasTopBar(
     )
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun ItemFactura(
     factura: Factura

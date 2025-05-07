@@ -1,5 +1,7 @@
 package com.viewnext.kotlinmvvm.core.ui.screens.smartSolar
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -19,7 +21,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -92,7 +94,7 @@ fun SeleccionItems() {
         stringResource(R.string.energia),
         stringResource(R.string.detalles)
     )
-    var selectedTadIndex by remember { mutableStateOf(-1) }
+    var selectedTadIndex by remember { mutableIntStateOf(-1) }
 
     ScrollableTabRow(
         selectedTabIndex = selectedTadIndex.coerceAtLeast(0),
@@ -123,11 +125,16 @@ fun SeleccionItems() {
         }
     }
 
-    when (selectedTadIndex) {
-        0 -> MiInstalacionContent()
-        1 -> EnergiaContent()
-        2 -> DetallesContent()
-        else -> {}
+    Crossfade(
+        targetState = selectedTadIndex,
+        animationSpec = tween(1000)
+    ) { index ->
+        when (index) {
+            0 -> MiInstalacionContent()
+            1 -> EnergiaContent()
+            2 -> DetallesContent()
+            else -> {}
+        }
     }
 }
 
@@ -145,5 +152,3 @@ fun PreviewTopBar() {
 fun PreviewPantallaSS() {
     PantallaSmartSolar(navController = rememberNavController())
 }
-
-//val detallesViewModel : DetallesViewModel = viewModel(factory = DetallesViewModel.Factory)

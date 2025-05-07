@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">KotlinMVVM</string>
+    <string name="msg_inicio">¡Estás de vuelta!</string>
     <string name="facturas">Facturas</string>
     <string name="smart_solar">Smart Solar</string>
     <string name="welcome">Bienvenido</string>
@@ -12,6 +13,8 @@
     <string name="aplicar">Aplicar</string>
     <string name="elimina_filtros">Eliminar filtros</string>
     <string name="dia_mes_año">día/mes/año</string>
+    <string name="et_desde">Desde:</string>
+    <string name="et_hasta">Hasta:</string>
     <string name="mi_instalacion">Mi instalación</string>
     <string name="energia">Energía</string>
     <string name="detalles">Detalles</string>
@@ -27,10 +30,17 @@
     <string name="estado_solicitud_autoconsumo">Estado solicitud autoconsumo</string>
     <string name="texto_popup_autoconsumo">El tiempo estimado de activación de tu autoconsumo es de 1 a 2 meses, éste variará en función de tu comunidad autónoma y distribuidora</string>
     <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
     <string name="informacion">Información</string>
     <string name="texto_popup_facturas">Esta funcionalidad aún no está disponible</string>
     <string name="cerrar">Cerrar</string>
     <string name="retry">Reintentar</string>
     <string name="retromock">Retromock</string>
-    <string name="noEncontraronFacturas">No se encontraron facturas</string>
+    <string name="no_encontraron_facturas">No se encontraron facturas</string>
+    <string name="no_fecha_valida">La fecha no es válida</string>
+    <string name="no_fecha_posterior_hoy">"No puede seleccionar una fecha posterior a hoy"</string>
+    <string name="no_fecha_inicio_posterior_fin">No puede seleccionar una fecha de inicio posterior a la fecha fin</string>
+    <string name="no_fecha_fin_anterior_inicio">No puede seleccionar una fecha fin anterior a la fecha de inicio</string>
+    <string name="mocks_activos">Mocks activados</string>
+    <string name="mocks_desactivos">Mocks desactivados</string>
 </resources>

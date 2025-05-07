@@ -47,7 +47,7 @@ class FacturasViewModel @Inject constructor(
                     _facturasUiState.value = FacturasUiState.Succes(facturasFiltradas)
                 }
             } catch(e: Exception) {
-                _facturasUiState.value = FacturasUiState.Error("Error al cargar: ${e.localizedMessage}")
+                _facturasUiState.value = FacturasUiState.Error("Error al cargar los datos")
             }
         }
     }

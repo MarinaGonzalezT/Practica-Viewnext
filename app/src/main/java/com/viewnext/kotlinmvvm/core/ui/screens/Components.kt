@@ -70,6 +70,7 @@ fun FechaPicker(
     maxFecha: Long? = null,
     tipo: String
 ) {
+    val context = LocalContext.current
     val datePickerState = rememberDatePickerState()
     var mostrarPopUp by remember { mutableStateOf(false) }
     var mensajeError by remember { mutableStateOf("") }
@@ -87,15 +88,15 @@ fun FechaPicker(
                 when {
                     seleccionado == null -> false
                     seleccionado > hoy -> {
-                        mensajeError = "No puede seleccionar una fecha posterior a hoy"
+                        mensajeError = context.getString(R.string.no_fecha_posterior_hoy)
                         mostrarPopUp = true
                     }
                     tipo == "desde" && maxFecha != null && seleccionado > maxFecha -> {
-                        mensajeError = "No puede seleccionar una fecha de inicio posterior a la fecha fin"
+                        mensajeError = context.getString(R.string.no_fecha_inicio_posterior_fin)
                         mostrarPopUp = true
                     }
                     tipo == "hasta" && minFecha != null && seleccionado < minFecha -> {
-                        mensajeError = "No puede seleccionar una fecha fin anterior a la fecha de inicio"
+                        mensajeError = context.getString(R.string.no_fecha_fin_anterior_inicio)
                         mostrarPopUp = true
                     }
                     else -> {
@@ -104,12 +105,12 @@ fun FechaPicker(
                     }
                 }
             }) {
-                Text("Aceptar")
+                Text(text = stringResource(R.string.aceptar))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancelar")
+                Text(text = stringResource(R.string.cancelar))
             }
         },
         colors = DatePickerDefaults.colors(
@@ -127,9 +128,9 @@ fun FechaPicker(
     if(mostrarPopUp) {
         PopUps(
             onClick = { mostrarPopUp = false },
-            titulo = "Fecha no válida",
+            titulo = stringResource(R.string.no_fecha_valida),
             mensaje = mensajeError,
-            textoBoton = "Aceptar",
+            textoBoton = stringResource(R.string.aceptar),
             colorBoton = colorResource(R.color.rojo_claro)
         )
     }
@@ -262,7 +263,10 @@ fun ErrorScreen(
             painter = painterResource(id = R.drawable.ic_connection_error), contentDescription = ""
         )
         Text(text = mensaje, modifier = Modifier.padding(16.dp))
-        Button(onClick = retryAction) {
+        Button(
+            onClick = retryAction,
+            colors = ButtonDefaults.buttonColors(colorResource(R.color.verde))
+        ) {
             Text(stringResource(R.string.retry))
         }
     }

@@ -185,7 +185,7 @@ fun SeccionFechas(
                 .padding(start = 12.dp, end = 40.dp)
         ) {
             CuadroFechas(
-                etiqueta = "Desde:",
+                etiqueta = stringResource(R.string.et_desde),
                 fecha = fechaDesde,
                 onClick = { mostrandoPickerPara = "desde" },
                 dateFormatter = dateFormatter,
@@ -193,7 +193,7 @@ fun SeccionFechas(
             )
 
             CuadroFechas(
-                etiqueta = "Hasta:",
+                etiqueta = stringResource(R.string.et_hasta),
                 fecha = fechaHasta,
                 onClick = { mostrandoPickerPara = "hasta" },
                 dateFormatter = dateFormatter,
