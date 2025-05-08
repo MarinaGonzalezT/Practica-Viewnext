@@ -3,7 +3,6 @@
     <string name="msg_inicio">¡Estás de vuelta!</string>
     <string name="facturas">Facturas</string>
     <string name="smart_solar">Smart Solar</string>
-    <string name="welcome">Bienvenido</string>
     <string name="consumo">Consumo</string>
     <string name="atras">Atrás</string>
     <string name="filtra_facturas">Filtrar facturas</string>
@@ -43,4 +42,10 @@
     <string name="no_fecha_fin_anterior_inicio">No puede seleccionar una fecha fin anterior a la fecha de inicio</string>
     <string name="mocks_activos">Mocks activados</string>
     <string name="mocks_desactivos">Mocks desactivados</string>
+    <string name="pagadas">Pagadas</string>
+    <string name="anuladas">Anuladas</string>
+    <string name="cuota_fija">Cuota Fija</string>
+    <string name="pendientes_pago">Pendientes de pago</string>
+    <string name="plan_pago">Plan de pago</string>
+    <string name="pendiente_pago">Pendiente de pago</string>
 </resources>

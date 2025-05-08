@@ -290,11 +290,11 @@ fun SeccionChecks(
     estadosSeleccionados: MutableMap<String, Boolean>
 ) {
     val estados = mapOf(
-        "Pagadas" to "Pagada",
-        "Anuladas" to "Anulada",
-        "Cuota Fija" to "Cuota Fija",
-        "Pendientes de pago" to "Pendiente de pago",
-        "Plan de pago" to "Plan de pago"
+        stringResource(R.string.pagadas) to "Pagada",
+        stringResource(R.string.anuladas) to "Anulada",
+        stringResource(R.string.cuota_fija) to "Cuota Fija",
+        stringResource(R.string.pendientes_pago) to "Pendiente de pago",
+        stringResource(R.string.plan_pago) to "Plan de pago"
     )
 
     Column(

@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -50,7 +51,6 @@ import com.viewnext.kotlinmvvm.core.ui.screens.Titulo
 import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
 import com.viewnext.kotlinmvvm.domain.model.Factura
 import java.text.SimpleDateFormat
-import java.util.Locale
 
 @Composable
 fun PantallaFacturas(
@@ -189,7 +189,7 @@ fun ItemFactura(
             )
             if(factura.estado == "Pendiente de pago") {
                 Text(
-                    text = factura.estado,
+                    text = stringResource(R.string.pendiente_pago),
                     fontSize = 20.sp,
                     color = colorResource(R.color.rojo)
                 )
@@ -222,10 +222,13 @@ fun ItemFactura(
     }
 }
 
+@Composable
 private fun formatearFecha(fechaOriginal: String): String {
+    val locale = LocalContext.current.resources.configuration.locales[0]
+
     return try {
-        val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale("es", "ES"))
+        val inputFormat = SimpleDateFormat("dd/MM/yyyy", locale)
+        val outputFormat = SimpleDateFormat("dd MMM yyyy", locale)
         val fecha = inputFormat.parse(fechaOriginal)
         val fechaFormateada = outputFormat.format(fecha!!)
 
