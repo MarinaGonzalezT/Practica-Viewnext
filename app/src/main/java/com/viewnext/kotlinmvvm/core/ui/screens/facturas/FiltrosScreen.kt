@@ -1,6 +1,7 @@
 package com.viewnext.kotlinmvvm.core.ui.screens.facturas
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -317,10 +319,16 @@ fun SeccionChecks(
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier
                     .size(height = 36.dp, width = 200.dp)
+                    .clickable {
+                        estadosSeleccionados[real] = !(estadosSeleccionados[real] ?: false)
+                    }
             ) {
                 Checkbox(
                     checked = estadosSeleccionados[real] == true,
-                    onCheckedChange = { estadosSeleccionados[real] = it }
+                    onCheckedChange = { estadosSeleccionados[real] = it },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = colorResource(R.color.verde)
+                    )
                 )
                 Text(text = visible)
             }

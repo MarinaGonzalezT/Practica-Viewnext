@@ -105,12 +105,18 @@ fun FechaPicker(
                     }
                 }
             }) {
-                Text(text = stringResource(R.string.aceptar))
+                Text(
+                    text = stringResource(R.string.aceptar),
+                    color = colorResource(R.color.black)
+                )
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.cancelar))
+                Text(
+                    text = stringResource(R.string.cancelar),
+                    color = colorResource(R.color.black)
+                )
             }
         },
         colors = DatePickerDefaults.colors(
@@ -120,7 +126,10 @@ fun FechaPicker(
         DatePicker(
             state = datePickerState,
             colors = DatePickerDefaults.colors(
-                containerColor = colorResource(R.color.white)
+                containerColor = colorResource(R.color.white),
+                selectedDayContainerColor = colorResource(R.color.verde),
+                todayDateBorderColor = colorResource(R.color.verde),
+                todayContentColor = colorResource(R.color.black)
             )
         )
     }

@@ -94,21 +94,19 @@ fun SeleccionItems() {
         stringResource(R.string.energia),
         stringResource(R.string.detalles)
     )
-    var selectedTadIndex by remember { mutableIntStateOf(-1) }
+    var selectedTadIndex by remember { mutableIntStateOf(0) }
 
     ScrollableTabRow(
         selectedTabIndex = selectedTadIndex.coerceAtLeast(0),
         edgePadding = 0.dp,
         divider = {},
         indicator = { posicion ->
-            if(selectedTadIndex >= 0) {
-                TabRowDefaults.SecondaryIndicator(
-                    color = colorResource(R.color.black),
-                    modifier = Modifier
-                        .tabIndicatorOffset(posicion[selectedTadIndex])
-                        .height(2.dp)
-                )
-            }
+            TabRowDefaults.SecondaryIndicator(
+                color = colorResource(R.color.black),
+                modifier = Modifier
+                    .tabIndicatorOffset(posicion[selectedTadIndex])
+                    .height(2.dp)
+            )
         },
         containerColor = colorResource(R.color.white),
         modifier = Modifier
@@ -133,7 +131,6 @@ fun SeleccionItems() {
             0 -> MiInstalacionContent()
             1 -> EnergiaContent()
             2 -> DetallesContent()
-            else -> {}
         }
     }
 }
