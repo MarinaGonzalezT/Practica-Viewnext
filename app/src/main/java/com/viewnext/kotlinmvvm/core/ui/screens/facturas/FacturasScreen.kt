@@ -73,7 +73,7 @@ fun PantallaFacturas(
             modifier = Modifier
                 .padding(innerPadding)
         ) {
-            Titulo(stringResource(R.string.facturas))
+            Titulo(stringResource(R.string.Inicio_facturas))
             Spacer(modifier = Modifier.height(10.dp))
             FacturasDeciderScreen(
                 facturasUiState = facturasUiState,
@@ -122,7 +122,7 @@ fun SinFacturasScreen() {
             .padding(32.dp)
     ) {
         Text(
-            text = stringResource(R.string.no_encontraron_facturas),
+            text = stringResource(R.string.Facturas_no_encontraron_facturas),
             style = MaterialTheme.typography.titleMedium,
             color = colorResource(R.color.gris),
             textAlign = TextAlign.Center
@@ -140,7 +140,7 @@ fun FacturasTopBar(
         title = {
             Column {
                 Text(
-                    text = stringResource(R.string.consumo),
+                    text = stringResource(R.string.Facturas_consumo),
                     color = colorResource(R.color.verde)
                 )
             }
@@ -189,7 +189,7 @@ fun ItemFactura(
             )
             if(factura.estado == "Pendiente de pago") {
                 Text(
-                    text = stringResource(R.string.pendiente_pago),
+                    text = stringResource(R.string.Facturas_Estados_pendiente_pago),
                     fontSize = 20.sp,
                     color = colorResource(R.color.rojo)
                 )
@@ -214,9 +214,9 @@ fun ItemFactura(
     if(facturaSeleccionada) {
         PopUps(
             onClick = { facturaSeleccionada = false },
-            titulo = stringResource(R.string.informacion),
-            mensaje = stringResource(R.string.texto_popup_facturas),
-            textoBoton = stringResource(R.string.cerrar)
+            titulo = stringResource(R.string.General_informacion),
+            mensaje = stringResource(R.string.Facturas_texto_popup_facturas),
+            textoBoton = stringResource(R.string.General_cerrar)
         )
     }
 }
@@ -270,8 +270,8 @@ fun PreviewItemFactura2() {
 fun PreviewPopUpFacturas() {
     PopUps(
         onClick = {},
-        titulo = stringResource(R.string.informacion),
-        mensaje = stringResource(R.string.texto_popup_facturas),
-        textoBoton = stringResource(R.string.cerrar)
+        titulo = stringResource(R.string.General_informacion),
+        mensaje = stringResource(R.string.Facturas_texto_popup_facturas),
+        textoBoton = stringResource(R.string.General_cerrar)
     )
 }

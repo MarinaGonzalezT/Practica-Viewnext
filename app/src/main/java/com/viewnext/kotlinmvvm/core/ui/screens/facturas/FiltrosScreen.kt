@@ -93,7 +93,7 @@ fun PantallaFiltros(
             modifier = Modifier
                 .padding(innerPadding)
         ) {
-            Titulo(stringResource(R.string.filtra_facturas))
+            Titulo(stringResource(R.string.Filtros_filtra_facturas))
 
             SeccionFechas(
                 fechaDesde = fechaDesde,
@@ -173,7 +173,7 @@ fun SeccionFechas(
             .padding(bottom = 20.dp, top = 20.dp)
     ) {
         Text(
-            stringResource(R.string.por_fecha),
+            stringResource(R.string.Filtros_por_fecha),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier
@@ -187,7 +187,7 @@ fun SeccionFechas(
                 .padding(start = 12.dp, end = 40.dp)
         ) {
             CuadroFechas(
-                etiqueta = stringResource(R.string.et_desde),
+                etiqueta = stringResource(R.string.Filtros_et_desde),
                 fecha = fechaDesde,
                 onClick = { mostrandoPickerPara = "desde" },
                 dateFormatter = dateFormatter,
@@ -195,7 +195,7 @@ fun SeccionFechas(
             )
 
             CuadroFechas(
-                etiqueta = stringResource(R.string.et_hasta),
+                etiqueta = stringResource(R.string.Filtros_et_hasta),
                 fecha = fechaHasta,
                 onClick = { mostrandoPickerPara = "hasta" },
                 dateFormatter = dateFormatter,
@@ -242,7 +242,7 @@ fun SeccionImporte(
             .padding(bottom = 20.dp, top = 20.dp)
     ) {
         Text(
-            stringResource(R.string.por_importe),
+            stringResource(R.string.Filtros_por_importe),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier
@@ -292,11 +292,11 @@ fun SeccionChecks(
     estadosSeleccionados: MutableMap<String, Boolean>
 ) {
     val estados = mapOf(
-        stringResource(R.string.pagadas) to "Pagada",
-        stringResource(R.string.anuladas) to "Anulada",
-        stringResource(R.string.cuota_fija) to "Cuota Fija",
-        stringResource(R.string.pendientes_pago) to "Pendiente de pago",
-        stringResource(R.string.plan_pago) to "Plan de pago"
+        stringResource(R.string.Facturas_Estados_pagadas) to "Pagada",
+        stringResource(R.string.Facturas_Estados_anuladas) to "Anulada",
+        stringResource(R.string.Facturas_Estados_cuota_fija) to "Cuota Fija",
+        stringResource(R.string.Facturas_Estados_pendientes_pago) to "Pendiente de pago",
+        stringResource(R.string.Facturas_Estados_plan_pago) to "Plan de pago"
     )
 
     Column(
@@ -306,7 +306,7 @@ fun SeccionChecks(
             .padding(bottom = 20.dp, top = 20.dp)
     ) {
         Text(
-            stringResource(R.string.por_estado),
+            stringResource(R.string.Filtros_por_estado),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier
@@ -357,7 +357,7 @@ fun SeccionBotones(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Text(text = stringResource(R.string.aplicar))
+            Text(text = stringResource(R.string.Filtros_aplicar))
         }
 
         Button(
@@ -368,7 +368,7 @@ fun SeccionBotones(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Text(text = stringResource(R.string.elimina_filtros))
+            Text(text = stringResource(R.string.Filtros_elimina_filtros))
         }
     }
 }

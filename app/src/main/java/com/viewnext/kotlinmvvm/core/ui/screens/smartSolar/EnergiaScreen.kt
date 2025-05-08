@@ -32,7 +32,7 @@ fun EnergiaContent() {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = stringResource(R.string.texto_energia),
+            text = stringResource(R.string.SmartSolar_Energia_texto_energia),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             modifier = Modifier

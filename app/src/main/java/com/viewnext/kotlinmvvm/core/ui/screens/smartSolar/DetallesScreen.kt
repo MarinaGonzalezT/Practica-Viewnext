@@ -46,27 +46,27 @@ fun DetallesContent(
                 .padding(horizontal = 12.dp)
         ) {
             CampoInfoDetalles(
-                titulo = stringResource(R.string.CAU),
+                titulo = stringResource(R.string.SmartSolar_Detalles_CAU),
                 valor = detalles.cau
             )
 
             EstadoSolicitud(
-                titulo = stringResource(R.string.estado_solicitud),
+                titulo = stringResource(R.string.SmartSolar_Detalles_estado_solicitud),
                 valor = detalles.estado
             )
 
             CampoInfoDetalles(
-                titulo = stringResource(R.string.tipo_autoconsumo),
+                titulo = stringResource(R.string.SmartSolar_Detalles_tipo_autoconsumo),
                 valor = detalles.tipo
             )
 
             CampoInfoDetalles(
-                titulo = stringResource(R.string.compensacion_excedente),
+                titulo = stringResource(R.string.SmartSolar_Detalles_compensacion_excedente),
                 valor = detalles.compensacion
             )
 
             CampoInfoDetalles(
-                titulo = stringResource(R.string.potencia_instalacion),
+                titulo = stringResource(R.string.SmartSolar_Detalles_potencia_instalacion),
                 valor = detalles.potencia
             )
         }
@@ -138,9 +138,9 @@ fun EstadoSolicitud(
     if(mostrarPopUp) {
         PopUps(
             onClick = { mostrarPopUp = false },
-            titulo = stringResource(R.string.estado_solicitud_autoconsumo),
-            mensaje = stringResource(R.string.texto_popup_autoconsumo),
-            textoBoton = stringResource(R.string.aceptar)
+            titulo = stringResource(R.string.SmartSolar_Detalles_estado_solicitud_autoconsumo),
+            mensaje = stringResource(R.string.SmartSolar_Detalles_texto_popup_autoconsumo),
+            textoBoton = stringResource(R.string.General_aceptar)
         )
     }
 }
@@ -156,8 +156,8 @@ fun PreviewDetalles() {
 fun PreviewPopUpDetalles() {
     PopUps(
         onClick = {},
-        titulo = stringResource(R.string.estado_solicitud_autoconsumo),
-        mensaje = stringResource(R.string.texto_popup_autoconsumo),
-        textoBoton = stringResource(R.string.aceptar)
+        titulo = stringResource(R.string.SmartSolar_Detalles_estado_solicitud_autoconsumo),
+        mensaje = stringResource(R.string.SmartSolar_Detalles_texto_popup_autoconsumo),
+        textoBoton = stringResource(R.string.General_aceptar)
     )
 }

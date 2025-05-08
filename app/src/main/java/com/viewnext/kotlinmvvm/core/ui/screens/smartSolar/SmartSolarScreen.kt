@@ -52,7 +52,7 @@ fun PantallaSmartSolar(
             modifier = Modifier
                 .padding(innerPadding)
         ) {
-            Titulo(stringResource(R.string.smart_solar))
+            Titulo(stringResource(R.string.Inicio_smart_solar))
             SeleccionItems()
         }
     }
@@ -67,7 +67,7 @@ fun SmartSolarTopBar(
         title = {
             Column {
                 Text(
-                    text = stringResource(R.string.atras),
+                    text = stringResource(R.string.General_atras),
                     color = colorResource(R.color.verde)
                 )
             }
@@ -90,9 +90,9 @@ fun SmartSolarTopBar(
 @Composable
 fun SeleccionItems() {
     val opciones = listOf(
-        stringResource(R.string.mi_instalacion),
-        stringResource(R.string.energia),
-        stringResource(R.string.detalles)
+        stringResource(R.string.SmartSolar_mi_instalacion),
+        stringResource(R.string.SmartSolar_energia),
+        stringResource(R.string.SmartSolar_detalles)
     )
     var selectedTadIndex by remember { mutableIntStateOf(0) }
 

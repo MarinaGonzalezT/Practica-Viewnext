@@ -31,7 +31,7 @@ fun MiInstalacionContent() {
             .background(color = colorResource(R.color.white))
     ) {
         Text(
-            text = stringResource(R.string.texto_miInstalacion),
+            text = stringResource(R.string.SmartSolar_Instalacion_texto_miInstalacion),
             style = MaterialTheme.typography.bodyMedium
         )
 
@@ -49,7 +49,7 @@ fun MiInstalacionContent() {
 fun AutoconsumoMiInstalacion() {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
-            text = stringResource(R.string.autoconsumo),
+            text = stringResource(R.string.SmartSolar_Instalacion_autoconsumo),
             style = MaterialTheme.typography.bodyMedium,
             color = colorResource(R.color.gris)
         )
@@ -57,7 +57,7 @@ fun AutoconsumoMiInstalacion() {
         Spacer(modifier = Modifier.width(8.dp))
 
         Text(
-            text = stringResource(R.string.porcentaje_autoconsumo),
+            text = stringResource(R.string.SmartSolar_Instalacion_porcentaje_autoconsumo),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Bold
         )

@@ -88,15 +88,15 @@ fun FechaPicker(
                 when {
                     seleccionado == null -> false
                     seleccionado > hoy -> {
-                        mensajeError = context.getString(R.string.no_fecha_posterior_hoy)
+                        mensajeError = context.getString(R.string.Filtros_Validar_Fechas_no_fecha_posterior_hoy)
                         mostrarPopUp = true
                     }
                     tipo == "desde" && maxFecha != null && seleccionado > maxFecha -> {
-                        mensajeError = context.getString(R.string.no_fecha_inicio_posterior_fin)
+                        mensajeError = context.getString(R.string.Filtros_Validar_Fechas_no_fecha_inicio_posterior_fin)
                         mostrarPopUp = true
                     }
                     tipo == "hasta" && minFecha != null && seleccionado < minFecha -> {
-                        mensajeError = context.getString(R.string.no_fecha_fin_anterior_inicio)
+                        mensajeError = context.getString(R.string.Filtros_Validar_Fechas_no_fecha_fin_anterior_inicio)
                         mostrarPopUp = true
                     }
                     else -> {
@@ -106,7 +106,7 @@ fun FechaPicker(
                 }
             }) {
                 Text(
-                    text = stringResource(R.string.aceptar),
+                    text = stringResource(R.string.General_aceptar),
                     color = colorResource(R.color.black)
                 )
             }
@@ -114,7 +114,7 @@ fun FechaPicker(
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text(
-                    text = stringResource(R.string.cancelar),
+                    text = stringResource(R.string.General_cancelar),
                     color = colorResource(R.color.black)
                 )
             }
@@ -137,9 +137,9 @@ fun FechaPicker(
     if(mostrarPopUp) {
         PopUps(
             onClick = { mostrarPopUp = false },
-            titulo = stringResource(R.string.no_fecha_valida),
+            titulo = stringResource(R.string.Filtros_Validar_Fechas_no_fecha_valida),
             mensaje = mensajeError,
-            textoBoton = stringResource(R.string.aceptar)
+            textoBoton = stringResource(R.string.General_aceptar)
         )
     }
 }
@@ -169,7 +169,7 @@ fun CuadroFechas(
                 .fillMaxWidth()
         ) {
             Text(
-                text = fecha?.let { dateFormatter.format(Date(it)) } ?: stringResource(R.string.dia_mes_año),
+                text = fecha?.let { dateFormatter.format(Date(it)) } ?: stringResource(R.string.Filtros_dia_mes_año),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.DarkGray
             )
@@ -274,7 +274,7 @@ fun ErrorScreen(
             onClick = retryAction,
             colors = ButtonDefaults.buttonColors(colorResource(R.color.verde))
         ) {
-            Text(stringResource(R.string.retry))
+            Text(stringResource(R.string.General_retry))
         }
     }
 }

@@ -69,7 +69,7 @@ fun PantallaInicio(
                 )
 
                 Text(
-                    text = stringResource(R.string.msg_inicio),
+                    text = stringResource(R.string.Inicio_msg_inicio),
                     fontSize = 30.sp,
                     color = colorResource(R.color.verde_iberdrola),
                     modifier = Modifier
@@ -77,7 +77,7 @@ fun PantallaInicio(
                 )
 
                 OpcionesInicio(
-                    titulo = stringResource(R.string.facturas),
+                    titulo = stringResource(R.string.Inicio_facturas),
                     icono = painterResource(id = R.drawable.icon_facturas),
                     onClick = { navController.navigate("Facturas") }
                 )
@@ -85,7 +85,7 @@ fun PantallaInicio(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 OpcionesInicio(
-                    titulo = stringResource(R.string.smart_solar),
+                    titulo = stringResource(R.string.Inicio_smart_solar),
                     icono = painterResource(id = R.drawable.icon_smartsolar),
                     onClick = { navController.navigate("Smart_Solar") }
                 )
@@ -162,8 +162,8 @@ private fun BotonRetromock(
         onClick = {
             onClick()
             isMocking = MockProvider.isMocking()
-            val mensaje = if(MockProvider.isMocking()) context.getString(R.string.mocks_activos)
-                          else context.getString(R.string.mocks_desactivos)
+            val mensaje = if(MockProvider.isMocking()) context.getString(R.string.Inicio_mocks_activos)
+                          else context.getString(R.string.Inicio_mocks_desactivos)
             Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
         },
         containerColor = color,

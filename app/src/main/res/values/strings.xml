@@ -1,51 +1,70 @@
 <resources>
-    <string name="app_name">KotlinMVVM</string>
-    <string name="msg_inicio">¡Estás de vuelta!</string>
-    <string name="facturas">Facturas</string>
-    <string name="smart_solar">Smart Solar</string>
-    <string name="consumo">Consumo</string>
-    <string name="atras">Atrás</string>
-    <string name="filtra_facturas">Filtrar facturas</string>
-    <string name="por_fecha">Con fecha de emisión</string>
-    <string name="por_importe">Por un importe</string>
-    <string name="por_estado">Por estado</string>
-    <string name="aplicar">Aplicar</string>
-    <string name="elimina_filtros">Eliminar filtros</string>
-    <string name="dia_mes_año">día/mes/año</string>
-    <string name="et_desde">Desde:</string>
-    <string name="et_hasta">Hasta:</string>
-    <string name="mi_instalacion">Mi instalación</string>
-    <string name="energia">Energía</string>
-    <string name="detalles">Detalles</string>
-    <string name="texto_miInstalacion">Aquí tienes los datos de tu instalación fotovoltaica en tiempo real.</string>
-    <string name="autoconsumo">Autoconsumo: </string>
-    <string name="porcentaje_autoconsumo">92%</string>
-    <string name="texto_energia">Estamos trabajando en mejorar la App. Tus paneles solares siguen produciendo, en breve podrás seguir viendo tu producción solar. Sentimos las molestias.</string>
-    <string name="CAU">CAU (Código Autoconsumo)</string>
-    <string name="estado_solicitud">Estado solicitud alta autoconsumidor</string>
-    <string name="tipo_autoconsumo">Tipo autoconsumo</string>
-    <string name="compensacion_excedente">Compensación de excedentes</string>
-    <string name="potencia_instalacion">Potencia de instalación</string>
-    <string name="estado_solicitud_autoconsumo">Estado solicitud autoconsumo</string>
-    <string name="texto_popup_autoconsumo">El tiempo estimado de activación de tu autoconsumo es de 1 a 2 meses, éste variará en función de tu comunidad autónoma y distribuidora</string>
-    <string name="aceptar">Aceptar</string>
-    <string name="cancelar">Cancelar</string>
-    <string name="informacion">Información</string>
-    <string name="texto_popup_facturas">Esta funcionalidad aún no está disponible</string>
-    <string name="cerrar">Cerrar</string>
-    <string name="retry">Reintentar</string>
-    <string name="retromock">Retromock</string>
-    <string name="no_encontraron_facturas">No se encontraron facturas</string>
-    <string name="no_fecha_valida">La fecha no es válida</string>
-    <string name="no_fecha_posterior_hoy">"No puede seleccionar una fecha posterior a hoy"</string>
-    <string name="no_fecha_inicio_posterior_fin">No puede seleccionar una fecha de inicio posterior a la fecha fin</string>
-    <string name="no_fecha_fin_anterior_inicio">No puede seleccionar una fecha fin anterior a la fecha de inicio</string>
-    <string name="mocks_activos">Mocks activados</string>
-    <string name="mocks_desactivos">Mocks desactivados</string>
-    <string name="pagadas">Pagadas</string>
-    <string name="anuladas">Anuladas</string>
-    <string name="cuota_fija">Cuota Fija</string>
-    <string name="pendientes_pago">Pendientes de pago</string>
-    <string name="plan_pago">Plan de pago</string>
-    <string name="pendiente_pago">Pendiente de pago</string>
+    <!-- General / App -->
+    <string name="General_app_name">KotlinMVVM</string>
+    <string name="General_aceptar">Aceptar</string>
+    <string name="General_cancelar">Cancelar</string>
+    <string name="General_cerrar">Cerrar</string>
+    <string name="General_informacion">Información</string>
+    <string name="General_retry">Reintentar</string>
+    <string name="General_atras">Atrás</string>
+
+    <!-- Pantalla de Inicio -->
+    <string name="Inicio_msg_inicio">¡Estás de vuelta!</string>
+    <string name="Inicio_facturas">Facturas</string>
+    <string name="Inicio_smart_solar">Smart Solar</string>
+    <string name="Inicio_retromock">Retromock</string>
+    <string name="Inicio_mocks_activos">Mocks activados</string>
+    <string name="Inicio_mocks_desactivos">Mocks desactivados</string>
+
+    <!-- Pantalla Facturas -->
+    <string name="Facturas_consumo">Consumo</string>
+    <string name="Facturas_texto_popup_facturas">Esta funcionalidad aún no está disponible</string>
+    <string name="Facturas_no_encontraron_facturas">No se encontraron facturas</string>
+
+    <!-- Estados de factura -->
+    <string name="Facturas_Estados_pagadas">Pagadas</string>
+    <string name="Facturas_Estados_anuladas">Anuladas</string>
+    <string name="Facturas_Estados_cuota_fija">Cuota Fija</string>
+    <string name="Facturas_Estados_pendientes_pago">Pendientes de pago</string>
+    <string name="Facturas_Estados_plan_pago">Plan de pago</string>
+    <string name="Facturas_Estados_pendiente_pago">Pendiente de pago</string>
+
+    <!-- Pantalla Filtros -->
+    <string name="Filtros_filtra_facturas">Filtrar facturas</string>
+    <string name="Filtros_por_fecha">Con fecha de emisión</string>
+    <string name="Filtros_por_importe">Por un importe</string>
+    <string name="Filtros_por_estado">Por estado</string>
+    <string name="Filtros_aplicar">Aplicar</string>
+    <string name="Filtros_elimina_filtros">Eliminar filtros</string>
+    <string name="Filtros_dia_mes_año">día/mes/año</string>
+    <string name="Filtros_et_desde">Desde:</string>
+    <string name="Filtros_et_hasta">Hasta:</string>
+
+    <!-- Mensajes de validación de fechas -->
+    <string name="Filtros_Validar_Fechas_no_fecha_valida">La fecha no es válida</string>
+    <string name="Filtros_Validar_Fechas_no_fecha_posterior_hoy">No puede seleccionar una fecha posterior a hoy</string>
+    <string name="Filtros_Validar_Fechas_no_fecha_inicio_posterior_fin">No puede seleccionar una fecha de inicio posterior a la fecha fin</string>
+    <string name="Filtros_Validar_Fechas_no_fecha_fin_anterior_inicio">No puede seleccionar una fecha fin anterior a la fecha de inicio</string>
+
+    <!-- Smart Solar (tabs: mi instalación, energía, detalles) -->
+    <string name="SmartSolar_mi_instalacion">Mi instalación</string>
+    <string name="SmartSolar_energia">Energía</string>
+    <string name="SmartSolar_detalles">Detalles</string>
+
+    <!-- Mi instalación -->
+    <string name="SmartSolar_Instalacion_texto_miInstalacion">Aquí tienes los datos de tu instalación fotovoltaica en tiempo real.</string>
+    <string name="SmartSolar_Instalacion_autoconsumo">Autoconsumo: </string>
+    <string name="SmartSolar_Instalacion_porcentaje_autoconsumo">92%</string>
+
+    <!-- Energía -->
+    <string name="SmartSolar_Energia_texto_energia">Estamos trabajando en mejorar la App. Tus paneles solares siguen produciendo, en breve podrás seguir viendo tu producción solar. Sentimos las molestias.</string>
+
+    <!-- Detalles -->
+    <string name="SmartSolar_Detalles_CAU">CAU (Código Autoconsumo)</string>
+    <string name="SmartSolar_Detalles_estado_solicitud">Estado solicitud alta autoconsumidor</string>
+    <string name="SmartSolar_Detalles_tipo_autoconsumo">Tipo autoconsumo</string>
+    <string name="SmartSolar_Detalles_compensacion_excedente">Compensación de excedentes</string>
+    <string name="SmartSolar_Detalles_potencia_instalacion">Potencia de instalación</string>
+    <string name="SmartSolar_Detalles_estado_solicitud_autoconsumo">Estado solicitud autoconsumo</string>
+    <string name="SmartSolar_Detalles_texto_popup_autoconsumo">El tiempo estimado de activación de tu autoconsumo es de 1 a 2 meses, éste variará en función de tu comunidad autónoma y distribuidora</string>
 </resources>
