@@ -140,8 +140,7 @@ fun EstadoSolicitud(
             onClick = { mostrarPopUp = false },
             titulo = stringResource(R.string.estado_solicitud_autoconsumo),
             mensaje = stringResource(R.string.texto_popup_autoconsumo),
-            textoBoton = stringResource(R.string.aceptar),
-            colorBoton = colorResource(R.color.verde)
+            textoBoton = stringResource(R.string.aceptar)
         )
     }
 }
@@ -159,7 +158,6 @@ fun PreviewPopUpDetalles() {
         onClick = {},
         titulo = stringResource(R.string.estado_solicitud_autoconsumo),
         mensaje = stringResource(R.string.texto_popup_autoconsumo),
-        textoBoton = stringResource(R.string.aceptar),
-        colorBoton = colorResource(R.color.verde)
+        textoBoton = stringResource(R.string.aceptar)
     )
 }

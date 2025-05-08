@@ -139,8 +139,7 @@ fun FechaPicker(
             onClick = { mostrarPopUp = false },
             titulo = stringResource(R.string.no_fecha_valida),
             mensaje = mensajeError,
-            textoBoton = stringResource(R.string.aceptar),
-            colorBoton = colorResource(R.color.rojo_claro)
+            textoBoton = stringResource(R.string.aceptar)
         )
     }
 }
@@ -198,8 +197,7 @@ fun PopUps(
     onClick: () -> Unit,
     titulo: String,
     mensaje: String,
-    textoBoton: String,
-    colorBoton: Color
+    textoBoton: String
 ) {
     BasicAlertDialog(
         onDismissRequest = onClick,
@@ -229,7 +227,7 @@ fun PopUps(
                     Button(
                         onClick = onClick,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = colorBoton
+                            containerColor = colorResource(R.color.verde)
                         ),
                         modifier = Modifier.width(180.dp)
                     ) {

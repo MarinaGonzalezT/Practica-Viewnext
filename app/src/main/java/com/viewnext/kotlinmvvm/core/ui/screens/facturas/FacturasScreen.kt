@@ -216,8 +216,7 @@ fun ItemFactura(
             onClick = { facturaSeleccionada = false },
             titulo = stringResource(R.string.informacion),
             mensaje = stringResource(R.string.texto_popup_facturas),
-            textoBoton = stringResource(R.string.cerrar),
-            colorBoton = colorResource(R.color.rojo_claro)
+            textoBoton = stringResource(R.string.cerrar)
         )
     }
 }
@@ -273,7 +272,6 @@ fun PreviewPopUpFacturas() {
         onClick = {},
         titulo = stringResource(R.string.informacion),
         mensaje = stringResource(R.string.texto_popup_facturas),
-        textoBoton = stringResource(R.string.cerrar),
-        colorBoton = colorResource(R.color.rojo_claro)
+        textoBoton = stringResource(R.string.cerrar)
     )
 }
