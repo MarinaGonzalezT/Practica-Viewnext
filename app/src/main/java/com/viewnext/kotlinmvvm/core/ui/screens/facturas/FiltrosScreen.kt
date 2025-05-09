@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
@@ -63,10 +65,9 @@ fun PantallaFiltros(
         factory = FiltrosViewModel.provideFactory(facturasViewModel)
     )
     val filtros by filtrosViewModel.filtros.collectAsState()
+    val scrollState = rememberScrollState()
 
-    val minImporte = filtros.importeMin
-    val maxImporte = filtros.importeMax
-    var importe by remember { mutableStateOf(minImporte..maxImporte) }
+    var importe by remember { mutableStateOf(filtros.importeMin..filtros.importeMax) }
 
     var fechaDesde = filtros.fechaDesde
     var fechaHasta = filtros.fechaHasta
@@ -92,6 +93,7 @@ fun PantallaFiltros(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .padding(innerPadding)
+                .verticalScroll(scrollState)
         ) {
             Titulo(stringResource(R.string.Filtros_filtra_facturas))
 
@@ -104,9 +106,7 @@ fun PantallaFiltros(
 
             SeccionImporte(
                 importe = importe,
-                onImporteChange = { importe = it },
-                minImporte = minImporte,
-                maxImporte = maxImporte
+                onImporteChange = { importe = it }
             )
 
             SeccionChecks(estadosSeleccionados)
@@ -231,9 +231,7 @@ fun SeccionFechas(
 @Composable
 fun SeccionImporte(
     importe: ClosedFloatingPointRange<Float>,
-    onImporteChange: (ClosedFloatingPointRange<Float>) -> Unit,
-    minImporte: Float,
-    maxImporte: Float
+    onImporteChange: (ClosedFloatingPointRange<Float>) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -254,7 +252,7 @@ fun SeccionImporte(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "${minImporte.toInt()} €",
+                text = "0 €",
                 color = colorResource(R.color.gris),
                 modifier = Modifier.padding(start = 12.dp, end = 12.dp)
             )
@@ -264,7 +262,7 @@ fun SeccionImporte(
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = "${maxImporte.toInt()} €",
+                text = "300 €",
                 color = colorResource(R.color.gris),
                 modifier = Modifier.padding(start = 12.dp, end = 12.dp)
             )
@@ -273,7 +271,7 @@ fun SeccionImporte(
         RangeSlider(
             value = importe,
             onValueChange = onImporteChange,
-            valueRange = 1f..300f,
+            valueRange = 0f..300f,
             colors = SliderDefaults.colors(
                 thumbColor = colorResource(R.color.verde),
                 activeTrackColor = colorResource(R.color.verde),
@@ -296,7 +294,7 @@ fun SeccionChecks(
         stringResource(R.string.Facturas_Estados_anuladas) to "Anulada",
         stringResource(R.string.Facturas_Estados_cuota_fija) to "Cuota Fija",
         stringResource(R.string.Facturas_Estados_pendientes_pago) to "Pendiente de pago",
-        stringResource(R.string.Facturas_Estados_plan_pago) to "Plan de pago"
+        stringResource(R.string.Facturas_Estados_plan_pago) to "Plan de pago",
     )
 
     Column(
