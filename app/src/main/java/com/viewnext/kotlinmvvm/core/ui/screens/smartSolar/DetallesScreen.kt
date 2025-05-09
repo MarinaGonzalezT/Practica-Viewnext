@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.HorizontalDivider
@@ -36,6 +38,8 @@ import com.viewnext.kotlinmvvm.core.ui.viewmodels.DetallesViewModel
 fun DetallesContent(
     viewModel: DetallesViewModel = hiltViewModel()
 ) {
+    val scrollState = rememberScrollState()
+
     val detalles = viewModel.detalles
 
     if(detalles != null) {
@@ -44,6 +48,7 @@ fun DetallesContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
+                .verticalScroll(scrollState)
         ) {
             CampoInfoDetalles(
                 titulo = stringResource(R.string.SmartSolar_Detalles_CAU),
