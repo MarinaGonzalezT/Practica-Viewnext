@@ -56,10 +56,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room.common)
 
-    // Dependencias para el scrollable horizontal de detalles
-    implementation(platform("androidx.compose:compose-bom:2024.03.00"))
-    implementation("androidx.compose.foundation:foundation")
-
     // Dependencias de Room
     implementation("androidx.room:room-runtime:2.7.0")
     kapt("androidx.room:room-compiler:2.7.0")
