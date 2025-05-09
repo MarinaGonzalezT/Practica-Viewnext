@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,11 +23,14 @@ import com.viewnext.kotlinmvvm.core.ui.screens.ImagenesSmartSolar
 
 @Composable
 fun EnergiaContent() {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 12.dp, vertical = 8.dp)
             .background(color = colorResource(R.color.white))
+            .verticalScroll(scrollState)
     ) {
         ImagenesSmartSolar(painter = painterResource(id = R.drawable.imagen_energia))
 
