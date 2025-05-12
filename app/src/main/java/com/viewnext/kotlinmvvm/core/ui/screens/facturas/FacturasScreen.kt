@@ -64,7 +64,8 @@ fun PantallaFacturas(
         topBar = {
             FacturasTopBar(
                 onBack = { navController.popBackStack("Inicio", inclusive = false) },
-                onFilter = { navController.navigate("Filtros")}
+                onFilter = { navController.navigate("Filtros") },
+                mostrarFiltro = facturasUiState is FacturasUiState.Succes
             )
         }
     ) { innerPadding ->
@@ -134,16 +135,15 @@ fun SinFacturasScreen() {
 @Composable
 fun FacturasTopBar(
     onBack: () -> Unit,
-    onFilter: () -> Unit
+    onFilter: () -> Unit,
+    mostrarFiltro: Boolean
 ) {
     TopAppBar(
         title = {
-            Column {
-                Text(
-                    text = stringResource(R.string.Facturas_consumo),
-                    color = colorResource(R.color.verde)
-                )
-            }
+            Text(
+                text = stringResource(R.string.Facturas_consumo),
+                color = colorResource(R.color.verde)
+            )
         },
         navigationIcon = {
             IconButton(onClick = onBack) {
@@ -155,12 +155,14 @@ fun FacturasTopBar(
             }
         },
         actions = {
-            IconButton(onClick = onFilter) {
-                Icon(
-                    painter = painterResource(id = R.drawable.filtericon_3x),
-                    contentDescription = null,
-                    tint = colorResource(R.color.gris)
-                )
+            if(mostrarFiltro) {
+                IconButton(onClick = onFilter) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.filtericon_3x),
+                        contentDescription = null,
+                        tint = colorResource(R.color.gris)
+                    )
+                }
             }
         }
     )
@@ -245,7 +247,8 @@ private fun formatearFecha(fechaOriginal: String): String {
 fun PreviewTopBarFactura() {
     FacturasTopBar(
         onBack = {},
-        onFilter = {}
+        onFilter = {},
+        mostrarFiltro = true
     )
 }
 
