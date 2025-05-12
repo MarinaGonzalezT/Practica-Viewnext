@@ -66,7 +66,13 @@ fun PantallaFiltros(
     val filtros by filtrosViewModel.filtros.collectAsState()
     val scrollState = rememberScrollState()
 
-    var importe by remember { mutableStateOf(filtros.importeMin..filtros.importeMax) }
+    val maxImporte = facturasViewModel.maxImporte
+    val importeInicial = if(filtros.importeMin == 0f && filtros.importeMax == 300f) {
+        0f..maxImporte
+    } else {
+        filtros.importeMin..filtros.importeMax
+    }
+    var importe by remember { mutableStateOf(importeInicial) }
 
     var fechaDesde = filtros.fechaDesde
     var fechaHasta = filtros.fechaHasta
@@ -104,7 +110,8 @@ fun PantallaFiltros(
 
             SeccionImporte(
                 importe = importe,
-                onImporteChange = { importe = it }
+                onImporteChange = { importe = it },
+                maxImporte = maxImporte
             )
 
             SeccionChecks(estadosSeleccionados)
@@ -232,7 +239,8 @@ fun SeccionFechas(
 @Composable
 fun SeccionImporte(
     importe: ClosedFloatingPointRange<Float>,
-    onImporteChange: (ClosedFloatingPointRange<Float>) -> Unit
+    onImporteChange: (ClosedFloatingPointRange<Float>) -> Unit,
+    maxImporte: Float
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -263,7 +271,7 @@ fun SeccionImporte(
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = "300 €",
+                text = "${maxImporte.toInt()} €",
                 color = colorResource(R.color.gris),
                 modifier = Modifier.padding(start = 12.dp, end = 12.dp)
             )
@@ -272,7 +280,7 @@ fun SeccionImporte(
         RangeSlider(
             value = importe,
             onValueChange = onImporteChange,
-            valueRange = 0f..300f,
+            valueRange = 0f..maxImporte,
             colors = SliderDefaults.colors(
                 thumbColor = colorResource(R.color.verde),
                 activeTrackColor = colorResource(R.color.verde),

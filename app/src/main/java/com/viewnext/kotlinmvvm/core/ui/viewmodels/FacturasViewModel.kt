@@ -26,6 +26,9 @@ class FacturasViewModel @Inject constructor(
 
     private var filtrosActivos: Filtros = Filtros()
 
+    var maxImporte: Float = 300f
+        private set
+
     init {
         //Log.d("", "Creando viewmodel")
         cargarFacturas()
@@ -40,6 +43,7 @@ class FacturasViewModel @Inject constructor(
                     //Log.d("", "Cargando datos")
                     val response = facturasRepository.getFacturas()
                     localRepository.refreshFacturasFromNetwork(response.facturas)
+                    maxImporte = response.facturas.maxOfOrNull { it.importe.toFloat() }?.plus(1) ?: 300f
                     datosCargados = true
                 }
                 localRepository.getAllFacturasStream().collect { facturas ->
