@@ -203,6 +203,11 @@ fun SeccionFechas(
 
     if (mostrandoPickerPara != null) {
         FechaPicker(
+            fechaSeleccionada = when(mostrandoPickerPara) {
+                "desde" -> fechaDesde
+                "hasta" -> fechaHasta
+                else -> null
+            },
             onDateSelected = { millis ->
                 when (mostrandoPickerPara) {
                     "desde" -> onFechaDesdeChange(millis)

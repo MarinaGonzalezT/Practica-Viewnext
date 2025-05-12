@@ -64,6 +64,7 @@ fun Titulo(titulo: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FechaPicker(
+    fechaSeleccionada: Long?,
     onDateSelected: (Long?) -> Unit,
     onDismiss: () -> Unit,
     minFecha: Long? = null,
@@ -71,7 +72,9 @@ fun FechaPicker(
     tipo: String
 ) {
     val context = LocalContext.current
-    val datePickerState = rememberDatePickerState()
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = fechaSeleccionada
+    )
     var mostrarPopUp by remember { mutableStateOf(false) }
     var mensajeError by remember { mutableStateOf("") }
 
