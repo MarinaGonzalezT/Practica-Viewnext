@@ -33,7 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -106,30 +106,25 @@ fun FechaPicker(
                 }
             }) {
                 Text(
-                    text = stringResource(R.string.General_aceptar),
-                    color = colorResource(R.color.black)
+                    text = stringResource(R.string.General_aceptar)
                 )
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text(
-                    text = stringResource(R.string.General_cancelar),
-                    color = colorResource(R.color.black)
+                    text = stringResource(R.string.General_cancelar)
                 )
             }
         },
         colors = DatePickerDefaults.colors(
-            containerColor = colorResource(R.color.white)
+            containerColor = MaterialTheme.colorScheme.surface
         )
     ) {
         DatePicker(
             state = datePickerState,
             colors = DatePickerDefaults.colors(
-                containerColor = colorResource(R.color.white),
-                selectedDayContainerColor = colorResource(R.color.verde),
-                todayDateBorderColor = colorResource(R.color.verde),
-                todayContentColor = colorResource(R.color.black)
+                containerColor = MaterialTheme.colorScheme.surface
             )
         )
     }
@@ -163,7 +158,7 @@ fun CuadroFechas(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .clip(shape = MaterialTheme.shapes.large)
-                .background(color = colorResource(R.color.gris))
+                .background(color = colorResource(R.color.gris_claro))
                 .clickable { onClick() }
                 .padding(horizontal = 12.dp, vertical = 12.dp)
                 .fillMaxWidth()
@@ -171,7 +166,7 @@ fun CuadroFechas(
             Text(
                 text = fecha?.let { dateFormatter.format(Date(it)) } ?: stringResource(R.string.Filtros_dia_mes_año),
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.DarkGray
+                color = colorResource(R.color.gris_oscuro)
             )
         }
     }
@@ -203,7 +198,6 @@ fun PopUps(
         onDismissRequest = onClick,
         content = {
             Surface(
-                color = colorResource(R.color.white),
                 modifier = Modifier
                     .padding(16.dp)
                     .wrapContentHeight()
@@ -231,7 +225,9 @@ fun PopUps(
                         ),
                         modifier = Modifier.width(180.dp)
                     ) {
-                        Text(text = textoBoton)
+                        Text(
+                            text = textoBoton
+                        )
                     }
                 }
             }
@@ -267,14 +263,23 @@ fun ErrorScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_connection_error), contentDescription = ""
+            painter = painterResource(id = R.drawable.ic_connection_error),
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(colorResource(R.color.gris))
         )
-        Text(text = mensaje, modifier = Modifier.padding(16.dp))
+        Text(
+            text = mensaje,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(16.dp)
+        )
         Button(
             onClick = retryAction,
             colors = ButtonDefaults.buttonColors(colorResource(R.color.verde))
         ) {
-            Text(stringResource(R.string.General_retry))
+            Text(
+                text = stringResource(R.string.General_retry),
+                color = MaterialTheme.colorScheme.background
+            )
         }
     }
 }

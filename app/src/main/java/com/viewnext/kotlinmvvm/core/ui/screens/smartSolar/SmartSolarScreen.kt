@@ -12,6 +12,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
@@ -19,7 +20,6 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -43,8 +43,7 @@ fun PantallaSmartSolar(
             SmartSolarTopBar(
                 onBack = { navController.popBackStack("Inicio", inclusive = false) }
             )
-        },
-        containerColor = colorResource(R.color.white)
+        }
     ) { innerPadding ->
         Column(
             verticalArrangement = Arrangement.Center,
@@ -79,10 +78,7 @@ fun SmartSolarTopBar(
                     tint = colorResource(R.color.verde)
                 )
             }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colorResource(R.color.white)
-        )
+        }
     )
 }
 
@@ -105,13 +101,12 @@ fun SeleccionItems() {
         divider = {},
         indicator = { posicion ->
             TabRowDefaults.SecondaryIndicator(
-                color = colorResource(R.color.black),
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .tabIndicatorOffset(posicion[pagerState.currentPage])
                     .height(2.dp)
             )
         },
-        containerColor = colorResource(R.color.white),
         modifier = Modifier
             .padding(horizontal = 12.dp)
     ) {
@@ -124,7 +119,7 @@ fun SeleccionItems() {
                         pagerState.animateScrollToPage(indice)
                     }
                 },
-                selectedContentColor = colorResource(R.color.black),
+                selectedContentColor = MaterialTheme.colorScheme.onBackground,
                 unselectedContentColor = Color.Gray
             )
         }

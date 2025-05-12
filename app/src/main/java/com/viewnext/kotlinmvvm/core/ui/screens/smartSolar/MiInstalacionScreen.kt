@@ -1,6 +1,5 @@
 package com.viewnext.kotlinmvvm.core.ui.screens.smartSolar
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +31,6 @@ fun MiInstalacionContent() {
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 12.dp, vertical = 8.dp)
-            .background(color = colorResource(R.color.white))
             .verticalScroll(scrollState)
     ) {
         Text(

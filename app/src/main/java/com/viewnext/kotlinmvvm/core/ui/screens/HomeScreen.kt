@@ -55,9 +55,7 @@ fun PantallaInicio(
     val scrollState = rememberScrollState()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Surface(
-            color = colorResource(R.color.white)
-        ) {
+        Surface {
             Column(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -132,7 +130,7 @@ private fun OpcionesInicio(
             Image(
                 painter = icono,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(colorResource(R.color.white)),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.background),
                 modifier = Modifier
                     .size(70.dp)
                     .padding(end = 16.dp)
@@ -141,7 +139,7 @@ private fun OpcionesInicio(
                 text = titulo,
                 style = MaterialTheme.typography.displayMedium,
                 fontSize = 36.sp,
-                color = colorResource(R.color.white)
+                color = MaterialTheme.colorScheme.background
             )
         }
     }
@@ -175,6 +173,9 @@ private fun BotonRetromock(
             Image(
                 painter = icono,
                 contentDescription = null,
+                colorFilter =
+                    if(isMocking) null
+                    else ColorFilter.tint(MaterialTheme.colorScheme.background),
                 modifier = Modifier.size(60.dp)
             )
         },
@@ -182,7 +183,7 @@ private fun BotonRetromock(
             Text(
                 text = texto,
                 fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.white)
+                color = MaterialTheme.colorScheme.background
             )
         },
         modifier = modifier

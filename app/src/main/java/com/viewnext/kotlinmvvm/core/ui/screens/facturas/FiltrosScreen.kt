@@ -26,7 +26,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -86,8 +85,7 @@ fun PantallaFiltros(
             FiltrosTopBar(
                 onClose = { navController.popBackStack("Facturas", inclusive = false) },
             )
-        },
-        containerColor = colorResource(R.color.white)
+        }
     ) { innerPadding ->
         Column(
             verticalArrangement = Arrangement.Center,
@@ -145,14 +143,12 @@ fun FiltrosTopBar(
                 Icon(
                     Icons.Default.Close,
                     contentDescription = null,
+                    tint = colorResource(R.color.gris),
                     modifier = Modifier
                         .padding(end = 8.dp)
                 )
             }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colorResource(R.color.white)
-        )
+        }
     )
 }
 
@@ -275,7 +271,7 @@ fun SeccionImporte(
             colors = SliderDefaults.colors(
                 thumbColor = colorResource(R.color.verde),
                 activeTrackColor = colorResource(R.color.verde),
-                inactiveTrackColor = colorResource(R.color.gris)
+                inactiveTrackColor = colorResource(R.color.gris_claro)
             ),
             modifier = Modifier
                 .padding(start = 12.dp, end = 12.dp, bottom = 20.dp)
@@ -325,7 +321,7 @@ fun SeccionChecks(
                     checked = estadosSeleccionados[real] == true,
                     onCheckedChange = { estadosSeleccionados[real] = it },
                     colors = CheckboxDefaults.colors(
-                        checkedColor = colorResource(R.color.verde)
+                        uncheckedColor = colorResource(R.color.gris)
                     )
                 )
                 Text(text = visible)
@@ -349,8 +345,7 @@ fun SeccionBotones(
         Button(
             onClick = onApply,
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.verde),
-                contentColor = colorResource(R.color.white)
+                containerColor = colorResource(R.color.verde)
             ),
             modifier = Modifier
                 .fillMaxWidth()
