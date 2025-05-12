@@ -222,6 +222,16 @@ fun ItemFactura(
 }
 
 @Composable
+fun GraficoPrecios() {
+
+}
+
+@Composable
+fun GraficoKWh() {
+
+}
+
+@Composable
 private fun formatearFecha(fechaOriginal: String): String {
     val locale = LocalContext.current.resources.configuration.locales[0]
 

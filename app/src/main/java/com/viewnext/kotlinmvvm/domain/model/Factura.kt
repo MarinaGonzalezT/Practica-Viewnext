@@ -17,5 +17,7 @@ data class Factura(
     @SerialName("importeOrdenacion")
     val importe: Double,
 
-    val fecha: String
+    val fecha: String,
+
+    val kwh: Double = 0.0
 )

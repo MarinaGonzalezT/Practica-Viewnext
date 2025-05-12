@@ -67,11 +67,13 @@ fun PantallaFiltros(
     val scrollState = rememberScrollState()
 
     val maxImporte = facturasViewModel.maxImporte
+
     val importeInicial = if(filtros.importeMin == 0f && filtros.importeMax == 300f) {
         0f..maxImporte
     } else {
         filtros.importeMin..filtros.importeMax
     }
+
     var importe by remember { mutableStateOf(importeInicial) }
 
     var fechaDesde = filtros.fechaDesde
