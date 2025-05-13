@@ -77,6 +77,9 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
 
+    // Dependencias para graficos
+    implementation ("io.github.ehsannarmani:compose-charts:0.1.7")
+
     // Dependencias para tests
     testImplementation("org.mockito:mockito-core:5.5.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")

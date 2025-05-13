@@ -1,5 +1,7 @@
 package com.viewnext.kotlinmvvm.core.ui.screens
 
+import androidx.compose.animation.core.EaseInOutCubic
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -33,19 +36,36 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.viewnext.kotlinmvvm.R
+import com.viewnext.kotlinmvvm.core.ui.screens.facturas.formatearFecha
+import com.viewnext.kotlinmvvm.domain.model.Factura
+import ir.ehsannarmani.compose_charts.LineChart
+import ir.ehsannarmani.compose_charts.models.AnimationMode
+import ir.ehsannarmani.compose_charts.models.DotProperties
+import ir.ehsannarmani.compose_charts.models.DrawStyle
+import ir.ehsannarmani.compose_charts.models.GridProperties
+import ir.ehsannarmani.compose_charts.models.HorizontalIndicatorProperties
+import ir.ehsannarmani.compose_charts.models.IndicatorCount
+import ir.ehsannarmani.compose_charts.models.IndicatorPosition
+import ir.ehsannarmani.compose_charts.models.LabelHelperProperties
+import ir.ehsannarmani.compose_charts.models.LabelProperties
+import ir.ehsannarmani.compose_charts.models.Line
 import java.text.SimpleDateFormat
 import java.util.Date
+import kotlin.math.ceil
 
 // Componente reutilizable para los títulos de las pantallas
 @Composable
@@ -285,4 +305,76 @@ fun ErrorScreen(
             )
         }
     }
+}
+
+//Componente para la gráfica de precios
+@Composable
+fun GraficoPrecios(facturas: List<Factura>) {
+    if(facturas.isEmpty()) return
+
+    val valores = facturas.map { it.importe.toDouble() }
+
+    val fechas = facturas.mapNotNull {
+        formatearFecha(it.fecha, "LLL.yy")
+    }
+
+    val maxImporte = valores.maxOrNull()?.let { ceil(it) } ?: 0.0
+    val midImporte = maxImporte / 2
+
+    LineChart(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .padding(horizontal = 22.dp),
+        data = remember {
+            listOf(
+                Line(
+                    label = "",
+                    values = valores,
+                    color = SolidColor(Color(0xFF94BA4D)),
+                    firstGradientFillColor = Color(0xFFA8CE61).copy(alpha = .5f),
+                    secondGradientFillColor = Color.Transparent,
+                    strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
+                    gradientAnimationDelay = 1000,
+                    drawStyle = DrawStyle.Stroke(width = 2.dp),
+                    dotProperties = DotProperties(
+                        enabled = true,
+                        color = SolidColor(Color(0xFF94BA4D)),
+                        strokeColor = SolidColor(Color(0xFF94BA4D)),
+                        radius = 3.dp,
+                        strokeWidth = 2.dp
+                    )
+                )
+            )
+        },
+        animationMode = AnimationMode.Together(delayBuilder = {
+            it * 500L
+        }),
+        labelHelperProperties = LabelHelperProperties(enabled = false),
+        labelProperties = LabelProperties(
+            enabled = true,
+            labels = fechas,
+            textStyle = TextStyle(
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        ),
+        gridProperties = GridProperties(
+            enabled = true,
+            xAxisProperties = GridProperties.AxisProperties(enabled = true), // oculta líneas verticales
+            yAxisProperties = GridProperties.AxisProperties(enabled = false)   // mantiene líneas horizontales
+        ),
+        indicatorProperties = HorizontalIndicatorProperties(
+            enabled = true,
+            count = IndicatorCount.CountBased(count = 3),
+            indicators = listOf(maxImporte, midImporte, 0.0),
+            contentBuilder = { value -> "${value.toInt()} €" },
+            position = IndicatorPosition.Horizontal.End,
+            textStyle = TextStyle(
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        ),
+
+        )
 }

@@ -46,6 +46,7 @@ import androidx.navigation.NavController
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
 import com.viewnext.kotlinmvvm.core.ui.screens.ErrorScreen
+import com.viewnext.kotlinmvvm.core.ui.screens.GraficoPrecios
 import com.viewnext.kotlinmvvm.core.ui.screens.LoadingScreen
 import com.viewnext.kotlinmvvm.core.ui.screens.PopUps
 import com.viewnext.kotlinmvvm.core.ui.screens.Titulo
@@ -99,8 +100,12 @@ fun FacturasDeciderScreen(
                 if(estado.facturas.isEmpty()) {
                     SinFacturasScreen()
                 } else {
-                    LazyColumn {
-                        items(estado.facturas) { factura -> ItemFactura(factura) }
+                    Column {
+                        GraficoPrecios(facturas = estado.facturas)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        LazyColumn {
+                            items(estado.facturas) { factura -> ItemFactura(factura) }
+                        }
                     }
                 }
             }
@@ -184,7 +189,7 @@ fun ItemFactura(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = formatearFecha(factura.fecha),
+                text = formatearFecha(factura.fecha, "dd MMM yyyy"),
                 fontSize = 22.sp
             )
             if(factura.estado == "Pendiente de pago") {
@@ -222,31 +227,37 @@ fun ItemFactura(
 }
 
 @Composable
-fun GraficoPrecios() {
-
-}
-
-@Composable
 fun GraficoKWh() {
 
 }
 
 @Composable
-private fun formatearFecha(fechaOriginal: String): String {
+fun formatearFecha(
+    fechaOriginal: String,
+    formato: String
+): String {
     val locale = LocalContext.current.resources.configuration.locales[0]
 
     return try {
         val inputFormat = SimpleDateFormat("dd/MM/yyyy", locale)
-        val outputFormat = SimpleDateFormat("dd MMM yyyy", locale)
+        val outputFormat = SimpleDateFormat(formato, locale)
         val fecha = inputFormat.parse(fechaOriginal)
         val fechaFormateada = outputFormat.format(fecha!!)
 
-        val partes = fechaFormateada.split(" ")
-        val dia = partes[0]
-        val mes = partes[1].replaceFirstChar { it.uppercaseChar() }
-        val anio = partes[2]
+        if(formato == "dd MMM yyyy") {
+            val partes = fechaFormateada.split(" ")
+            val dia = partes[0]
+            val mes = partes[1].replaceFirstChar { it.uppercaseChar() }
+            val anio = partes[2]
 
-        "$dia $mes $anio"
+            "$dia $mes $anio"
+        } else {
+            val partes = fechaFormateada.split(".")
+            val mes = partes[0].replaceFirstChar { it.uppercaseChar() }
+            val anio = partes[1]
+
+            "$mes.$anio"
+        }
     } catch (e: Exception) {
         fechaOriginal
     }
