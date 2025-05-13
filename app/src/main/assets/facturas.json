@@ -3,52 +3,59 @@
   "facturas": [
     {
       "descEstado": "Pendiente de pago",
-      "importeOrdenacion": 1.5600000000000001,
+      "importeOrdenacion": 3.5600000000000001,
       "fecha": "07/02/2025",
-      "kwh": 248.15
+      "kwhTotal": 248.15,
+      "kwhHoraPunta": 203.24
     },
     {
       "descEstado": "Pagada",
       "importeOrdenacion": 25.140000000000001,
       "fecha": "05/02/2025",
-      "kwh": 154.26
+      "kwhTotal": 154.26,
+      "kwhHoraPunta": 115.90
     },
     {
       "descEstado": "Pagada",
-      "importeOrdenacion": 22.690000000000001,
+      "importeOrdenacion": 42.690000000000001,
       "fecha": "08/01/2025",
-      "kwh": 306.25
+      "kwhTotal": 306.25,
+      "kwhHoraPunta": 243.73
     },
     {
       "descEstado": "Pendiente de pago",
-      "importeOrdenacion": 12.84,
+      "importeOrdenacion": 62.84,
       "fecha": "07/12/2024",
-      "kwh":386.15
+      "kwhTotal":386.15,
+      "kwhHoraPunta": 314.31
     },
     {
       "descEstado": "Pagada",
-      "importeOrdenacion": 35.159999999999997,
+      "importeOrdenacion": 55.159999999999997,
       "fecha": "16/11/2024",
-      "kwh": 189.87
+      "kwhTotal": 189.87,
+      "kwhHoraPunta": 161.04
     },
     {
       "descEstado": "Pagada",
-      "importeOrdenacion": 18.27,
+      "importeOrdenacion": 78.27,
       "fecha": "05/10/2024",
-      "kwh": 109.64
+      "kwhTotal": 109.64,
+      "kwhHoraPunta": 89.38
     },
     {
       "descEstado": "Pendiente de pago",
-      "importeOrdenacion": 61.170000000000002,
+      "importeOrdenacion": 91.170000000000002,
       "fecha": "05/09/2024",
-      "kwh": 357.48
+      "kwhTotal": 357.48,
+      "kwhHoraPunta": 309.26
     },
     {
       "descEstado": "Pagada",
-      "importeOrdenacion": 37.18,
+      "importeOrdenacion": 67.18,
       "fecha": "07/08/2024",
-      "kwh": 407.84
+      "kwhTotal": 407.84,
+      "kwhHoraPunta": 320.73
     }
   ]
-  
 }

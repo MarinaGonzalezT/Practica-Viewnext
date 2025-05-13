@@ -33,7 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -46,13 +45,16 @@ import androidx.navigation.NavController
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.FacturasUiState
 import com.viewnext.kotlinmvvm.core.ui.screens.ErrorScreen
+import com.viewnext.kotlinmvvm.core.ui.screens.GraficoKWh
 import com.viewnext.kotlinmvvm.core.ui.screens.GraficoPrecios
 import com.viewnext.kotlinmvvm.core.ui.screens.LoadingScreen
 import com.viewnext.kotlinmvvm.core.ui.screens.PopUps
+import com.viewnext.kotlinmvvm.core.ui.screens.SwitchPrecioKW
 import com.viewnext.kotlinmvvm.core.ui.screens.Titulo
 import com.viewnext.kotlinmvvm.core.ui.viewmodels.FacturasViewModel
 import com.viewnext.kotlinmvvm.domain.model.Factura
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun PantallaFacturas(
@@ -90,6 +92,8 @@ fun FacturasDeciderScreen(
     facturasUiState: FacturasUiState,
     retryAction: () -> Unit
 ) {
+    var isKWh by remember { mutableStateOf(false) }
+
     Crossfade(
         targetState = facturasUiState,
         animationSpec = tween(1000)
@@ -100,12 +104,17 @@ fun FacturasDeciderScreen(
                 if(estado.facturas.isEmpty()) {
                     SinFacturasScreen()
                 } else {
-                    Column {
-                        GraficoPrecios(facturas = estado.facturas)
-                        Spacer(modifier = Modifier.height(10.dp))
-                        LazyColumn {
-                            items(estado.facturas) { factura -> ItemFactura(factura) }
+                    LazyColumn {
+                        item {
+                            SwitchPrecioKW(isKwh = isKWh, onClick = { isKWh = it })
+                            if(isKWh) {
+                                GraficoKWh(estado.facturas)
+                            } else {
+                                GraficoPrecios(facturas = estado.facturas)
+                            }
+                            Spacer(modifier = Modifier.height(10.dp))
                         }
+                        items(estado.facturas) { factura -> ItemFactura(factura) }
                     }
                 }
             }
@@ -226,18 +235,11 @@ fun ItemFactura(
     }
 }
 
-@Composable
-fun GraficoKWh() {
-
-}
-
-@Composable
 fun formatearFecha(
     fechaOriginal: String,
-    formato: String
+    formato: String,
+    locale: Locale = Locale.getDefault()
 ): String {
-    val locale = LocalContext.current.resources.configuration.locales[0]
-
     return try {
         val inputFormat = SimpleDateFormat("dd/MM/yyyy", locale)
         val outputFormat = SimpleDateFormat(formato, locale)

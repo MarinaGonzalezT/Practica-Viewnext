@@ -21,6 +21,10 @@
         <string name="Facturas_texto_popup_facturas">This feature is not available yet</string>
         <string name="Facturas_no_encontraron_facturas">No bills found</string>
 
+        <!-- Charts in Invoices -->
+        <string name="Facturas_Graficos_kwhPunta">Peak hours</string>
+        <string name="Facturas_Graficos_kwTotales">Total</string>
+
         <!-- Filters Screen -->
         <string name="Filtros_filtra_facturas">Filter invoices</string>
         <string name="Filtros_por_fecha">By issue date</string>

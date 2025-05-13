@@ -19,5 +19,9 @@ data class Factura(
 
     val fecha: String,
 
-    val kwh: Double = 0.0
+    @SerialName("kwhTotal")
+    val kwh_totales: Double = 0.0,
+
+    @SerialName("kwhHoraPunta")
+    val kwh_horaPunta: Double = 0.0
 )

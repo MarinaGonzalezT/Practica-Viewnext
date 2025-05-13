@@ -21,6 +21,10 @@
     <string name="Facturas_texto_popup_facturas">Esta funcionalidad aún no está disponible</string>
     <string name="Facturas_no_encontraron_facturas">No se encontraron facturas</string>
 
+    <!-- Graficos en Facturas -->
+    <string name="Facturas_Graficos_kwhPunta">Horas punta</string>
+    <string name="Facturas_Graficos_kwTotales">Total</string>
+
     <!-- Estados de factura -->
     <string name="Facturas_Estados_pagadas">Pagadas</string>
     <string name="Facturas_Estados_anuladas">Anuladas</string>

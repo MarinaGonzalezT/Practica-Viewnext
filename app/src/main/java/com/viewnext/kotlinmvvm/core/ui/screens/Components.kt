@@ -1,6 +1,9 @@
 package com.viewnext.kotlinmvvm.core.ui.screens
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.EaseInOutCubic
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +29,8 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -52,8 +58,11 @@ import androidx.compose.ui.unit.sp
 import com.viewnext.kotlinmvvm.R
 import com.viewnext.kotlinmvvm.core.ui.screens.facturas.formatearFecha
 import com.viewnext.kotlinmvvm.domain.model.Factura
+import ir.ehsannarmani.compose_charts.ColumnChart
 import ir.ehsannarmani.compose_charts.LineChart
 import ir.ehsannarmani.compose_charts.models.AnimationMode
+import ir.ehsannarmani.compose_charts.models.BarProperties
+import ir.ehsannarmani.compose_charts.models.Bars
 import ir.ehsannarmani.compose_charts.models.DotProperties
 import ir.ehsannarmani.compose_charts.models.DrawStyle
 import ir.ehsannarmani.compose_charts.models.GridProperties
@@ -65,6 +74,7 @@ import ir.ehsannarmani.compose_charts.models.LabelProperties
 import ir.ehsannarmani.compose_charts.models.Line
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import kotlin.math.ceil
 
 // Componente reutilizable para los títulos de las pantallas
@@ -307,25 +317,67 @@ fun ErrorScreen(
     }
 }
 
+//Componente Switch para la pantalla de facturas (Cambia de euros a kwh)
+@Composable
+fun SwitchPrecioKW(
+    isKwh: Boolean,
+    onClick: (Boolean) -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 12.dp)
+    ) {
+        val colorEuro by animateColorAsState(
+            targetValue = if (!isKwh) colorResource(R.color.verde)
+            else colorResource(R.color.gris)
+        )
+        val colorKwh by animateColorAsState(
+            targetValue = if (isKwh) colorResource(R.color.verde)
+            else colorResource(R.color.gris)
+        )
+
+        Text(
+            text = "€",
+            color = colorEuro,
+            fontSize = 14.sp
+        )
+        Switch(
+            checked = isKwh,
+            onCheckedChange = onClick,
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = MaterialTheme.colorScheme.background,
+                uncheckedThumbColor = MaterialTheme.colorScheme.background,
+                checkedTrackColor = colorResource(R.color.gris),
+                uncheckedTrackColor = colorResource(R.color.verde),
+                uncheckedBorderColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+        )
+        Text(
+            text = "kWh",
+            color = colorKwh,
+            fontSize = 14.sp
+        )
+    }
+}
+
 //Componente para la gráfica de precios
 @Composable
 fun GraficoPrecios(facturas: List<Factura>) {
     if(facturas.isEmpty()) return
 
-    val valores = facturas.map { it.importe.toDouble() }
-
-    val fechas = facturas.mapNotNull {
-        formatearFecha(it.fecha, "LLL.yy")
-    }
+    val datos = agruparImportesPorMes(facturas)
+    val valores = datos.values.toList()
+    val fechas = datos.keys.toList()
 
     val maxImporte = valores.maxOrNull()?.let { ceil(it) } ?: 0.0
     val midImporte = maxImporte / 2
 
     LineChart(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp)
-            .padding(horizontal = 22.dp),
         data = remember {
             listOf(
                 Line(
@@ -355,7 +407,7 @@ fun GraficoPrecios(facturas: List<Factura>) {
             enabled = true,
             labels = fechas,
             textStyle = TextStyle(
-                fontSize = 12.sp,
+                fontSize = 11.sp,
                 color = MaterialTheme.colorScheme.onBackground
             )
         ),
@@ -371,10 +423,116 @@ fun GraficoPrecios(facturas: List<Factura>) {
             contentBuilder = { value -> "${value.toInt()} €" },
             position = IndicatorPosition.Horizontal.End,
             textStyle = TextStyle(
+                fontSize = 11.sp,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp)
+            .padding(horizontal = 22.dp)
+    )
+}
+
+//Componente para la gráfica de KWh
+@Composable
+fun GraficoKWh(facturas: List<Factura>) {
+    if(facturas.isEmpty()) return
+
+    val datos = remember(facturas) { agruparKWhPorMes(facturas) }
+
+    val fechas = datos.keys.toList()
+    val valores = datos.values.toList()
+
+    val max = (valores.maxOfOrNull { it.first } ?: 0.0).takeIf { it > 0 } ?: 1.0
+    val mitad = max /2
+
+    val bars = fechas.mapIndexed { index, fecha ->
+        Bars(
+            label = fecha,
+            values = listOf(
+                Bars.Data(
+                    label = stringResource(R.string.Facturas_Graficos_kwhPunta),
+                    value = valores[index].second,
+                    color = SolidColor(colorResource(R.color.verde))
+                ),
+                Bars.Data(
+                    label = stringResource(R.string.Facturas_Graficos_kwTotales),
+                    value = valores[index].first,
+                    color = SolidColor(colorResource(R.color.azul))
+                )
+            )
+        )
+    }
+
+    ColumnChart(
+        data = bars,
+        barProperties = BarProperties(
+            cornerRadius = Bars.Data.Radius.Rectangle(
+                topLeft = 6.dp,
+                topRight = 6.dp
+            ),
+            spacing = 0.dp
+        ),
+        labelHelperProperties = LabelHelperProperties(
+            enabled = true,
+            textStyle = TextStyle(
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onBackground
             )
         ),
+        labelProperties = LabelProperties(
+            enabled = true,
+            textStyle = TextStyle(
+                fontSize = 11.sp,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        ),
+        indicatorProperties = HorizontalIndicatorProperties(
+            enabled = true,
+            position = IndicatorPosition.Horizontal.End,
+            indicators = listOf(max, mitad, 0.0),
+            textStyle = TextStyle(
+                fontSize = 11.sp,
+                color = MaterialTheme.colorScheme.onBackground
+            ),
+            contentBuilder = { "${it.toInt()} kWh" }
+        ),
+        gridProperties = GridProperties(
+            xAxisProperties = GridProperties.AxisProperties(enabled = true),
+            yAxisProperties = GridProperties.AxisProperties(enabled = false)
+        ),
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp)
+            .padding(horizontal = 22.dp)
+    )
+}
 
-        )
+// Funciones para agrupar los datos para los gráficos
+//Agrupamos por precio
+private fun agruparImportesPorMes(facturas: List<Factura>): Map<String, Double> {
+    return facturas.groupBy { factura ->
+        formatearFecha(factura.fecha, "MMM.yy")
+    }.mapValues { entry ->
+        entry.value.sumOf { it.importe }
+    }.toSortedMap(compareBy { fecha ->
+        SimpleDateFormat("MMM.yy", Locale.getDefault()).parse(fecha)
+    })
+}
+//Agrupamos por KWh
+private fun agruparKWhPorMes(facturas: List<Factura>): Map<String, Pair<Double, Double>> {
+    return facturas.groupBy { factura ->
+        formatearFecha(factura.fecha, "MMM.yy")
+    }.mapValues { entry ->
+        val total = entry.value.sumOf { it.kwh_totales }
+        val punta = entry.value.sumOf { it.kwh_horaPunta }
+        total to punta
+    }.toSortedMap(compareBy { fecha ->
+        SimpleDateFormat("MMM.yy", Locale.getDefault()).parse(fecha)
+    })
 }
